@@ -1,11 +1,13 @@
-const toggleBtn = document.querySelector('.navbar__toggleBtn');
-const menu = document.querySelector('.navbar__menu');
-const icons = document.querySelector('.navbar__icons');
+const toggleBtn = document.querySelector('.navbar_toggleBtn');
+const menu = document.querySelector('.navbar_menu');
+const icons = document.querySelector('.navbar_icons');
 
 toggleBtn.addEventListener('click', () => {
 	menu.classList.toggle('active');
 	icons.classList.toggle('active');
 });
+
+
 
 // detail html들을 초기화하는 함수
 function new_detail() {
@@ -14,6 +16,13 @@ function new_detail() {
 	$('.fruit_detail').empty()
 	$('.nuts_detail').empty()
 }
+
+//버튼 애니메이션 실행 함수
+function like_animation(){
+
+	$('.like-button').toggleClass('is-active');
+	alert('좋아요 기능은 회원가입을 해야 사용할 수 있습니다.')
+};
 
 function check_spoon() {
 	

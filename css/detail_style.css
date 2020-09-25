@@ -1,0 +1,282 @@
+/*사용하는 색깔 변수 by_Juni*/
+:root{
+    --navbar-color: white;
+    --content-color: black;
+    --background-color: #efadcf;
+    --accent-nav-color: #005ea6;
+    --accent-content-color:#efadcf;
+    --accent-tag-color:#80afd3;
+}
+
+/*font 적용 by_Juni*/
+@font-face {
+    src: url("../font/배스킨라빈스+B.ttf");
+    font-family:'BR_font';
+}
+
+body {
+    margin: 0;
+    font-family: 'BR_font';
+    list-style: none;
+}
+
+body a {
+    text-decoration: none;
+    color: var(--content-color);
+}
+
+.navbar a{
+    text-decoration: none;
+    color: var(--navbar-color);
+}
+
+
+/*상단 bar by_Juni*/
+.navbar{
+    display:flex;
+    justify-content: space-between;
+    align-items : center;
+    background-color: var(--background-color);
+    padding: 8px 12px;
+}
+
+.navbar_logo{
+    font-size: 24px;
+    color: var(--navbar-color);
+}
+
+.navbar_logo i {
+    color: var(--accent-nav-color);
+}
+
+.navbar_menu{
+    display: flex;
+    list-style:none;
+    padding-left:0;
+}
+
+.navbar_menu li {
+    padding : 8px 12px;
+}
+
+.navbar_menu li:hover {
+    background-color : var(--accent-nav-color);
+    border-radius: 4px;
+}
+
+.navbar_icons{
+    list-style:none;
+    color:var(--accent-nav-color);
+    display: flex;
+    padding-left:0;
+}
+
+.navbar_icons li{
+    padding: 8px 12px;
+}
+
+.navbar_icons i{
+    color:var(--accent-nav-color);
+}
+
+.navbar_toggleBtn{
+    display:none;
+    position: absolute;
+    right:32px;
+    font-size:24px;
+    color:var(--accent-nav-color);
+}
+
+/*contents*/
+
+.ice-cream_info {
+    padding: 8px 12px ;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.ice-cream_image {
+    width: 300px;
+    height: 300px;
+}
+
+.ice-cream_description {
+    font-size: 15px;
+}
+
+.ice-cream_calorie {
+    font-size: 13px;
+}
+
+.ice-cream_allergy {
+    font-size: 13px;
+}
+
+.ice-cream_base , .ice-cream_topping , .ice-cream_syrup{
+    font-size: 14px;
+    color: var(--accent-tag-color);
+}
+
+/*heart button animation*/
+
+.container {
+  width:100%;
+}
+
+.container h1 {
+  font-family: 'Lato';
+  font-size: 3rem;
+  font-weight: 300;
+}
+.container h4 {
+  font-family: 'Lato';
+  font-soze: 1.2rem;
+  padding-top: 40px;
+  color: #999;
+}
+.container .love {
+  font-size: 0.9rem;
+  color: #ff4f8f;
+}
+
+.container , .wrapper , .like-button {
+  /*누르면 나오는 애니메이션 크기*/
+  position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #ccc;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  text-decoration: none;
+  overflow: hidden;
+}
+.container .wrapper .like-button .like-overlay {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--accent-content-color);
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: all .4s;
+  transition: all .4s;
+  z-index: 0;
+}
+.container .wrapper .like-button i.not-liked {
+  display: block;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.container .wrapper .like-button i.is-liked {
+  display: none;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.container .wrapper .like-button.is-active .like-overlay {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+.container .wrapper .like-button.is-active i.not-liked {
+  display: none;
+}
+.container .wrapper .like-button.is-active i.is-liked {
+  display: block;
+}
+
+@-webkit-keyframes bouncy {
+  from, to {
+    -webkit-transform: scale(1, 1);
+  }
+  25% {
+    -webkit-transform: scale(0.9, 1.1);
+  }
+  50% {
+    -webkit-transform: scale(1.1, 0.9);
+  }
+  75% {
+    -webkit-transform: scale(0.95, 1.05);
+  }
+}
+@keyframes bouncy {
+  from, to {
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+  }
+  25% {
+    -webkit-transform: scale(0.9, 1.1);
+    transform: scale(0.9, 1.1);
+  }
+  50% {
+    -webkit-transform: scale(1.1, 0.9);
+    transform: scale(1.1, 0.9);
+  }
+  75% {
+    -webkit-transform: scale(0.95, 1.05);
+    transform: scale(0.95, 1.05);
+  }
+}
+.bouncy {
+  -webkit-animation: bouncy 0.6s;
+  animation: bouncy 0.6s;
+  -webkit-animation-duration: 0.6s;
+  animation-duration: 0.6s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+/*comment*/
+.ice-cream_comment_form {
+  padding :8px 12px;
+}
+
+
+/*웹 페이지 크기 작아질 때 변경되는 css by_Juni*/
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 24px;
+    }
+
+    .navbar_menu {
+        display:none;
+        flex-direction: column;
+        align-items: center;
+        width:100%;
+    }
+
+    .navbar_menu li{
+        width:100%;
+        text-align: center;
+    }
+
+    .navbar_icons {
+        display:none;
+        justify-content: center;
+        width:100%;
+    }
+
+    .navbar_toggleBtn{
+        display:block;
+    }
+
+
+    .navbar_menu.active,
+    .navbar_icons.active {
+        display:flex;
+    }
+
+    .footer{
+        display:none;
+    }
+
+}
