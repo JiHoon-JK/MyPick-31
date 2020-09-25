@@ -1,0 +1,246 @@
+/*사용하는 색깔 변수 by_Juni*/
+:root{
+    --navbar-color: white;
+    --content-color: black;
+    --background-color: #efadcf;
+    --accent-nav-color: #005ea6;
+    --accent-content-color:#efadcf;
+    --accent-tag-color:#80afd3;
+}
+
+/*font 적용 by_Juni*/
+@font-face {
+    src: url("../font/배스킨라빈스+B.ttf");
+    font-family:'BR_font';
+}
+
+body {
+    margin: 0;
+    font-family: 'BR_font';
+    list-style: none;
+}
+
+body a {
+    text-decoration: none;
+    color: var(--content-color);
+}
+
+.navbar a{
+    text-decoration: none;
+    color: var(--navbar-color);
+}
+
+
+/*상단 bar by_Juni*/
+.navbar{
+    display:flex;
+    justify-content: space-between;
+    align-items : center;
+    background-color: var(--background-color);
+    padding: 8px 12px;
+}
+
+.navbar_logo{
+    font-size: 24px;
+    color: var(--navbar-color);
+}
+
+.navbar_logo i {
+    color: var(--accent-nav-color);
+}
+
+.navbar_menu{
+    display: flex;
+    list-style:none;
+    padding-left:0;
+}
+
+.navbar_menu li {
+    padding : 8px 12px;
+}
+
+.navbar_menu li:hover {
+    background-color : var(--accent-nav-color);
+    border-radius: 4px;
+}
+
+.navbar_icons{
+    list-style:none;
+    color:var(--accent-nav-color);
+    display: flex;
+    padding-left:0;
+}
+
+.navbar_icons li{
+    padding: 8px 12px;
+}
+
+.navbar_icons i{
+    color:var(--accent-nav-color);
+}
+
+.navbar_toggleBtn{
+    display:none;
+    position: absolute;
+    right:32px;
+    font-size:24px;
+    color:var(--accent-nav-color);
+}
+
+/*content_filter-menu css by_Juni*/
+
+.contents{
+    padding: 8px 12px;
+}
+
+.contents li:hover {
+    background-color : var(--accent-content-color);
+    border-radius: 4px;
+}
+
+.filter_menu_1 {
+    display: flex;
+    list-style: none;
+    padding: 0 40px 0 40px;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.filter_menu_2 {
+    display: flex;
+    list-style: none;
+    padding: 0 40px 0 40px;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.filter_list {
+    display: flex;
+    list-style: none;
+    padding: 0 40px 0 40px;
+    justify-content: space-between;
+    font-size:13px;
+}
+
+.filter_syrup {
+    margin-top : 30px;
+}
+
+.syrup_list {
+    display: flex;
+    list-style: none;
+    padding: 0 40px 0 40px;
+    justify-content: space-between;
+    font-size: 15px;
+}
+
+
+
+.detail_menu {
+    display: flex;
+    font-size: 15px;
+}
+
+.choco_detail {
+    display: flex;
+}
+
+.fruit_detail {
+    display: flex;
+}
+
+.nuts_detail {
+    display: flex;
+}
+
+.choco_detail span {
+    margin: 0 20px 0 20px;
+}
+
+.fruit_detail span {
+    margin: 0 20px 0 20px;
+}
+
+.nuts_detail span {
+    margin: 0 20px 0 20px;
+}
+
+/* ice-cream contents by Juni*/
+
+.ice-cream_info {
+    margin : 50px 0 0 0 ;
+    text-align: center;
+    display: inline-block;
+    background-color: #FBEFFB;
+    width: 170px;
+}
+
+.ice-cream_image{
+    width: 150px;
+    height: 150px;
+}
+
+.ice-cream_base , .ice-cream_topping , .ice-cream_syrup{
+    font-size: 13px;
+    color: var(--accent-tag-color);
+}
+
+
+/* 바닥 footer by_Juni*/
+.footer {
+    display:flex;
+    height:50px;
+    padding: 30px;
+    margin: 100% 0 0 0;
+    background-color: var(--background-color);
+    color: var(--content-color);
+    text-align : right;
+}
+
+.footer a {
+    color: blue;
+}
+
+/*웹 페이지 크기 작아질 때 변경되는 css by_Juni*/
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 24px;
+    }
+
+    .navbar_menu {
+        display:none;
+        flex-direction: column;
+        align-items: center;
+        width:100%;
+    }
+
+    .navbar_menu li{
+        width:100%;
+        text-align: center;
+    }
+
+    .navbar_icons {
+        display:none;
+        justify-content: center;
+        width:100%;
+    }
+
+    .navbar_toggleBtn{
+        display:block;
+    }
+
+
+    .navbar_menu.active,
+    .navbar_icons.active {
+        display:flex;
+    }
+
+    .footer{
+        display:none;
+    }
+
+}
