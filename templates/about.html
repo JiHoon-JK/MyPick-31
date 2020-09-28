@@ -1,9 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
+	<!-- 웹 페이지 크기 조정을 위한 viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- style.css 참조 -->
+	<link rel="stylesheet" href="{{url_for('static', filename='css/about_style.css')}}">
+	<!-- 자바스크립트 파일로 main.js 참조 -->
+	<script src="{{url_for('static', filename='js/main.js')}}" defer></script>
+	<!-- jQuery CDN -->
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<title>MyPick31 - About</title>
+	<!-- fontawesome CDN -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+	<!-- google font CDN -->
+	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="">
+	<!-- 상단 메뉴바 -->
+	<nav class="navbar">
+		<div class="navbar_logo">
+			<i class="fas fa-ice-cream"></i>
+			<a href="/">MyPick31</a>
+		</div>
 
+		<ul class="navbar_menu">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/register">회원가입</a></li>
+            <li><a href="/login">로그인</a></li>
+            <li><a href="/about">About MyPick31</a></li>
+        </ul>
+
+		<ul class="navbar_icons">
+			<li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a></li>
+			<li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
+			<li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
+		</ul>
+
+		<a href="#" class="navbar_toggleBtn">
+			<i class="fas fa-bars"></i>
+		</a>
+	</nav>
+
+	<div class="content">
+		<div class="introduce">
+			<h3 class="title">MyPick31 사용법</h3>
+			<p class="description_1">해당 서비스는 배스키라빈스에서 출시되는 아이스크림을 사용도의 선호도에 맞게 필터링해서 추천해주는 서비스입니다.</p>
+		</div>
+		<br>
+		<div class="contact">
+			<h3>문의사항</h3>
+			<p class="description_2">서비스 이용시, 문제가 발생한다면 해당 이메일로 보내주시면 감사하겠습니다.</p>
+			<a href="#" class="contact_email">이메일 : MyPick31@naver.com</a>
+		</div>
+		<br>
+		<div class="developer">
+			<p>개발자 : 강민(KangMin), 김지훈(KimJiHoon)</p>
+		</div>
+	</div>
 </body>
 </html>
