@@ -55,3 +55,17 @@ function nuts_detail(){
 	$('.nuts_detail').append(nuts_detail_html)
 	
 }
+
+// detail.html에서 사용
+function review_save(){
+	alert('리뷰를 저장했습니다!')
+	
+	ice_cream_name = $('.ice-cream_title').text()
+	// print(ice_cream_name)
+	// reviewer = "{{sessionemail}}"
+	// print(reviewer)
+	ice_cream_review = $('review_box').text()
+	// print(ice_cream_review)
+
+	// ajax로 서버에 보내야함
+}

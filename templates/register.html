@@ -1,9 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
+	<!-- 웹 페이지 크기 조정을 위한 viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- style.css 참조 -->
+	<link rel="stylesheet" href="{{url_for('static', filename='css/register_style.css')}}">
+	<!-- 자바스크립트 파일로 main.js 참조 -->
+	<script src="{{url_for('static', filename='js/main.js')}}" defer></script>
+	<!-- jQuery CDN -->
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<title>MyPick31 - Register</title>
+	<!-- fontawesome CDN -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+	<!-- google font CDN -->
+	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+
 </head>
 <body>
+	<!-- 상단 메뉴바 -->
+	<nav class="navbar">
+		<div class="navbar_logo">
+			<i class="fas fa-ice-cream"></i>
+			<a href="/">MyPick31</a>
+		</div>
 
+		<ul class="navbar_menu">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/register">회원가입</a></li>
+            <li><a href="/login">로그인</a></li>
+            <li><a href="/about">About MyPick31</a></li>
+        </ul>
+
+		<ul class="navbar_icons">
+			<li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a></li>
+			<li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
+			<li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
+		</ul>
+
+		<a href="#" class="navbar_toggleBtn">
+			<i class="fas fa-bars"></i>
+		</a>
+	</nav>
+
+	<!-- 회원가입 폼 -->
+	<div class="register_box">
+		<div class="logo">
+			<i class="fas fa-ice-cream"></i>
+		</div>
+		<h2>MyPick31 회원가입</h2>
+		<form name="register_form" class="register_form" method="post">
+			<table class="register_table">
+				<tr>
+					<th>아이디</th>
+					<td>
+						<input type="text" name="cursor:pointer" placeholder="아이디를 적어주세요.">
+					</td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="password" name="mbpw" placeholder="영문/숫자포함 6자 이상"></td>
+				</tr>
+				<tr>
+					<th>비밀번호 확인</th>
+					<td><input type="password" name="mbpw_re" placeholder="비밀번호를 다시 입력해주세요."></td>
+				</tr>
+				<tr>
+					<th>닉네임</th>
+					<td><input type="text" name="nickname" placeholder="사용할 닉네임을 적어주세요."></td>
+				</tr>
+			</table>
+			<input type="submit" class="register_button" value="회원가입">
+		</form>
+	</div>
 </body>
 </html>

@@ -5,9 +5,9 @@
     <!-- 웹 페이지 크기 조정을 위한 viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- style.css 참조 -->
-    <link rel="stylesheet" href="../css/index_style.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index_style.css')}}">
     <!-- 자바스크립트 파일로 main.js 참조 -->
-    <script src="../js/main.js" defer></script>
+    <script src="{{url_for('static', filename='js/main.js')}}" defer></script>
     <!-- jQuery CDN -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -23,14 +23,14 @@
     <nav class="navbar">
         <div class="navbar_logo">
             <i class="fas fa-ice-cream"></i>
-            <a href="">MyPick31</a>
+            <a href="/">MyPick31</a>
         </div>
 
         <ul class="navbar_menu">
-            <li><a href="">HOME</a></li>
-            <li><a href="">회원가입</a></li>
-            <li><a href="">로그인</a></li>
-            <li><a href="">About MyPick31</a></li>
+            <li><a href="/">HOME</a></li>
+            <li><a href="/register">회원가입</a></li>
+            <li><a href="/login">로그인</a></li>
+            <li><a href="/about">About MyPick31</a></li>
         </ul>
 
         <ul class="navbar_icons">
@@ -166,7 +166,7 @@
         <div class="ice-cream_contents">
             <div class="ice-cream_info" id="ice-cream_1">
                 <h3 class="ice-cream_title">엄마는 외계인</h3>
-                <img src="../img/엄마는 외계인.jpg" class="ice-cream_image">
+                <img src="{{url_for('static', filename='img/엄마는 외계인.jpg')}}" class="ice-cream_image">
                 <p class="ice-cream_base">
                     #밀크 초코
                     #다크 초코
@@ -177,7 +177,7 @@
             </div>
             <div class="ice-cream_info" id="ice-cream_2">
                 <h3 class="ice-cream_title">엄마는 외계인</h3>
-                <img src="../img/엄마는 외계인.jpg" class="ice-cream_image">
+                <img src="{{url_for('static', filename='img/엄마는 외계인.jpg')}}" class="ice-cream_image">
                 <p class="ice-cream_base">
                     #밀크 초코
                     #다크 초코
@@ -188,7 +188,7 @@
             </div>
             <div class="ice-cream_info" id="ice-cream_3">
                 <h3 class="ice-cream_title">엄마는 외계인</h3>
-                <img src="../img/엄마는 외계인.jpg" class="ice-cream_image">
+                <img src="{{url_for('static', filename='img/엄마는 외계인.jpg')}}" class="ice-cream_image">
                 <p class="ice-cream_base">
                     #밀크 초코
                     #다크 초코
@@ -199,7 +199,7 @@
             </div>
             <div class="ice-cream_info" id="ice-cream_4">
                 <h3 class="ice-cream_title">엄마는 외계인</h3>
-                <img src="../img/엄마는 외계인.jpg" class="ice-cream_image">
+                <img src="{{url_for('static', filename='img/엄마는 외계인.jpg')}}" class="ice-cream_image">
                 <p class="ice-cream_base">
                     #밀크 초코
                     #다크 초코
@@ -210,7 +210,7 @@
             </div>
             <div class="ice-cream_info" id="ice-cream_5">
                 <h3 class="ice-cream_title">엄마는 외계인</h3>
-                <img src="../img/엄마는 외계인.jpg" class="ice-cream_image">
+                <img src="{{url_for('static', filename='img/엄마는 외계인.jpg')}}" class="ice-cream_image">
                 <p class="ice-cream_base">
                     #밀크 초코
                     #다크 초코
@@ -221,7 +221,7 @@
             </div>
             <div class="ice-cream_info" id="ice-cream_6">
                 <h3 class="ice-cream_title">엄마는 외계인</h3>
-                <img src="../img/엄마는 외계인.jpg" class="ice-cream_image">
+                <img src="{{url_for('static', filename='img/엄마는 외계인.jpg')}}" class="ice-cream_image">
                 <p class="ice-cream_base">
                     #밀크 초코
                     #다크 초코

@@ -4,13 +4,15 @@
 	<meta charset="UTF-8">
 	<!-- 웹 페이지 크기 조정을 위한 viewport -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>MyPick31 - Detail</title>
 	<!-- style.css 참조 -->
-	<link rel="stylesheet" href="../css/detail_style.css">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/detail_style.css')}}">
 	<!-- 자바스크립트 파일로 main.js 참조 -->
-	<script src="../js/main.js" defer></script>
+	<script src="{{url_for('static', filename='js/main.js')}}" defer></script>
 	<!-- jQuery CDN -->
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+	<title>MyPick31 - Detail</title>
+
 	<!-- fontawesome CDN -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 	<!-- google font CDN -->
@@ -25,15 +27,15 @@
 	<nav class="navbar">
 		<div class="navbar_logo">
 			<i class="fas fa-ice-cream"></i>
-			<a href="">MyPick31</a>
+			<a href="/">MyPick31</a>
 		</div>
 
 		<ul class="navbar_menu">
-			<li><a href="">HOME</a></li>
-			<li><a href="">회원가입</a></li>
-			<li><a href="">로그인</a></li>
-			<li><a href="">About MyPick31</a></li>
-		</ul>
+            <li><a href="/">HOME</a></li>
+            <li><a href="/register">회원가입</a></li>
+            <li><a href="/login">로그인</a></li>
+            <li><a href="/about">About MyPick31</a></li>
+        </ul>
 
 		<ul class="navbar_icons">
 			<li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a></li>
@@ -41,7 +43,7 @@
 			<li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
 		</ul>
 
-		<a href="#" class="navbar_toggleBtn">
+		<a href="#" class="navbar_toggleBtn" style="">
 			<i class="fas fa-bars"></i>
 		</a>
 	</nav>
@@ -75,6 +77,43 @@
 	</div>
 	<div class="ice-cream_comment_form">
 		<i class="fas fa-user-edit"></i> REVIEW
+		<div class="review_form">
+			<p>
+				<textarea class="review_box" placeholder="아이스크림에 대한 후기를 남겨주세요."></textarea>
+			</p>
+			<a class="save_button" href="#" role="button"
+			onclick="review_save()">저장하기</a>
+		</div>
+	</div>
+	<div class="others_comment_box" id="box_1">
+		<p class="nickname">
+			<label> 닉네임 : </label> 
+			베라알바생
+		</p>
+		<p class="review_text">
+			<label> 후기 : </label>
+			엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
+		</p>
+	</div>
+	<div class="others_comment_box" id="box_2">
+		<p class="nickname">
+			<label> 닉네임 : </label> 
+			베라알바생
+		</p>
+		<p class="review_text">
+			<label> 후기 : </label>
+			엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
+		</p>
+	</div>
+	<div class="others_comment_box" id="box_3">
+		<p class="nickname">
+			<label> 닉네임 : </label> 
+			베라알바생
+		</p>
+		<p class="review_text">
+			<label> 후기 : </label>
+			엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
+		</p>
 	</div>
 
 </body>
