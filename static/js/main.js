@@ -24,6 +24,73 @@ function like_animation(){
 	alert('좋아요 기능은 회원가입을 해야 사용할 수 있습니다.')
 };
 
+
+//회원가입
+function register(){
+    console.log('들어갔나?')
+    email = $('#new_inputEmail').val()
+    nickname = $('#new_inputNickname').val()
+    pw1 = $('#new_inputPassword1').val()
+    pw2 = $('#new_inputPassword2').val()
+
+    if(email==""){
+        alert('이메일을 입력하세요');
+        $('#new_inputEmail').focus();
+        return;
+    }
+
+    let regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    if((regEmail.test($('#new_inputEmail').val())==false)){
+        $('#new_inputEmail').val("이메일형식이 틀렸습니다.").css('color','red');
+        $('#new_inputEmail').focus();
+        return;
+    }
+
+    if(nickname==""){
+        alert('닉네임을 입력하세요');
+        $('#new_inputNickname').focus();
+        return;
+    }
+
+    if(pw1==""){
+        alert('비밀번호를 입력하세요');
+        $('#new_inputPassword1').focus();
+        return;
+    }
+
+    if($('#new_inputPassword1').val().length < 5){
+        alert('비밀번호는 다섯자리 이상으로 입력해주세요');
+        $('#new_inputPassword1').focus();
+        return;
+    }
+
+    if(pw1 != pw2){
+        alert('비밀번호가 일치하지 않습니다.');
+    }
+    else{
+        $.ajax({
+            type: "POST",
+            url : "/customer",
+            data : {email:$('#new_inputEmail').val(),nickname:$('#new_inputNickname').val(), pwd:$('#new_inputPassword1').val()},
+            success : function(response){
+                if(response['result'] == 'success'){
+                    alert('회원가입이 완료되었습니다.');
+                    go_login_page();
+                }else if(response['result'] == 'fail1'){
+                    alert('이메일이 이미 존재합니다.');
+                }else if(response['result'] == 'fail2'){
+                    alert('닉네임이 이미 존재합니다.')
+                }
+            }
+        })
+    }
+
+}
+
+function go_login_page() {
+    location.href = "/login"
+}
+
 function check_spoon() {
 	
 	spoon_html = '<i class="fas fa-utensil-spoon"></i>'
