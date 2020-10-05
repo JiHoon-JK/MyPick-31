@@ -64,7 +64,7 @@
 				</div>
 				<div class="form-label-group">
 					<label for="new_inputPassword2">비밀번호 확인 : </label>
-					<input type="password" id="new_inputPassword2" class="form-control" placeholder="비밀번호를 다시 입력해주세요." required>			
+					<input type="password" id="new_inputPassword2" class="form-control" placeholder="비밀번호를 다시 입력해주세요." onKeypress="javascript:if(event.keyCode==13) {register()}" required>
 				</div>
 				<div class="button-group">
 					<a href="#" role="button" class="register_button" onclick="register()"><b>회원가입</b></a>
