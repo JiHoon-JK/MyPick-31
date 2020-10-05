@@ -84,9 +84,6 @@ def register():
 
     print(email,pwd,nickname,pw_hash)
 
-    user = request.json
-
-    return "", 200
 
 
 
