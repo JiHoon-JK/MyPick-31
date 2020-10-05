@@ -2,6 +2,7 @@ const toggleBtn = document.querySelector('.navbar_toggleBtn');
 const menu = document.querySelector('.navbar_menu');
 const icons = document.querySelector('.navbar_icons');
 
+// 메뉴바를 누르면 메뉴 나오도록 하는 함수
 toggleBtn.addEventListener('click', () => {
 	menu.classList.toggle('active');
 	icons.classList.toggle('active');
@@ -27,13 +28,12 @@ function like_animation(){
 
 //회원가입
 function register(){
-    console.log('들어갔나?')
-    email = $('#new_inputEmail').val()
+    auth_id = $('#new_inputEmail').val()
     nickname = $('#new_inputNickname').val()
     pw1 = $('#new_inputPassword1').val()
     pw2 = $('#new_inputPassword2').val()
 
-    if(email==""){
+    if(auth_id==""){
         alert('이메일을 입력하세요');
         $('#new_inputEmail').focus();
         return;
@@ -70,16 +70,23 @@ function register(){
     else{
         $.ajax({
             type: "POST",
-            url : "/customer",
-            data : {email:$('#new_inputEmail').val(),nickname:$('#new_inputNickname').val(), pwd:$('#new_inputPassword1').val()},
+            url : "/customer_register",
+            data : {auth_id:$('#new_inputEmail').val(),nickname:$('#new_inputNickname').val(), pwd:$('#new_inputPassword1').val()},
             success : function(response){
+                // 회원가입 성공
                 if(response['result'] == 'success'){
                     alert('회원가입이 완료되었습니다.');
                     go_login_page();
-                }else if(response['result'] == 'fail1'){
+                }
+                // 이메일이 존재하는 경우
+                else if(response['result'] == 'fail1'){
                     alert('이메일이 이미 존재합니다.');
-                }else if(response['result'] == 'fail2'){
-                    alert('닉네임이 이미 존재합니다.')
+                    $('#new_inputEmail').focus();
+                }
+                // 닉네임이 존재하는 경우
+                else if(response['result'] == 'fail2'){
+                    alert('닉네임이 이미 존재합니다.');
+                    $('#new_inputNickname').focus();
                 }
             }
         })
@@ -87,8 +94,43 @@ function register(){
 
 }
 
+function login() {
+    console.log('됐냐?')
+    login_id = $('#new_inputEmail').val()
+    login_pwd = $('#new_inputPassword').val()
+    console.log(login_id)
+
+    $.ajax({
+        type: "POST",
+        url: "/customer_login",
+        data: {receive_id:login_id,receive_pwd:login_pwd},
+        success: function(response){
+            // 로그인에 성공한 경우
+            if(response['result'] == 'success'){
+                user_nickname = response['userdb'];
+                alert(user_nickname+'님! '+'MyPick31 에 오신 것을 환영합니다!');
+                go_index_page();
+            }
+            // 로그인에 실패한 경우 1 (비밃번호 틀림)
+            else if(response['result'] == 'fail1'){
+                alert('비밃번호가 다릅니다.');
+                $('#new_inputPassword').focus();
+            }
+            // 로그인에 실패한 경우 2 (계정이 틀림)
+            else if(response['result'] == 'fail2'){
+                alert('계정이 존재하지 않습니다.');
+                $('#new_inputEmail').focus();
+            }
+        }
+    })
+}
+
 function go_login_page() {
     location.href = "/login"
+}
+
+function go_index_page() {
+    location.href= "/"
 }
 
 function check_spoon() {
