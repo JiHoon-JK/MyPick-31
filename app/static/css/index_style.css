@@ -98,7 +98,7 @@ body a {
     border-radius: 4px;
 }
 
-.filter_menu_1 {
+.filter_menu {
     display: flex;
     list-style: none;
     padding: 0 40px 0 40px;
@@ -107,14 +107,6 @@ body a {
     font-size: 15px;
 }
 
-.filter_menu_2 {
-    display: flex;
-    list-style: none;
-    padding: 0 40px 0 40px;
-    justify-content: space-between;
-    margin-bottom: 30px;
-    font-size: 15px;
-}
 
 .filter_list {
     display: flex;
