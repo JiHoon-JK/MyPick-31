@@ -87,6 +87,33 @@ body a {
     color:var(--accent-nav-color);
 }
 
+/*user_id 관련 css*/
+
+.user{
+    width: 100%;
+    text-align: right;
+    background-color: #FBEFFB;
+}
+
+.button{
+    cursor: pointer;
+    text-align: right;
+}
+
+#user_nickname{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#Logout_button{
+    font-size: 10px;
+    
+}
+
+#Mypage_button{
+    font-size: 10px;
+}
+
 /*content_filter-menu css by_Juni*/
 
 .contents{

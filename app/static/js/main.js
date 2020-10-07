@@ -1,3 +1,9 @@
+// 로딩하면 실행되는 함수 모음
+$(document).ready(function(){
+    
+})
+
+// 메뉴바 함수를 위한 변수 선언
 const toggleBtn = document.querySelector('.navbar_toggleBtn');
 const menu = document.querySelector('.navbar_menu');
 const icons = document.querySelector('.navbar_icons');
@@ -19,11 +25,21 @@ function new_detail() {
 
 //버튼 애니메이션 실행 함수
 function like_animation() {
-
     $('.like-button').toggleClass('is-active');
     alert('좋아요 기능은 회원가입을 해야 사용할 수 있습니다.')
-};
+}
 
+// 로그인을 진행하면 나오는 html 체크 함수
+function change_login_html(){
+    login_html = `<div class="nickname">
+                    <a href="#" onclick="" id="user_nickname">{{ session_nickname }}</a>
+                </div>
+                <div class="button">
+                    <a href="#" role="button" onclick="" id="Logout_button">Logout</a>
+                    <a href="#" role="button" onclick="" id="Mypage_button">MyPage</a>
+                </div>`
+    $('.user').append(login_html)
+}
 
 //회원가입
 function register() {
@@ -96,6 +112,7 @@ function register() {
 
 }
 
+// 로그인 함수
 function login() {
     console.log('됐냐?')
     login_id = $('#new_inputEmail').val()
@@ -111,7 +128,10 @@ function login() {
             if (response['result'] == 'success') {
                 user_nickname = response['userdb'];
                 alert(user_nickname + '님! ' + 'MyPick31 에 오신 것을 환영합니다!');
+                console.log('4')
                 go_index_page();
+                console.log('2')
+                change_login_html();
             }
             // 로그인에 실패한 경우 1 (비밃번호 틀림)
             else if (response['result'] == 'fail1') {
@@ -127,12 +147,16 @@ function login() {
     })
 }
 
+//login 페이지로 이동하는 함수
 function go_login_page() {
     location.href = "/login"
 }
 
+// index 페이지로 이동하는 함수
 function go_index_page() {
+    console.log('3')
     location.href = "/"
+    console.log('1')
 }
 
 function check_spoon() {
