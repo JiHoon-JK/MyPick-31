@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import timedelta
 
-from flask import Flask, render_template, session, url_for, request, jsonify
+from flask import Flask, render_template, session, url_for, request, jsonify, app
 from pymongo import MongoClient
 import hashlib
 
@@ -15,7 +15,16 @@ SECRET_KEY = 'apple'
 # 라우팅 함수
 @app.route('/')
 def home_page():
-    return render_template('index.html')
+    # 세션 값안에 auth_id 가 있다면, 로그인을 진행했다면 세션이 형성되어있어서 체크할 수 있음.
+    if 'auth_id' in session:
+        session_id = session['auth_id']
+        print('Logged in as '+session_id)
+        print(session)
+        session_nickname = session['nickname']
+        print(session_nickname)
+        return render_template('index.html', session_id=session_id, session_nickname=session_nickname)
+    else:
+        return render_template('index.html')
 
 @app.route('/detail')
 def detail_page():
@@ -71,10 +80,6 @@ def login():
 
     print(receive_id)
 
-    # session 형성
-    session['auth_id'] = receive_id
-    session.permanent = True
-
     userdb = list(db.userdb.find({}))
 
     for i in range(len(userdb)):
@@ -83,6 +88,13 @@ def login():
             if userdb[i].get('pwd') == pwd_hash:
                 user_nickname = userdb[i].get('nickname')
                 print(user_nickname)
+                # session 형성
+                session['auth_id'] = receive_id
+                session['nickname'] = user_nickname
+                session.permanent = True
+                # session 유지 시간은 5분으로 한다.
+                app.permanent_session_lifetime = timedelta(minutes=5)
+
                 return jsonify({'result':'success','userdb':user_nickname})
             else:
                 return jsonify({'result':'fail1','userdb':'failed'})
