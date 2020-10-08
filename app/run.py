@@ -112,8 +112,10 @@ def logout():
     session.pop('email',None)
     return jsonify({'result':'success'})
 
-###################################
-# db_insert
+###############
+#DB insert API#
+###############
+
 @app.route('/createCB', methods=['POST'])
 def createCB():
     cbase1 = request.form['cbase1']

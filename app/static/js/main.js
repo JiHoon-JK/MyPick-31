@@ -1,7 +1,7 @@
 // 로딩하면 실행되는 함수 모음
-$(document).ready(function(){
-
-})
+// $(document).ready(function(){
+//
+// })
 
 // 메뉴바 함수를 위한 변수 선언
 const toggleBtn = document.querySelector('.navbar_toggleBtn');
@@ -206,6 +206,7 @@ function review_save() {
 }
 
 function createCB() {
+
     let cbase1 = $('#cbase1').val();
     let cbase2 = $('#cbase2').val();
     $.ajax({
