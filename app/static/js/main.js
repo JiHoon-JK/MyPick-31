@@ -269,17 +269,17 @@ function createCS() {
 }
 
 function createF_signature() {
-    let name = $('#name').val();
-    let name_eng = $('#name_eng').val();
-    let base = $('#base').val();
-    let topping = $('#topping').val();
-    let syrup = $('#syrup').val();
-    let kcal = $('#kcal').val();
-    let allergens = $('#allergens').val();
-    let img = $('#')
+    let name = $('#name_sg').val();
+    let name_eng = $('#name_eng_sg').val();
+    let base = $('#base_sg').val();
+    let topping = $('#topping_sg').val();
+    let syrup = $('#syrup_sg').val();
+    let kcal = $('#kcal_sg').val();
+    let allergens = $('#allergens_sg').val();
+    let img = $('#img_sg').val();
     $.ajax({
         type: 'post',
-        url: '/createF_signature',
+        url: '/createF_SG',
         data: {
             'name': name,
             'name_eng': name_eng,
@@ -288,7 +288,7 @@ function createF_signature() {
             'syrup' : syrup,
             'kcal' : kcal,
             'allergens' : allergens,
-            'img' : img,
+            'img' : img
         },
         success: function (response) {
             if (response["result"] == "success") {
@@ -303,5 +303,35 @@ function createF_signature() {
 }
 
 function createF_season() {
+    let name = $('#name_ss').val();
+    let name_eng = $('#name_eng_ss').val();
+    let base = $('#base_ss').val();
+    let topping = $('#topping_ss').val();
+    let syrup = $('#syrup_ss').val();
+    let kcal = $('#kcal_ss').val();
+    let allergens = $('#allergens_ss').val();
+    let img = $('#img_ss').val();
+    $.ajax({
+        type: 'post',
+        url: '/createF_SS',
+        data: {
+            'name': name,
+            'name_eng': name_eng,
+            'base' : base,
+            'topping' : topping,
+            'syrup' : syrup,
+            'kcal' : kcal,
+            'allergens' : allergens,
+            'img' : img
+        },
+        success: function (response) {
+            if (response["result"] == "success") {
+                alert(response["msg"]);
+                window.location.reload();
+            } else {
+                alert('서버 오류!')
+            }
+        }
+    })
 
 }

@@ -151,8 +151,9 @@ def createCS():
     db.csyrup.insert_one(doc)
     return jsonify(({'result':'success','msg':'csyrup에 저장완료'}))
 
+
 # Flavor - Signature
-@app.route('/createFSG', methods=['POST'])
+@app.route('/createF_SG', methods=['POST'])
 def createF_signature():
     name = request.form['name']
     name_eng = request.form['name_eng']
@@ -163,8 +164,42 @@ def createF_signature():
     allergens = request.form['allergens']
     img = request.form['img']
     doc = {
-
+        'name': name,
+        'name_eng': name_eng,
+        'base': base,
+        'topping': topping,
+        'syrup': syrup,
+        'kcal': kcal,
+        'allergens': allergens,
+        'img': img
     }
+    db.signature.insert_one(doc)
+    return(jsonify({'result':'success','msg':'signature 저장완료'}))
+
+# db_insert
+@app.route('/createF_SS', methods=['POST'])
+def createF_season():
+    name = request.form['name']
+    name_eng = request.form['name_eng']
+    base = request.form['base']
+    topping = request.form['topping']
+    syrup = request.form['syrup']
+    kcal = request.form['kcal']
+    allergens = request.form['allergens']
+    img = request.form['img']
+    doc = {
+        'name': name,
+        'name_eng': name_eng,
+        'base': base,
+        'topping': topping,
+        'syrup': syrup,
+        'kcal': kcal,
+        'allergens': allergens,
+        'img': img
+    }
+    db.season.insert_one(doc)
+    return(jsonify({'result':'success','msg':'season 저장완료'}))
+
 
 # Flavor - Season
 
