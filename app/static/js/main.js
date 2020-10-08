@@ -206,7 +206,6 @@ function review_save() {
 }
 
 function createCB() {
-
     let cbase1 = $('#cbase1').val();
     let cbase2 = $('#cbase2').val();
     $.ajax({
