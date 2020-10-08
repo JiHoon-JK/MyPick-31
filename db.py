@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 client = MongoClient('localhost',27017)
-db = client.dbMyPick31
+# db명 각자 수정해야할듯
+db = client.MyPick31
 
 from flask import Flask, jsonify, request
 app = Flask(__name__)
@@ -18,4 +19,4 @@ def createCB():
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=9000, debug=True)
