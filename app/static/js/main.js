@@ -206,7 +206,6 @@ function review_save() {
 }
 
 function createCB() {
-
     let cbase1 = $('#cbase1').val();
     let cbase2 = $('#cbase2').val();
     $.ajax({
@@ -289,7 +288,7 @@ function createF_signature() {
             'syrup' : syrup,
             'kcal' : kcal,
             'allergens' : allergens,
-            'img' :
+            'img' : img,
         },
         success: function (response) {
             if (response["result"] == "success") {

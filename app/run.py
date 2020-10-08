@@ -115,45 +115,44 @@ def logout():
 ###############
 #DB insert API#
 ###############
-
+# Category-Base
 @app.route('/createCB', methods=['POST'])
 def createCB():
     cbase1 = request.form['cbase1']
     cbase2 = request.form['cbase2']
-    print(cbase1,cbase2)
-    doc ={
+    doc = {
         'cbase1': cbase1,
         'cbase2': cbase2
     }
     db.cbase.insert_one(doc)
     return jsonify(({'result':'success','msg':'cbase에 저장완료'}))
 
-# db_insert
+# Category-Topping
 @app.route('/createCT', methods=['POST'])
 def createCT():
     ctopping1 = request.form['ctopping1']
     ctopping2 = request.form['ctopping2']
-    doc ={
+    doc = {
         'ctopping1': ctopping1,
         'ctopping2': ctopping2
     }
     db.ctopping.insert_one(doc)
     return jsonify(({'result':'success','msg':'ctopping에 저장완료'}))
 
-# db_insert
+# Category - Syrup
 @app.route('/createCS', methods=['POST'])
 def createCS():
     csyrup1 = request.form['csyrup1']
     csyrup2 = request.form['csyrup2']
-    doc ={
+    doc = {
         'csyrup1': csyrup1,
         'csyrup2': csyrup2
     }
     db.csyrup.insert_one(doc)
     return jsonify(({'result':'success','msg':'csyrup에 저장완료'}))
 
-# db_insert
-@app.route('/createF_signature', methods=['POST'])
+# Flavor - Signature
+@app.route('/createFSG', methods=['POST'])
 def createF_signature():
     name = request.form['name']
     name_eng = request.form['name_eng']
@@ -166,6 +165,8 @@ def createF_signature():
     doc = {
 
     }
+
+# Flavor - Season
 
 if __name__ == '__main__':
     app.secret_key = 'Juni'
