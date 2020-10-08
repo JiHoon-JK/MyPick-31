@@ -206,9 +206,8 @@ function review_save() {
 }
 
 function createCB() {
-    cbase1 = $('#cbase1').val;
-    cbase2 = $('#cbase2').val;
-    console.log(cbase1,cbase2)
+    let cbase1 = $('#cbase1').val();
+    let cbase2 = $('#cbase2').val();
     $.ajax({
         type: 'post',
         url: '/createCB',
@@ -228,8 +227,8 @@ function createCB() {
 }
 
 function createCT() {
-    let ctopping1 = $('#ctopping1').val;
-    let ctopping2 = $('#ctopping2').val;
+    let ctopping1 = $('#ctopping1').val();
+    let ctopping2 = $('#ctopping2').val();
     $.ajax({
         type: 'post',
         url: '/createCT',
@@ -238,14 +237,19 @@ function createCT() {
             'ctopping2': ctopping2
         },
         success: function (response) {
-
+            if (response["result"] == "success") {
+                alert(response["msg"]);
+                window.location.reload();
+            } else {
+                alert('서버 오류!')
+            }
         }
     })
 }
 
 function createCS() {
-    let csyrup1 = $('#csyrup1').val;
-    let csyrup2 = $('#csyrup2').val;
+    let csyrup1 = $('#csyrup1').val();
+    let csyrup2 = $('#csyrup2').val();
     $.ajax({
         type: 'post',
         url: '/createCS',
@@ -254,12 +258,47 @@ function createCS() {
             'csyrup2': csyrup2
         },
         success: function (response) {
-
+            if (response["result"] == "success") {
+                alert(response["msg"]);
+                window.location.reload();
+            } else {
+                alert('서버 오류!')
+            }
         }
     })
 }
 
 function createF_signature() {
+    let name = $('#name').val();
+    let name_eng = $('#name_eng').val();
+    let base = $('#base').val();
+    let topping = $('#topping').val();
+    let syrup = $('#syrup').val();
+    let kcal = $('#kcal').val();
+    let allergens = $('#allergens').val();
+    let img = $('#')
+    $.ajax({
+        type: 'post',
+        url: '/createF_signature',
+        data: {
+            'name': name,
+            'name_eng': name_eng,
+            'base' : base,
+            'topping' : topping,
+            'syrup' : syrup,
+            'kcal' : kcal,
+            'allergens' : allergens,
+            'img' :
+        },
+        success: function (response) {
+            if (response["result"] == "success") {
+                alert(response["msg"]);
+                window.location.reload();
+            } else {
+                alert('서버 오류!')
+            }
+        }
+    })
 
 }
 
