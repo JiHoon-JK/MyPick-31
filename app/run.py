@@ -4,7 +4,7 @@ from flask import Flask, render_template, session, url_for, request, jsonify, ap
 from pymongo import MongoClient
 import hashlib
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://bibi:6666667!@3.34.129.197', 27017)
 db = client.MyPick31
 
 app = Flask(__name__)
@@ -112,7 +112,9 @@ def logout():
     session.pop('email',None)
     return jsonify({'result':'success'})
 
-# db_insert
+###############
+#DB insert API#
+###############
 @app.route('/createCB', methods=['POST'])
 def createCB():
     cbase1 = request.form['cbase1']
