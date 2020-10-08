@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 client = MongoClient('localhost',27017)
-db = client.dbMyPick31
+db = client.MyPick31
 
 from flask import Flask, jsonify, request
 app = Flask(__name__)
@@ -14,7 +14,7 @@ def createCB():
         'cbase2': cbase2
     }
     db.cbase.insert_one(doc)
-    return jsonify(({'result':'success','msg':'cbase에 저장완료'}))
+    return jsonify({'result' : 'success' , 'msg' : 'cbase에 저장완료'});
 
 
 if __name__ == '__main__':

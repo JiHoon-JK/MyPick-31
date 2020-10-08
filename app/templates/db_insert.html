@@ -1,96 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<head>
-		<meta charset="UTF-8">
-		<!-- 웹 페이지 크기 조정을 위한 viewport -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!-- style.css 참조 -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/index_style.css') }}">
-		<!-- 자바스크립트 파일로 main.js 참조 -->
-		<script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
-		<!-- jQuery CDN -->
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <meta charset="UTF-8">
+    <!-- 웹 페이지 크기 조정을 위한 viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- style.css 참조 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index_style.css') }}">
+    <!-- 자바스크립트 파일로 main.js 참조 -->
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    <!-- jQuery CDN -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-		<title>MyPick31 - insert_DB</title>
-		<!-- fontawesome CDN -->
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
-		integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
-		<!-- google font CDN -->
-		<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-		<!--  테스트  -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-	</head>
+    <title>MyPick31 - insert_DB</title>
+    <!-- fontawesome CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+          integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    <!-- google font CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <!--  테스트  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
 </head>
 <body>
-	<!-- 상단 메뉴바 -->
-	<nav class="navbar">
-		<div class="navbar_logo">
-			<i class="fas fa-ice-cream"></i>
-			<a href="/">MyPick31</a>
-		</div>
+<!-- 상단 메뉴바 -->
+<nav class="navbar">
+    <div class="navbar_logo">
+        <i class="fas fa-ice-cream"></i>
+        <a href="/">MyPick31</a>
+    </div>
 
-		<ul class="navbar_menu">
-			<li><a href="/">HOME</a></li>
-			<li><a href="/register">회원가입</a></li>
-			<li><a href="/login">로그인</a></li>
-			<li><a href="/insert_db">데이터 삽입</a></li>
-			<li><a href="/about">About MyPick31</a></li>
-		</ul>
+    <ul class="navbar_menu">
+        <li><a href="/">HOME</a></li>
+        <li><a href="/register">회원가입</a></li>
+        <li><a href="/login">로그인</a></li>
+        <li><a href="/insert_db">데이터 삽입</a></li>
+        <li><a href="/about">About MyPick31</a></li>
+    </ul>
 
-		<ul class="navbar_icons">
-			<li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
-				class="fab fa-twitter"></i></a></li>
-				<li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
-				<li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
-			</ul>
+    <ul class="navbar_icons">
+        <li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
+                class="fab fa-twitter"></i></a></li>
+        <li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
+        <li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
+    </ul>
 
-			<a href="#" class="navbar_toggleBtn">
-				<i class="fas fa-bars"></i>
-			</a>
-		</nav>
+    <a href="#" class="navbar_toggleBtn">
+        <i class="fas fa-bars"></i>
+    </a>
+</nav>
 
-		<!-- 본문 내용 -->
-		<div class="root_DB">
-			<div class="root_DB_category">
-				<h4>category</h4>
-				cbase1<input type="text" id="cbase1"><br>
-				cbase2<input type="text" id="cbase2"><br>
-				<button onclick="createCB()">저장</button><br>
-				ctopping1<input type="text" id="ctopping1"><br>
-				ctopping2<input type="text" id="ctopping2"><br>
-				<button onclick="createCT()">저장</button><br>
-				csyrup1<input type="text" id="csyrup1"><br>
-				csyrup2<input type="text" id="csyrup2"><br>
-				<button onclick="createCS()">저장</button>
+<!-- 본문 내용 -->
+<div class="root_DB">
+    <div class="root_DB_category">
+        <h4>category</h4>
+        cbase1<input type="text" id="cbase1"><br>
+        cbase2<input type="text" id="cbase2"><br>
+        <button onclick="createCB()">저장</button>
+        <br>
+        ctopping1<input type="text" id="ctopping1"><br>
+        ctopping2<input type="text" id="ctopping2"><br>
+        <button onclick="createCT()">저장</button>
+        <br>
+        csyrup1<input type="text" id="csyrup1"><br>
+        csyrup2<input type="text" id="csyrup2"><br>
+        <button onclick="createCS()">저장</button>
 
-			</div>
-			<div class="root_DB_flavor">
-				<div class="signature">
-					<h4>signature flavor</h4>
-					name<input type="text" id="name"><br>
-					name_eng<input type="text" id="name_eng"><br>
-					base<input type="text" id="base"><br>
-					topping<input type="text" id="topping"><br>
-					syrup<input type="text" id="syrup"><br>
-					kcal<input type="text" id="kcal"><br>
-					allergens<input type="text" id="allergens"><br>
-					img<input type="file" id="img">
-					<button onclick="createF_signature()">저장</button>
-				</div>
-				<div class="season">
-					<h4>season flavor</h4>
-					name<input type="text"><br>
-					name_eng<input type="text"><br>
-					base<input type="text"><br>
-					topping<input type="text"><br>
-					syrup<input type="text"><br>
-					kcal<input type="text"><br>
-					allergens<input type="text"><br>
-					img<input type="file">
-					<button onclick="createF_season()">저장</button>
-				</div>
-			</div>
-		</div>
-	</body>
-	</html>
+    </div>
+    <div class="root_DB_flavor">
+        <div class="signature">
+            <h4>signature flavor</h4>
+            name<input type="text" id="name"><br>
+            name_eng<input type="text" id="name_eng"><br>
+            base<input type="text" id="base"><br>
+            topping<input type="text" id="topping"><br>
+            syrup<input type="text" id="syrup"><br>
+            kcal<input type="text" id="kcal"><br>
+            allergens<input type="text" id="allergens"><br>
+            img<input type="file" id="img">
+            <button onclick="createF_signature()">저장</button>
+        </div>
+        <div class="season">
+            <h4>season flavor</h4>
+            name<input type="text"><br>
+            name_eng<input type="text"><br>
+            base<input type="text"><br>
+            topping<input type="text"><br>
+            syrup<input type="text"><br>
+            kcal<input type="text"><br>
+            allergens<input type="text"><br>
+            img<input type="file">
+            <button onclick="createF_season()">저장</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

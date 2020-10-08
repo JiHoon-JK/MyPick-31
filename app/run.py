@@ -115,4 +115,4 @@ def logout():
 
 if __name__ == '__main__':
     app.secret_key = 'Juni'
-    app.run('localhost', port=9000, debug=True)
+    app.run('localhost', port=5000, debug=True)

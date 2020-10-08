@@ -1,7 +1,7 @@
 // 로딩하면 실행되는 함수 모음
-$(document).ready(function(){
-    change_login_html();
-})
+// $(document).ready(function(){
+//
+// })
 
 // 메뉴바 함수를 위한 변수 선언
 const toggleBtn = document.querySelector('.navbar_toggleBtn');
@@ -31,11 +31,6 @@ function like_animation() {
 
 // 로그인을 진행하면 나오는 html 체크 함수
 function change_login_html(){
-
-    var para = request.getParameter("nickname");
-    console.log(para);
-    var decodeNickname = decodeURI(decodeURIComponent(para));
-    alert(decodeNickname)
 
     if(decodeNickname==true){
         receive_nickname = 
