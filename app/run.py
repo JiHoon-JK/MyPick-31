@@ -42,6 +42,11 @@ def login_page():
 def about_page():
     return render_template('about.html')
 
+# db에 데이터 넣는 html
+@app.route('/insert_db')
+def insert_db_page():
+    return render_template('db_insert.html')
+
 # 회원가입
 @app.route('/customer_register', methods=['POST'])
 def register():
