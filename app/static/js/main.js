@@ -1,6 +1,6 @@
 // 로딩하면 실행되는 함수 모음
 $(document).ready(function(){
-    change_login_html();
+
 })
 
 // 메뉴바 함수를 위한 변수 선언
@@ -32,10 +32,8 @@ function like_animation() {
 // 로그인을 진행하면 나오는 html 체크 함수
 function change_login_html(){
 
-    var para = request.getParameter("nickname");
+    var para =
     console.log(para);
-    var decodeNickname = decodeURI(decodeURIComponent(para));
-    alert(decodeNickname)
 
     if(decodeNickname==true){
         receive_nickname = 
@@ -208,8 +206,9 @@ function review_save() {
 }
 
 function createCB() {
-    let cbase1 = $('#cbase1').val;
-    let cbase2 = $('#cbase2').val;
+    cbase1 = $('#cbase1').val;
+    cbase2 = $('#cbase2').val;
+    console.log(cbase1,cbase2)
     $.ajax({
         type: 'post',
         url: '/createCB',
