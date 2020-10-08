@@ -4,7 +4,7 @@ from flask import Flask, render_template, session, url_for, request, jsonify, ap
 from pymongo import MongoClient
 import hashlib
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://bibi:6666667!@3.34.129.197', 27017)
 db = client.MyPick31
 
 app = Flask(__name__)
@@ -112,6 +112,7 @@ def logout():
     session.pop('email',None)
     return jsonify({'result':'success'})
 
+###################################
 # db_insert
 @app.route('/createCB', methods=['POST'])
 def createCB():
@@ -125,6 +126,44 @@ def createCB():
     db.cbase.insert_one(doc)
     return jsonify(({'result':'success','msg':'cbase에 저장완료'}))
 
+# db_insert
+@app.route('/createCT', methods=['POST'])
+def createCT():
+    ctopping1 = request.form['ctopping1']
+    ctopping2 = request.form['ctopping2']
+    doc ={
+        'ctopping1': ctopping1,
+        'ctopping2': ctopping2
+    }
+    db.ctopping.insert_one(doc)
+    return jsonify(({'result':'success','msg':'ctopping에 저장완료'}))
+
+# db_insert
+@app.route('/createCS', methods=['POST'])
+def createCS():
+    csyrup1 = request.form['csyrup1']
+    csyrup2 = request.form['csyrup2']
+    doc ={
+        'csyrup1': csyrup1,
+        'csyrup2': csyrup2
+    }
+    db.csyrup.insert_one(doc)
+    return jsonify(({'result':'success','msg':'csyrup에 저장완료'}))
+
+# db_insert
+@app.route('/createF_signature', methods=['POST'])
+def createF_signature():
+    name = request.form['name']
+    name_eng = request.form['name_eng']
+    base = request.form['base']
+    topping = request.form['topping']
+    syrup = request.form['syrup']
+    kcal = request.form['kcal']
+    allergens = request.form['allergens']
+    img = request.form['img']
+    doc = {
+
+    }
 
 if __name__ == '__main__':
     app.secret_key = 'Juni'
