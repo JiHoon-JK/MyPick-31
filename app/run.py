@@ -151,7 +151,6 @@ def createCS():
     db.csyrup.insert_one(doc)
     return jsonify(({'result':'success','msg':'csyrup에 저장완료'}))
 
-
 # Flavor - Signature
 @app.route('/createF_SG', methods=['POST'])
 def createF_signature():
@@ -176,7 +175,7 @@ def createF_signature():
     db.signature.insert_one(doc)
     return(jsonify({'result':'success','msg':'signature 저장완료'}))
 
-# db_insert
+# Flavor - Season
 @app.route('/createF_SS', methods=['POST'])
 def createF_season():
     name = request.form['name']
@@ -201,8 +200,8 @@ def createF_season():
     return(jsonify({'result':'success','msg':'season 저장완료'}))
 
 
-# Flavor - Season
+
 
 if __name__ == '__main__':
     app.secret_key = 'Juni'
-    app.run('localhost', port=9000, debug=True)
+    app.run('localhost', port=5000, debug=True)
