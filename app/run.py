@@ -162,6 +162,7 @@ def createF_signature():
     kcal = request.form['kcal']
     allergens = request.form['allergens']
     img = request.form['img']
+    heart = request.form['heart']
     doc = {
         'name': name,
         'name_eng': name_eng,
@@ -170,7 +171,8 @@ def createF_signature():
         'syrup': syrup,
         'kcal': kcal,
         'allergens': allergens,
-        'img': img
+        'img': img,
+        'heart': heart
     }
     db.signature.insert_one(doc)
     return(jsonify({'result':'success','msg':'signature 저장완료'}))
@@ -186,6 +188,7 @@ def createF_season():
     kcal = request.form['kcal']
     allergens = request.form['allergens']
     img = request.form['img']
+    heart = request.form['heart']
     doc = {
         'name': name,
         'name_eng': name_eng,
@@ -194,7 +197,8 @@ def createF_season():
         'syrup': syrup,
         'kcal': kcal,
         'allergens': allergens,
-        'img': img
+        'img': img,
+        'heart': heart
     }
     db.season.insert_one(doc)
     return(jsonify({'result':'success','msg':'season 저장완료'}))

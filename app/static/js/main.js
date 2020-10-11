@@ -277,6 +277,7 @@ function createF_signature() {
     let kcal = $('#kcal_sg').val();
     let allergens = $('#allergens_sg').val();
     let img = $('#img_sg').val();
+    let heart = $('#heart_sg').val();
     $.ajax({
         type: 'post',
         url: '/createF_SG',
@@ -288,7 +289,8 @@ function createF_signature() {
             'syrup' : syrup,
             'kcal' : kcal,
             'allergens' : allergens,
-            'img' : img
+            'img' : img,
+            'heart' : heart
         },
         success: function (response) {
             if (response["result"] == "success") {
@@ -311,6 +313,7 @@ function createF_season() {
     let kcal = $('#kcal_ss').val();
     let allergens = $('#allergens_ss').val();
     let img = $('#img_ss').val();
+    let heart = $('#heart_ss').val();
     $.ajax({
         type: 'post',
         url: '/createF_SS',
@@ -322,7 +325,8 @@ function createF_season() {
             'syrup' : syrup,
             'kcal' : kcal,
             'allergens' : allergens,
-            'img' : img
+            'img' : img,
+            'heart' : heart
         },
         success: function (response) {
             if (response["result"] == "success") {
