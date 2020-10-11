@@ -22,9 +22,17 @@ def home_page():
         print(session)
         session_nickname = session['nickname']
         print(session_nickname)
-        return render_template('index.html', session_id=session_id, session_nickname=session_nickname)
+        query_nickname = request.args.get('nickname')
+        print(query_nickname)
+        if (query_nickname == None):
+            print('2')
+            return render_template('index.html' , login_check ='not_login1')
+        else:
+            print('1')
+            return render_template('index.html', session_nickname=query_nickname)
     else:
-        return render_template('index.html')
+        print('3')
+        return render_template('index.html' , login_check ='not_login2')
 
 @app.route('/detail')
 def detail_page():
@@ -97,20 +105,20 @@ def login():
                 session['auth_id'] = receive_id
                 session['nickname'] = user_nickname
                 session.permanent = True
-                # session 유지 시간은 5분으로 한다.
-                app.permanent_session_lifetime = timedelta(minutes=5)
+                # session 유지 시간은 10분으로 한다.
+                app.permanent_session_lifetime = timedelta(minutes=10)
 
                 return jsonify({'result':'success','userdb':user_nickname})
             else:
                 return jsonify({'result':'fail1','userdb':'failed'})
     else:
-        return jsonify({'result':'fail2','userdb':'failed'})
+        return jsonify({'result': 'fail2' ,'userdb': 'failed'})
 
 #로그아웃
 @app.route('/customer_logout', methods=['POST'])
 def logout():
-    session.pop('email',None)
-    return jsonify({'result':'success'})
+    session.pop('email', None)
+    return jsonify({'result': 'success'})
 
 ###############
 #DB insert API#
@@ -125,7 +133,7 @@ def createCB():
         'cbase2': cbase2
     }
     db.cbase.insert_one(doc)
-    return jsonify(({'result':'success','msg':'cbase에 저장완료'}))
+    return jsonify(({'result': 'success' ,'msg': 'cbase에 저장완료'}))
 
 # Category-Topping
 @app.route('/createCT', methods=['POST'])

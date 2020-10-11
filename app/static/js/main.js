@@ -1,7 +1,15 @@
 // 로딩하면 실행되는 함수 모음
-// $(document).ready(function(){
-//
-// })
+$(document).ready(function(){
+    //로그인을 했을 때
+    if({{session_nickname}} != ""){
+       $('.login').empty()
+       logout_html = '<a href="/" onclick="logout()">로그아웃</a>'
+       $('.login').html(logout_html)
+    }
+    else{
+
+    }
+})
 
 // 메뉴바 함수를 위한 변수 선언
 const toggleBtn = document.querySelector('.navbar_toggleBtn');
@@ -30,9 +38,9 @@ function like_animation() {
 }
 
 // 로그인을 진행하면 나오는 html 체크 함수
-function change_login_html(){
+function change_login_html(auth_id){
 
-    var para =
+    var para = auth_id
     console.log(para);
 
     if(decodeNickname==true){
@@ -138,7 +146,7 @@ function login() {
             if (response['result'] == 'success') {
                 user_nickname = response['userdb'];
                 alert(user_nickname + '님! ' + 'MyPick31 에 오신 것을 환영합니다!');
-                window.location.href = "/?nickname=" + user_nickname;
+                location.href = "/?nickname=" + user_nickname;
             }
             // 로그인에 실패한 경우 1 (비밃번호 틀림)
             else if (response['result'] == 'fail1') {
@@ -152,6 +160,28 @@ function login() {
             }
         }
     })
+}
+
+//로그아웃 함수
+function logout(){
+jbResult = confirm( "정말 로그아웃을 하시겠습니까?" );
+if(jbResult == true){
+  $.ajax({
+   type: "POST",
+   url: "/customer_logout",
+   data: {},
+   success: function(response){
+    location.href="/"
+  }
+})
+}
+else{
+}
+}
+
+//세션 받는 함수
+function receive_session(){
+
 }
 
 //login 페이지로 이동하는 함수
