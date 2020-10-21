@@ -1,15 +1,15 @@
 // 로딩하면 실행되는 함수 모음
-$(document).ready(function(){
-    //로그인을 했을 때
-    if({{session_nickname}} != ""){
-       $('.login').empty()
-       logout_html = '<a href="/" onclick="logout()">로그아웃</a>'
-       $('.login').html(logout_html)
-    }
-    else{
-
-    }
-})
+// $(document).ready(function(){
+//     //로그인을 했을 때
+//     if({{session_nickname}} != ""){
+//        $('.login').empty()
+//        logout_html = '<a href="/" onclick="logout()">로그아웃</a>'
+//        $('.login').html(logout_html)
+//     }
+//     else{
+//
+//     }
+// })
 
 // 메뉴바 함수를 위한 변수 선언
 const toggleBtn = document.querySelector('.navbar_toggleBtn');
