@@ -1,7 +1,4 @@
 // 로딩하면 실행되는 함수 모음
-// $(document).ready(function(){
-//
-// })
 
 // 메뉴바 함수를 위한 변수 선언
 const toggleBtn = document.querySelector('.navbar_toggleBtn');
@@ -157,6 +154,22 @@ function login() {
 //login 페이지로 이동하는 함수
 function go_login_page() {
     location.href = "/login"
+}
+
+//누른 아이스크림 체크 함수
+function check_ice_cream() {
+    if("{{para_data}}" == ""){
+    }
+    else{
+        ice_cream_result = "{{para_data}}"
+        console.log(ice_cream_result)
+        alert(ice_cream_result+'를 가져왔습니다!')
+    }
+}
+
+//아이스크림 필터링 함수
+function show_ice_cream_card() {
+
 }
 
 function check_spoon() {

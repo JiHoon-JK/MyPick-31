@@ -15,6 +15,8 @@ SECRET_KEY = 'apple'
 # 라우팅 함수
 @app.route('/')
 def home_page():
+    para = request.args.get("base")
+    print(para)
     # 세션 값안에 auth_id 가 있다면, 로그인을 진행했다면 세션이 형성되어있어서 체크할 수 있음.
     if 'auth_id' in session:
         session_id = session['auth_id']
@@ -22,9 +24,9 @@ def home_page():
         print(session)
         session_nickname = session['nickname']
         print(session_nickname)
-        return render_template('index.html', session_id=session_id, session_nickname=session_nickname)
+        return render_template('index.html', session_id=session_id, session_nickname=session_nickname, para_data=para)
     else:
-        return render_template('index.html')
+        return render_template('index.html', para_data=para)
 
 @app.route('/detail')
 def detail_page():
