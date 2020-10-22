@@ -1,10 +1,18 @@
 // 로딩하면 실행되는 함수 모음
 $(document).ready(function(){
     //로그인을 했을 때
-    if({{session_nickname}} != ""){
+    if( '' != ""){
        $('.login').empty()
-       logout_html = '<a href="/" onclick="logout()">로그아웃</a>'
+       logout_html = '<a href="#" onclick="logout()">로그아웃</a>'
        $('.login').html(logout_html)
+
+       button_group_html = `<div class="user">{{session_nickname}}</div>\
+                <div class="button">\
+                    <button type="button" onclick="logout()">로그아웃</button>\
+                    <button type="button" onclick="alert('업데이트 예정입니다!')">마이 페이지</button>\
+                </div>`
+
+       $('.top_user_part').html(button_group_html)
     }
     else{
 
