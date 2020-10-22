@@ -46,9 +46,9 @@ function like_animation() {
 }
 
 // 로그인을 진행하면 나오는 html 체크 함수
-function change_login_html(auth_id){
+function change_login_html(){
 
-    var para = auth_id
+    var para =
     console.log(para);
 
     if(decodeNickname==true){
@@ -154,7 +154,7 @@ function login() {
             if (response['result'] == 'success') {
                 user_nickname = response['userdb'];
                 alert(user_nickname + '님! ' + 'MyPick31 에 오신 것을 환영합니다!');
-                location.href = "/?nickname=" + user_nickname;
+                window.location.href = "/?nickname=" + user_nickname;
             }
             // 로그인에 실패한 경우 1 (비밃번호 틀림)
             else if (response['result'] == 'fail1') {
@@ -170,31 +170,25 @@ function login() {
     })
 }
 
-//로그아웃 함수
-function logout(){
-jbResult = confirm( "정말 로그아웃을 하시겠습니까?" );
-if(jbResult == true){
-  $.ajax({
-   type: "POST",
-   url: "/customer_logout",
-   data: {},
-   success: function(response){
-    location.href="/"
-  }
-})
-}
-else{
-}
-}
-
-//세션 받는 함수
-function receive_session(){
-
-}
-
 //login 페이지로 이동하는 함수
 function go_login_page() {
     location.href = "/login"
+}
+
+//누른 아이스크림 체크 함수
+function check_ice_cream() {
+    if("{{para_data}}" == ""){
+    }
+    else{
+        ice_cream_result = "{{para_data}}"
+        console.log(ice_cream_result)
+        alert(ice_cream_result+'를 가져왔습니다!')
+    }
+}
+
+//아이스크림 필터링 함수
+function show_ice_cream_card() {
+
 }
 
 function check_spoon() {
