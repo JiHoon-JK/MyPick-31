@@ -227,6 +227,10 @@ function review_save() {
     // ajax로 서버에 보내야함
 }
 
+/////////////////////
+////db_insert API////
+/////////////////////
+// create Category-Base
 function createCB() {
     let cbase1 = $('#cbase1').val();
     let cbase2 = $('#cbase2').val();
@@ -247,7 +251,7 @@ function createCB() {
         }
     })
 }
-
+// create Category-Topping
 function createCT() {
     let ctopping1 = $('#ctopping1').val();
     let ctopping2 = $('#ctopping2').val();
@@ -268,7 +272,7 @@ function createCT() {
         }
     })
 }
-
+// create Category-Syrup
 function createCS() {
     let csyrup1 = $('#csyrup1').val();
     let csyrup2 = $('#csyrup2').val();
@@ -289,8 +293,10 @@ function createCS() {
         }
     })
 }
-
+// create Flavor-Signature
 function createF_signature() {
+    let id = $('#id_sg').val();
+    console.log(id);
     let name = $('#name_sg').val();
     let name_eng = $('#name_eng_sg').val();
     let base = $('#base_sg').val();
@@ -303,6 +309,7 @@ function createF_signature() {
         type: 'post',
         url: '/createF_SG',
         data: {
+            'id': id,
             'name': name,
             'name_eng': name_eng,
             'base' : base,
@@ -323,8 +330,9 @@ function createF_signature() {
     })
 
 }
-
+// create Flavor-Season
 function createF_season() {
+    let id = $('#id_ss').val();
     let name = $('#name_ss').val();
     let name_eng = $('#name_eng_ss').val();
     let base = $('#base_ss').val();
@@ -337,6 +345,7 @@ function createF_season() {
         type: 'post',
         url: '/createF_SS',
         data: {
+            'id': id,
             'name': name,
             'name_eng': name_eng,
             'base' : base,

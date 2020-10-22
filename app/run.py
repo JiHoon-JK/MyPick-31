@@ -157,6 +157,8 @@ def createCS():
 # Flavor - Signature
 @app.route('/createF_SG', methods=['POST'])
 def createF_signature():
+    id = request.form['id']
+    print(id);
     name = request.form['name']
     name_eng = request.form['name_eng']
     base = request.form['base']
@@ -166,6 +168,7 @@ def createF_signature():
     allergens = request.form['allergens']
     img = request.form['img']
     doc = {
+        'id': id,
         'name': name,
         'name_eng': name_eng,
         'base': base,
@@ -181,6 +184,7 @@ def createF_signature():
 # db_insert
 @app.route('/createF_SS', methods=['POST'])
 def createF_season():
+    id = request.form['id']
     name = request.form['name']
     name_eng = request.form['name_eng']
     base = request.form['base']
@@ -190,6 +194,7 @@ def createF_season():
     allergens = request.form['allergens']
     img = request.form['img']
     doc = {
+        'id': id,
         'name': name,
         'name_eng': name_eng,
         'base': base,
