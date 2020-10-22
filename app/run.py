@@ -203,6 +203,24 @@ def createF_season():
     return(jsonify({'result':'success','msg':'season 저장완료'}))
 
 
+###############
+#DB insert API#
+###############
+# bring_db
+@app.route('/bring_ice_cream', methods=['GET'])
+def bring_ice_cream():
+    ice_cream = request.args.get('ice_cream')
+    print("==================")
+    print(ice_cream)
+    bring_signature_db = list(db.signature.find({'base':ice_cream},{'_id':0}))
+    bring_season_db = list(db.season.find({'base':ice_cream},{'_id':0}))
+    print(bring_signature_db)
+    print(bring_season_db)
+    total_data = bring_signature_db + bring_season_db
+    print(total_data)
+    return(jsonify({'result':'success','data':total_data}))
+
+
 # Flavor - Season
 
 if __name__ == '__main__':

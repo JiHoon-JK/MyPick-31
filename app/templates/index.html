@@ -14,282 +14,323 @@
     <title>MyPick31 - HOME</title>
     <!-- fontawesome CDN -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
-          integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <!-- google font CDN -->
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <!--  테스트  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            check_ice_cream();
+        })
+
+        //누른 아이스크림 체크 함수
+        function check_ice_cream() {
+
+            $('.ice-cream_contents').empty();
+
+            if("{{para_data}}" == ""){
+            }
+            else{
+                ice_cream_result = "{{para_data}}"
+                if(ice_cream_result=='None'){
+                    
+                }
+                else{
+                    bring_db(ice_cream_result)
+                }
+            }
+        }
+        //db에서 아이스크림 데이터를 가져와서 카드로 배열하는 함수
+        function bring_db(ice_cream){
+            bring_ice_cream = ice_cream
+            $.ajax({
+                type: "GET",
+                url: "/bring_ice_cream",
+                data: {ice_cream:bring_ice_cream},
+                success: function (response) {
+                    if(response['result'] == 'success'){
+                        datas = response['data']
+
+                        for(let i=0; i<datas.length; i++){
+                            data_listing_card(i,datas[i]['number'],datas[i]['name'],datas[i]['name_eng'],datas[i]['base'],datas[i]['topping'],datas[i]['syrup'])
+                        }
+                    }
+                    else{
+
+                    }
+                }
+            })
+        }
+        // 카드 리스팅 함수
+        function data_listing_card(num,ice_cream_number,name,name_eng,base,topping,syrup) {
+            let data_html = '<div class="ice-cream_info" id="signature'+num+'">\
+                    <h3 class="ice-cream_title">'+name+'</h3>\
+                    '+name_eng+'\
+                    <img src="static/img/signature/'+ice_cream_number+ name+'.png" class="ice-cream_image">\
+                    <p class="ice-cream_base"> #'+base+' </p>\
+                    <p class="ice-cream_topping">#'+topping+'</p>\
+                    <p class="ice-cream_syrup">#'+syrup+'</p>\
+                </div>'
+
+            $('.ice-cream_contents').append(data_html);
+        }
+
+        function add_url(url){
+            console.log(url)
+            now_url = window.location.href
+            console.log(now_url)
+            add_url = now_url + url
+            console.log(add_url)
+        }
+
+
+    </script>
 </head>
 <body>
-<!-- 상단 메뉴바 -->
-<nav class="navbar">
-    <div class="navbar_logo">
-        <i class="fas fa-ice-cream"></i>
-        <a href="/">MyPick31</a>
-    </div>
+    <!-- 상단 메뉴바 -->
+    <nav class="navbar">
+        <div class="navbar_logo">
+            <i class="fas fa-ice-cream"></i>
+            <a href="/">MyPick31</a>
+        </div>
 
-    <ul class="navbar_menu">
-        <li><a href="/">HOME</a></li>
-        <li><a href="/register">회원가입</a></li>
-        <li class="login"><a href="/login">로그인</a></li>
-        <li><a href="/insert_db">데이터 삽입</a></li>
-        <li><a href="/about">About MyPick31</a></li>
-    </ul>
+        <ul class="navbar_menu">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/register">회원가입</a></li>
+            <li class="login"><a href="/login">로그인</a></li>
+            <li><a href="/insert_db">데이터 삽입</a></li>
+            <li><a href="/about">About MyPick31</a></li>
+        </ul>
 
-    <ul class="navbar_icons">
-        <li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
+        <ul class="navbar_icons">
+            <li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
                 class="fab fa-twitter"></i></a></li>
-        <li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
-        <li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
-    </ul>
+                <li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
+                <li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
+            </ul>
 
-    <a href="#" class="navbar_toggleBtn">
-        <i class="fas fa-bars"></i>
-    </a>
-</nav>
+            <a href="#" class="navbar_toggleBtn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </nav>
 
-<!-- 본문 내용 -->
-<div class="contents">
-    <div class="top_user_part">
-        <div class="user">{{ session_nickname }}</div>
-        <div class="button">
-            <button type="button" onclick="logout()">로그아웃</button>
-            <button type="button" onclick="alert('업데이트 예정입니다!')">마이 페이지</button>
-        </div>
-    </div>
-    <div class="filter_base">
-        <h4>베이스 Base</h4>
-        <ul class="filter_menu">
-            <li>
-                <a href="?base=바닐라" onclick="check_ice_cream()" role="button">
-                    <span id="1">바닐라<br>vanilla</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button" onclick="choco_detail()">
-                    <span>초콜릿<br>chocolate</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button" onclick="fruit_detail()">
-                    <span>과일<br>fruits</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>민트<br>mint</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>치즈<br>cheese</span>
-                </a>
-            </li>
-
-        </ul>
-        <ul class="filter_menu">
-            <li>
-                <a href="#" role="button">
-                    <span>녹차<br>green tea</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button" onclick="nuts_detail()">
-                    <span>견과류<br>nuts</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>커피<br>coffee</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>요거트<br>yogurt</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>솜사탕<br>cotton candy</span>
-                </a>
-            </li>
-        </ul>
-        <ul class="filter_menu">
-            <li>
-                <a href="#" role="button">
-                    <span>샤베트<br>serbet</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>소르베<br>sorbet</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>곡류<br>grain</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>과자<br>snack</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>기타<br>etc</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="detail_menu">
-        <div class="choco_detail"></div>
-        <div class="fruit_detail"></div>
-        <div class="nuts_detail"></div>
-
-    </div>
-
-    <div class="filter_topping">
-        <h4>토핑 Topping</h4>
-        <ul class="filter_menu">
-            <li>
-                <a href="#" role="button">
-                    <span>초콜릿<br>chocolate</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>초콜릿 칩<br>chocolate chip</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>초코볼<br>chocolate ball</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>크런치 초콜릿<br>crunch chocolate</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>견과류<br>nuts</span>
-                </a>
-            </li>
-        </ul>
-        <ul class="filter_menu">
-            <li>
-                <a href="#" role="button">
-                    <span>과일<br>fruits</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>케이크<br>cake</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>쿠키<br>cookie</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>크런치<br>crunch</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>캔디<br>candy</span>
-                </a>
-            </li>
-        </ul>
-        <ul class="filter_menu">
-            <li>
-                <a href="#" role="button">
-                    <span>과자<br>snack</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>기타<br>etc</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="filter_syrup">
-        <h4>시럽 Syrup</h4>
-        <ul class="filter_menu">
-            <li>
-                <a href="#" role="button">
-                    <span>초콜릿<br>chocolate</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>카라멜<br>caramel</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>과일<br>fruits</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" role="button">
-                    <span>기타<br>etc</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="ice-cream_contents">
-        <div class="ice-cream_info" id="signature_1">
-            <h3 class="ice-cream_title">바닐라</h3>
-            vanilla
-            <img src="{{ url_for('static', filename='img/signature/1 바닐라.png') }}" class="ice-cream_image">
-            <p class="ice-cream_base"> #바닐라 </p>
-            <p class="ice-cream_topping"></p>
-            <p class="ice-cream_syrup"></p>
-        </div>
-        <div class="ice-cream_info" id="signature_7">
-            <h3 class="ice-cream_title">엄마는 외계인</h3>
-            puss in boots
-            <img src="{{ url_for('static', filename='img/signature/7 엄마는 외계인.png') }}" class="ice-cream_image">
-            <p class="ice-cream_base"> #밀크초콜릿 #다크초콜릿 #화이트 무스 </p>
-            <p class="ice-cream_topping"> #초코 프레첼볼 #초콜릿 칩</p>
-            <p class="ice-cream_syrup"> </p>
-        </div>
-        <div class="ice-cream_info" id="season_200">
-            <h3 class="ice-cream_title">할로윈 조커 아이스크림</h3>
-            halloween JOKER ice cream
-            <img src="{{ url_for('static', filename='img/0 시즌 종료.png') }}" class="ice-cream_image">
-            <p class="ice-cream_base"> #피스타치오 #타트체리 샤베트</p>
-            <p class="ice-cream_topping"> #피스타치오 </p>
-            <p class="ice-cream_syrup"></p>
-        </div>
-
-
-    </div>
-</div>
-
-
-<!-- 바닥글 -->
-<footer id="footer">
-    <div class="container">
-        <div class="row">
-            <div class="footer">
-                <address>
-                    Copyright ©
-                    <a href="https://www.baskinrobbins.co.kr/">BaskinRobbins</a>
-                    All Rights Reserved.
-                </address>
+        <!-- 본문 내용 -->
+        <div class="contents">
+            <div class="top_user_part">
+                <div class="user">{{ session_nickname }}</div>
+                <div class="button">
+                    <button type="button" onclick="logout()">로그아웃</button>
+                    <button type="button" onclick="alert('업데이트 예정입니다!')">마이 페이지</button>
+                </div>
             </div>
+            <div class="filter_base">
+                <h4>베이스 Base</h4>
+                <ul class="filter_menu">
+                    <li>
+                        <a href="/?base=바닐라" onclick="add_url()" role="button">
+                            <span id="1">바닐라<br>vanilla</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/?base=초콜릿" role="button">
+                            <span>초콜릿<br>chocolate</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/?base=과일" role="button">
+                            <span>과일<br>fruits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>민트<br>mint</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>치즈<br>cheese</span>
+                        </a>
+                    </li>
+
+                </ul>
+                <ul class="filter_menu">
+                    <li>
+                        <a href="#" role="button">
+                            <span>녹차<br>green tea</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button" onclick="nuts_detail()">
+                            <span>견과류<br>nuts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>커피<br>coffee</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>요거트<br>yogurt</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>솜사탕<br>cotton candy</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="filter_menu">
+                    <li>
+                        <a href="#" role="button">
+                            <span>샤베트<br>serbet</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>소르베<br>sorbet</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>곡류<br>grain</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>과자<br>snack</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>기타<br>etc</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="detail_menu">
+                <div class="choco_detail"></div>
+                <div class="fruit_detail"></div>
+                <div class="nuts_detail"></div>
+
+            </div>
+
+            <div class="filter_topping">
+                <h4>토핑 Topping</h4>
+                <ul class="filter_menu">
+                    <li>
+                        <a href="#" role="button">
+                            <span>초콜릿<br>chocolate</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>초콜릿 칩<br>chocolate chip</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>초코볼<br>chocolate ball</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>크런치 초콜릿<br>crunch chocolate</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>견과류<br>nuts</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="filter_menu">
+                    <li>
+                        <a href="#" role="button">
+                            <span>과일<br>fruits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>케이크<br>cake</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>쿠키<br>cookie</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>크런치<br>crunch</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>캔디<br>candy</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="filter_menu">
+                    <li>
+                        <a href="#" role="button">
+                            <span>과자<br>snack</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>기타<br>etc</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="filter_syrup">
+                <h4>시럽 Syrup</h4>
+                <ul class="filter_menu">
+                    <li>
+                        <a href="#" role="button">
+                            <span>초콜릿<br>chocolate</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>카라멜<br>caramel</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>과일<br>fruits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" role="button">
+                            <span>기타<br>etc</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="ice-cream_contents"></div>
         </div>
-    </div>
-</footer>
-</body>
-</html>
+
+
+        <!-- 바닥글 -->
+        <footer id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="footer">
+                        <address>
+                            Copyright ©
+                            <a href="https://www.baskinrobbins.co.kr/">BaskinRobbins</a>
+                            All Rights Reserved.
+                        </address>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+    </html>

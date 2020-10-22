@@ -175,16 +175,6 @@ function go_login_page() {
     location.href = "/login"
 }
 
-//누른 아이스크림 체크 함수
-function check_ice_cream() {
-    if("{{para_data}}" == ""){
-    }
-    else{
-        ice_cream_result = "{{para_data}}"
-        console.log(ice_cream_result)
-        alert(ice_cream_result+'를 가져왔습니다!')
-    }
-}
 
 //아이스크림 필터링 함수
 function show_ice_cream_card() {
