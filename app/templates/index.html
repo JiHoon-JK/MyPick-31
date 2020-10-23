@@ -2,34 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- 웹 페이지 크기 조정을 위한 viewport -->
+    <!--반응형 ) 웹 페이지 크기 조정을 위한 viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- style.css 참조 -->
+    <!--CSS )  style.css 참조 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index_style.css') }}">
-    <!-- 자바스크립트 파일로 main.js 참조 -->
-    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
-    <!-- jQuery CDN -->
+    <!--JS ) 자바스크립트 파일로 main.js 참조 -->
+{#    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>#}
+    <!--JQuery) jQuery CDN -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
     <title>MyPick31 - HOME</title>
-    <!-- fontawesome CDN -->
+    <!--FONT) fontawesome CDN, google font CDN -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
           integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
-    <!-- google font CDN -->
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-    <!--  테스트  -->
+    <!-- ?? 테스트  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!--JAVASCRIPT CODE -->
     <script type="text/javascript">
 
+        ////////////////////////////
+        // *아이스크림 필터링 함수들* //
+        ////////////////////////////
         $(document).ready(function () {
             check_ice_cream();
         })
 
-        //누른 아이스크림 체크 함수
+        // 베이스/토핑/시럽 클릭정보 확인
         function check_ice_cream() {
-
-            $('.ice-cream_contents').empty();
-
+            {#$('.ice-cream_contents').empty();#}
             if ("{{para_data}}" == "") {
             } else {
                 ice_cream_result = "{{para_data}}"
@@ -51,12 +52,10 @@
                 success: function (response) {
                     if (response['result'] == 'success') {
                         datas = response['data']
-
                         for (let i = 0; i < datas.length; i++) {
                             data_listing_card(i, datas[i]['number'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
                         }
                     } else {
-
                     }
                 }
             })
@@ -76,13 +75,38 @@
             $('.ice-cream_contents').append(data_html);
         }
 
-        function add_url(url) {
+        // base/topping/syrup 항목 클릭시 하위 카테고리 보여주는 함수.
+        function nuts_detail() {
+            nuts_detail_html = '<i class="fas fa-angle-double-right"></i><li>' +
+                '<a href="#"><span>땅콩</span></a></li><li><a href="#"><span>호두</span></a></li>'
+            $('.nuts_detail').append(nuts_detail_html)
+        }
+
+        // Juni가 나중에 지운대~
+        {# function add_url(url) {
             console.log(url)
             now_url = window.location.href
             console.log(now_url)
             add_url = now_url + url
             console.log(add_url)
-        }
+        } #}
+
+        //(개발중 - Juni)로그인 상태일 때 '로그아웃', '마이페이지' 버튼 보여주기
+        $(document).ready(function () {
+            if ('' != "") {
+                $('.login').empty()
+                logout_html = '<a href="#" onclick="logout()">로그아웃</a>'
+                $('.login').html(logout_html)
+                button_group_html = `<div class="user">{{session_nickname}}</div>\
+                <div class="button">\
+                    <button type="button" onclick="logout()">로그아웃</button>\
+                    <button type="button" onclick="alert('업데이트 예정입니다!')">마이 페이지</button>\
+                </div>`
+                $('.top_user_part').html(button_group_html)
+            } else {
+            }
+        })
+
 
 
     </script>
@@ -271,4 +295,19 @@
     </div>
 </footer>
 </body>
+<script>
+        ///////////////////////
+        // 반응형 웹사이트 구현 //
+        ///////////////////////
+        // 메뉴바 함수를 위한 변수 선언
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.navbar_menu');
+        const icons = document.querySelector('.navbar_icons');
+        // 메뉴바를 누르면 메뉴 나오도록 하는 함수
+        toggleBtn.addEventListener('click', () => {
+            menu.classList.toggle('active');
+            icons.classList.toggle('active');
+        });
+
+</script>
 </html>

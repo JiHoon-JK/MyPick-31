@@ -11,13 +11,14 @@ app = Flask(__name__)
 
 SECRET_KEY = 'apple'
 
-
-# 라우팅 함수
+############
+#라우팅 함수# : 홈 / 디테일 / 회원가입 / 로그인 / about MyPick31 / DB페이지
+############
 @app.route('/')
 def home_page():
     para = request.args.get("base")
     print(para)
-    # 세션 값안에 auth_id 가 있다면, 로그인을 진행했다면 세션이 형성되어있어서 체크할 수 있음.
+    # 로그인하고 조회(세션 값안에 auth_id 가 있다면, 로그인을 진행했다면 세션이 형성되어있어서 체크 가능)
     if 'auth_id' in session:
         session_id = session['auth_id']
         print('Logged in as '+session_id)
@@ -25,6 +26,7 @@ def home_page():
         session_nickname = session['nickname']
         print(session_nickname)
         return render_template('index.html', session_id=session_id, session_nickname=session_nickname, para_data=para)
+    # 로그인 없이 조회
     else:
         return render_template('index.html', para_data=para)
 
@@ -48,6 +50,11 @@ def about_page():
 @app.route('/insert_db')
 def insert_db_page():
     return render_template('db_insert.html')
+
+
+########################
+#회원가입, 로그인, 로그아웃#
+########################
 
 # 회원가입
 @app.route('/customer_register', methods=['POST'])
