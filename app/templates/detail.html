@@ -1,120 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<!-- 웹 페이지 크기 조정을 위한 viewport -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- style.css 참조 -->
-	<link rel="stylesheet" href="{{url_for('static', filename='css/detail_style.css')}}">
-	<!-- 자바스크립트 파일로 main.js 참조 -->
-	<script src="{{url_for('static', filename='js/main.js')}}" defer></script>
-	<!-- jQuery CDN -->
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <meta charset="UTF-8">
+    <!-- 웹 페이지 크기 조정을 위한 viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- style.css 참조 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detail_style.css') }}">
+    <!-- 자바스크립트 파일로 main.js 참조 -->
+{#    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>#}
+    <!-- jQuery CDN -->
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-	<title>MyPick31 - Detail</title>
+    <title>MyPick31 - Detail</title>
 
-	<!-- fontawesome CDN -->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
-	<!-- google font CDN -->
-	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-	<!-- heart button CDN -->
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
+    <!-- fontawesome CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+          integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    <!-- google font CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <!-- heart button CDN -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <script>
+
+        // (개발중 - Juni) 아이스크림 디테일 - 리뷰저장 기능
+        function review_save() {
+            alert('리뷰를 저장했습니다!')
+            ice_cream_name = $('.ice-cream_title').text()
+            // print(ice_cream_name)
+            // reviewer = "{{sessionemail}}"
+            // print(reviewer)
+            ice_cream_review = $('review_box').text()
+            // print(ice_cream_review)
+            // ajax로 서버에 보내야함
+        }
+
+        // 좋아요 버튼 애니메이션 실행
+        function like_animation() {
+            $('.like-button').toggleClass('is-active');
+            alert('좋아요 기능은 회원가입을 해야 사용할 수 있습니다.')
+        }
+
+    </script>
 
 </head>
 <body>
-	<!-- 상단 메뉴바 -->
-	<nav class="navbar">
-		<div class="navbar_logo">
-			<i class="fas fa-ice-cream"></i>
-			<a href="/">MyPick31</a>
-		</div>
+<!-- 상단 메뉴바 -->
+<nav class="navbar">
+    <div class="navbar_logo">
+        <i class="fas fa-ice-cream"></i>
+        <a href="/">MyPick31</a>
+    </div>
 
-		<ul class="navbar_menu">
-            <li><a href="/">HOME</a></li>
-            <li><a href="/register">회원가입</a></li>
-            <li><a href="/login">로그인</a></li>
-            <li><a href="/about">About MyPick31</a></li>
-        </ul>
+    <ul class="navbar_menu">
+        <li><a href="/">HOME</a></li>
+        <li><a href="/register">회원가입</a></li>
+        <li><a href="/login">로그인</a></li>
+        <li><a href="/about">About MyPick31</a></li>
+    </ul>
 
-		<ul class="navbar_icons">
-			<li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a></li>
-			<li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
-			<li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
-		</ul>
+    <ul class="navbar_icons">
+        <li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
+                class="fab fa-twitter"></i></a></li>
+        <li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
+        <li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
+    </ul>
 
-		<a href="#" class="navbar_toggleBtn" style="">
-			<i class="fas fa-bars"></i>
-		</a>
-	</nav>
+    <a href="#" class="navbar_toggleBtn" style="">
+        <i class="fas fa-bars"></i>
+    </a>
+</nav>
 
-	<div class="ice-cream_info">
-		<h2 class="ice-cream_title">엄마는 외계인</h2>
-		<img src="../img/엄마는 외계인.jpg" class="ice-cream_image">
-		<p class="ice-cream_calorie">296kcal(1회 제공량 기준)</p>
-		<p class="ice-cream_allergy">알레르기 : 우유,밀,대두</p>
-		<p class="ice-cream_description">
-		밀크 초콜릿, 다크 초콜릿, 화이트 무스 세 가지 아이스크림에 달콤 바삭한 초코볼이 더해진 아이스크림</p>
-		<p class="ice-cream_base">
-			베이스 :
-			밀크 초코,
-			다크 초코,
-			화이트 무스
-		</p>
-		<p class="ice-cream_topping"> 토핑 : 초코볼</p>
-		<p class="ice-cream_syrup"> 시럽 : 초코 </p>
-		<!-- like-button start-->
-		<div class="container" style="position: absolute; right: 45%;">
-			<div class="wrapper">
-				<a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like">
-					<i class="material-icons not-liked bouncy">favorite_border</i>
-					<i class="material-icons is-liked bouncy">favorite</i>
-					<span class="like-overlay"></span>
-				</a>
-			</div>
-		</div>
-		<!-- like-button end -->
-	</div>
-	<div class="ice-cream_comment_form">
-		<i class="fas fa-user-edit"></i> REVIEW
-		<div class="review_form">
-			<p>
-				<textarea class="review_box" placeholder="아이스크림에 대한 후기를 남겨주세요."></textarea>
-			</p>
-			<a class="save_button" href="#" role="button"
-			onclick="review_save()">저장하기</a>
-		</div>
-	</div>
-	<div class="others_comment_box" id="box_1">
-		<p class="nickname">
-			<label> 닉네임 : </label> 
-			베라알바생
-		</p>
-		<p class="review_text">
-			<label> 후기 : </label>
-			엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
-		</p>
-	</div>
-	<div class="others_comment_box" id="box_2">
-		<p class="nickname">
-			<label> 닉네임 : </label> 
-			베라알바생
-		</p>
-		<p class="review_text">
-			<label> 후기 : </label>
-			엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
-		</p>
-	</div>
-	<div class="others_comment_box" id="box_3">
-		<p class="nickname">
-			<label> 닉네임 : </label> 
-			베라알바생
-		</p>
-		<p class="review_text">
-			<label> 후기 : </label>
-			엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
-		</p>
-	</div>
+<div class="ice-cream_info">
+    <h2 class="ice-cream_title">엄마는 외계인</h2>
+    <img src="../img/엄마는 외계인.jpg" class="ice-cream_image">
+    <p class="ice-cream_calorie">296kcal(1회 제공량 기준)</p>
+    <p class="ice-cream_allergy">알레르기 : 우유,밀,대두</p>
+    <p class="ice-cream_description">
+        밀크 초콜릿, 다크 초콜릿, 화이트 무스 세 가지 아이스크림에 달콤 바삭한 초코볼이 더해진 아이스크림</p>
+    <p class="ice-cream_base">
+        베이스 :
+        밀크 초코,
+        다크 초코,
+        화이트 무스
+    </p>
+    <p class="ice-cream_topping"> 토핑 : 초코볼</p>
+    <p class="ice-cream_syrup"> 시럽 : 초코 </p>
+    <!-- like-button start-->
+    <div class="container" style="position: absolute; right: 45%;">
+        <div class="wrapper">
+            <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like">
+                <i class="material-icons not-liked bouncy">favorite_border</i>
+                <i class="material-icons is-liked bouncy">favorite</i>
+                <span class="like-overlay"></span>
+            </a>
+        </div>
+    </div>
+    <!-- like-button end -->
+</div>
+<div class="ice-cream_comment_form">
+    <i class="fas fa-user-edit"></i> REVIEW
+    <div class="review_form">
+        <p>
+            <textarea class="review_box" placeholder="아이스크림에 대한 후기를 남겨주세요."></textarea>
+        </p>
+        <a class="save_button" href="#" role="button"
+           onclick="review_save()">저장하기</a>
+    </div>
+</div>
+<div class="others_comment_box" id="box_1">
+    <p class="nickname">
+        <label> 닉네임 : </label>
+        베라알바생
+    </p>
+    <p class="review_text">
+        <label> 후기 : </label>
+        엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
+    </p>
+</div>
+<div class="others_comment_box" id="box_2">
+    <p class="nickname">
+        <label> 닉네임 : </label>
+        베라알바생
+    </p>
+    <p class="review_text">
+        <label> 후기 : </label>
+        엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
+    </p>
+</div>
+<div class="others_comment_box" id="box_3">
+    <p class="nickname">
+        <label> 닉네임 : </label>
+        베라알바생
+    </p>
+    <p class="review_text">
+        <label> 후기 : </label>
+        엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
+    </p>
+</div>
 
 </body>
 </html>

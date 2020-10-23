@@ -7,7 +7,7 @@
 	<!-- style.css 참조 -->
 	<link rel="stylesheet" href="{{url_for('static', filename='css/login_style.css')}}">
 	<!-- 자바스크립트 파일로 main.js 참조 -->
-	<script src="{{url_for('static', filename='js/main.js')}}" defer></script>
+{#	<script src="{{url_for('static', filename='js/main.js')}}" defer></script>#}
 	<!-- jQuery CDN -->
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<title>MyPick31 - Login</title>
@@ -15,6 +15,41 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 	<!-- google font CDN -->
 	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <script>
+        //////////////
+// 로그인 함수//
+//////////////
+function login() {
+    console.log('됐냐?')
+    login_id = $('#new_inputEmail').val()
+    login_pwd = $('#new_inputPassword').val()
+    console.log(login_id)
+    $.ajax({
+        type: "POST",
+        url: "/customer_login",
+        data: {receive_id: login_id, receive_pwd: login_pwd},
+        success: function (response) {
+            // 로그인에 성공한 경우
+            if (response['result'] == 'success') {
+                user_nickname = response['userdb'];
+                alert(user_nickname + '님! ' + 'MyPick31 에 오신 것을 환영합니다!');
+                window.location.href = "/?nickname=" + user_nickname;
+            }
+            // 로그인에 실패한 경우 1 (비밃번호 틀림)
+            else if (response['result'] == 'fail1') {
+                alert('비밃번호가 다릅니다.');
+                $('#new_inputPassword').focus();
+            }
+            // 로그인에 실패한 경우 2 (계정이 틀림)
+            else if (response['result'] == 'fail2') {
+                alert('계정이 존재하지 않습니다.');
+                $('#new_inputEmail').focus();
+            }
+        }
+    })
+}
+
+    </script>
 </head>
 <body>
 	<!-- 상단 메뉴바 -->
