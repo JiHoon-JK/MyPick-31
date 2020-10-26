@@ -7,7 +7,7 @@
     <!--CSS )  style.css 참조 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index_style.css') }}">
     <!--JS ) 자바스크립트 파일로 main.js 참조 -->
-{#    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>#}
+    {#    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>#}
     <!--JQuery) jQuery CDN -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <title>MyPick31 - HOME</title>
@@ -20,17 +20,29 @@
 
     <!--JAVASCRIPT CODE -->
     <script type="text/javascript">
-
+        $(document).ready(function () {
+            //check_ice_cream();
+        })
         ////////////////////////////
         // *아이스크림 필터링 함수들* //
         ////////////////////////////
-        $(document).ready(function () {
-            check_ice_cream();
-        })
+        // 베이스 필터링 : 클릭-체크된 베이스 정보 전달-정보 포함된 DB자료 받아옴
+        function checkBase() {
+            // 베이스가 체크된지 확인 후 그 아이디 값을 가져오기
+            var checkedBases = [];
+            let checkedBase = $('input:checkbox[class="base"]').is(':checked');
+            console.log(checkedBase);
+            if (checkedBase === true) {
+                var base = document.getElementsByClassName("base")
+                console.log(base);
+            }
 
-        // 베이스/토핑/시럽 클릭정보 확인
+
+        }
+
+        // (구)베이스/토핑/시럽 클릭정보 확인
         function check_ice_cream() {
-            {#$('.ice-cream_contents').empty();#}
+            $('.ice-cream_contents').empty();
             if ("{{para_data}}" == "") {
             } else {
                 ice_cream_result = "{{para_data}}"
@@ -108,7 +120,6 @@
         })
 
 
-
     </script>
 </head>
 <body>
@@ -144,75 +155,65 @@
     <div class="top_user_part">
         <div class="user">{{ session_nickname }}</div>
         <div class="button">
-            <button type="button" onclick="logout()">로그아웃</button>
-            <button type="button" onclick="alert('업데이트 예정입니다!')">마이 페이지</button>
+            <button onclick="logout()">로그아웃</button>
+            <button onclick="alert('업데이트 예정입니다!')">마이 페이지</button>
         </div>
     </div>
     <div class="filter_base">
         <h4>베이스 Base</h4>
         <ul class="filter_menu">
             <li>
-                <a href="/?base=바닐라" onclick="add_url()" role="button">
-                    <span id="1">바닐라<br>vanilla</span>
-                </a>
+                <input type="checkbox" id="vanilla" class="base"><span>바닐라<br>vanilla</span>
             </li>
             <li>
-                <a href="/?base=초콜릿" role="button"><span>초콜릿<br>chocolate</span></a>
+                <input type="checkbox" id="choco" class="base"><span>초콜릿<br>chocolate</span>
             </li>
             <li>
-                <a href="/?base=과일" role="button"><span>과일<br>fruits</span> </a>
+                <input type="checkbox" id="fruits" class="base"><span>과일<br>fruits</span>
             </li>
             <li>
-                <a href="#" role="button"><span>민트<br>mint</span></a>
+                <a href="#" role="button"><span id="mint">민트<br>mint</span></a>
             </li>
             <li>
-                <a href="#" role="button"><span>치즈<br>cheese</span></a>
+                <a href="#" role="button"><span id="cheese">치즈<br>cheese</span></a>
             </li>
 
         </ul>
         <ul class="filter_menu">
             <li>
-                <a href="#" role="button"> <span>녹차<br>green tea</span></a>
+                <a href="#" role="button"> <span id="green tea">녹차<br>green tea</span></a>
             </li>
             <li>
-                <a href="#" role="button" onclick="nuts_detail()"><span>견과류<br>nuts</span></a>
+                <a href="#" role="button" onclick="nuts_detail()"><span id="nuts">견과류<br>nuts</span></a>
             </li>
             <li>
-                <a href="#" role="button"><span>커피<br>coffee</span></a>
+                <a href="#" role="button"><span id="coffee">커피<br>coffee</span></a>
             </li>
             <li>
-                <a href="#" role="button"><span>요거트<br>yogurt</span></a>
+                <a href="#" role="button"><span id="yogurt">요거트<br>yogurt</span></a>
             </li>
             <li>
-                <a href="#" role="button"><span>솜사탕<br>cotton candy</span></a>
+                <a href="#" role="button"><span id="ccandy">솜사탕<br>cotton candy</span></a>
             </li>
         </ul>
         <ul class="filter_menu">
             <li>
-                <a href="#" role="button"><span>샤베트<br>serbet</span></a>
+                <a href="#" role="button"><span id="sherbet">샤베트<br>sherbet</span></a>
             </li>
             <li>
-                <a href="#" role="button"><span>소르베<br>sorbet</span></a>
+                <a href="#" role="button"><span id="sorbet">소르베<br>sorbet</span></a>
             </li>
             <li>
-                <a href="#" role="button"><span>곡류<br>grain</span></a>
+                <a href="#" role="button"><span id="grain">곡류<br>grain</span></a>
             </li>
             <li>
-                <a href="#" role="button"><span>과자<br>snack</span></a>
+                <a href="#" role="button"><span id="snack">과자<br>snack</span></a>
             </li>
             <li>
-                <a href="#" role="button"><span>기타<br>etc</span></a>
+                <a href="#" role="button"><span id="etc">기타<br>etc</span></a>
             </li>
         </ul>
     </div>
-
-    <div class="detail_menu">
-        <div class="choco_detail"></div>
-        <div class="fruit_detail"></div>
-        <div class="nuts_detail"></div>
-
-    </div>
-
     <div class="filter_topping">
         <h4>토핑 Topping</h4>
         <ul class="filter_menu">
@@ -258,7 +259,6 @@
             </li>
         </ul>
     </div>
-
     <div class="filter_syrup">
         <h4>시럽 Syrup</h4>
         <ul class="filter_menu">
@@ -276,9 +276,8 @@
             </li>
         </ul>
     </div>
-    <div class="ice-cream_contents"></div>
+    <button onclick="checkBase()">검색</button>
 </div>
-
 
 <!-- 바닥글 -->
 <footer id="footer">
@@ -296,18 +295,18 @@
 </footer>
 </body>
 <script>
-        ///////////////////////
-        // 반응형 웹사이트 구현 //
-        ///////////////////////
-        // 메뉴바 함수를 위한 변수 선언
-        const toggleBtn = document.querySelector('.navbar_toggleBtn');
-        const menu = document.querySelector('.navbar_menu');
-        const icons = document.querySelector('.navbar_icons');
-        // 메뉴바를 누르면 메뉴 나오도록 하는 함수
-        toggleBtn.addEventListener('click', () => {
-            menu.classList.toggle('active');
-            icons.classList.toggle('active');
-        });
+    ///////////////////////
+    // 반응형 웹사이트 구현 //
+    ///////////////////////
+    // 메뉴바 함수를 위한 변수 선언
+    const toggleBtn = document.querySelector('.navbar_toggleBtn');
+    const menu = document.querySelector('.navbar_menu');
+    const icons = document.querySelector('.navbar_icons');
+    // 메뉴바를 누르면 메뉴 나오도록 하는 함수
+    toggleBtn.addEventListener('click', () => {
+        menu.classList.toggle('active');
+        icons.classList.toggle('active');
+    });
 
 </script>
 </html>
