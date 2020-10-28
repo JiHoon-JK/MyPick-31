@@ -23,22 +23,6 @@
         $(document).ready(function () {
             //check_ice_cream();
         })
-        ////////////////////////////
-        // *아이스크림 필터링 함수들* //
-        ////////////////////////////
-        // 베이스 필터링 : 클릭-체크된 베이스 정보 전달-정보 포함된 DB자료 받아옴
-        function checkBase() {
-            // 베이스가 체크된지 확인 후 그 아이디 값을 가져오기
-            var checkedBases = [];
-            let checkedBase = $('input:checkbox[class="base"]').is(':checked');
-            console.log(checkedBase);
-            if (checkedBase === true) {
-                var base = document.getElementsByClassName("base")
-                console.log(base);
-            }
-
-
-        }
 
         // (구)베이스/토핑/시럽 클릭정보 확인
         function check_ice_cream() {
@@ -163,54 +147,54 @@
         <h4>베이스 Base</h4>
         <ul class="filter_menu">
             <li>
-                <input type="checkbox" id="vanilla" class="base"><span>바닐라<br>vanilla</span>
+                <input type="checkbox" name="cbase" value="바닐라"><span>바닐라<br>vanilla</span>
             </li>
             <li>
-                <input type="checkbox" id="choco" class="base"><span>초콜릿<br>chocolate</span>
+                <input type="checkbox" name="cbase" value="choco"><span>초콜릿<br>chocolate</span>
             </li>
             <li>
-                <input type="checkbox" id="fruits" class="base"><span>과일<br>fruits</span>
+                <input type="checkbox" name="cbase" value="fruits"><span>과일<br>fruits</span>
             </li>
             <li>
-                <a href="#" role="button"><span id="mint">민트<br>mint</span></a>
+                <input type="checkbox" name="cbase" value="mint"><span>민트<br>mint</span>
             </li>
             <li>
-                <a href="#" role="button"><span id="cheese">치즈<br>cheese</span></a>
+                <input type="checkbox" name="cbase" value="cheese"><span>치즈<br>cheese</span>
             </li>
 
         </ul>
         <ul class="filter_menu">
             <li>
-                <a href="#" role="button"> <span id="green tea">녹차<br>green tea</span></a>
+                <input type="checkbox" name="cbase" value="greentea"><span>녹차<br>green tea</span>
             </li>
             <li>
-                <a href="#" role="button" onclick="nuts_detail()"><span id="nuts">견과류<br>nuts</span></a>
+                <input type="checkbox" name="cbase" value="nuts" onclick="nuts_detail()"><span>견과류<br>nuts</span>
             </li>
             <li>
-                <a href="#" role="button"><span id="coffee">커피<br>coffee</span></a>
+                <input type="checkbox" name="cbase" value="coffee"><span>커피<br>coffee</span>
             </li>
             <li>
-                <a href="#" role="button"><span id="yogurt">요거트<br>yogurt</span></a>
+                <input type="checkbox" name="cbase" value="yogurt"><span>요거트<br>yogurt</span>
             </li>
             <li>
-                <a href="#" role="button"><span id="ccandy">솜사탕<br>cotton candy</span></a>
+                <input type="checkbox" name="cbase" value="ccandy"><span>솜사탕<br>ccandy</span>
             </li>
         </ul>
         <ul class="filter_menu">
             <li>
-                <a href="#" role="button"><span id="sherbet">샤베트<br>sherbet</span></a>
+                <input type="checkbox" name="cbase" value="sherbet"><span>샤베트<br>sherbet</span>
             </li>
             <li>
-                <a href="#" role="button"><span id="sorbet">소르베<br>sorbet</span></a>
+                <input type="checkbox" name="cbase" value="sorbet"><span>소르베<br>sorbet</span>
             </li>
             <li>
-                <a href="#" role="button"><span id="grain">곡류<br>grain</span></a>
+                <input type="checkbox" name="cbase" value="grain"><span>곡류<br>grain</span>
             </li>
             <li>
-                <a href="#" role="button"><span id="snack">과자<br>snack</span></a>
+                <input type="checkbox" name="cbase" value="snack"><span>과자<br>snack</span>
             </li>
             <li>
-                <a href="#" role="button"><span id="etc">기타<br>etc</span></a>
+                <input type="checkbox" name="cbase" value="etc"><span>기타<br>etc</span>
             </li>
         </ul>
     </div>
@@ -218,44 +202,44 @@
         <h4>토핑 Topping</h4>
         <ul class="filter_menu">
             <li>
-                <a href="#" role="button"><span>초콜릿<br>chocolate</span></a>
+                <input type="checkbox" name="ctopping" value="choco"><span>초콜릿<br>chocolate</span>
             </li>
             <li>
-                <a href="#" role="button"><span>초콜릿 칩<br>chocolate chip</span></a>
+                <input type="checkbox" name="ctopping" value="chocoChip"><span>초콜릿 칩<br>chocolate chip</span>
             </li>
             <li>
-                <a href="#" role="button"><span>초코볼<br>chocolate ball</span></a>
+                <input type="checkbox" name="ctopping" value="chocoBall"><span>초코볼<br>chocolate ball</span>
             </li>
             <li>
-                <a href="#" role="button"><span>크런치 초콜릿<br>crunch chocolate</span></a>
+                <input type="checkbox" name="ctopping" value="chocoCrunch"><span>크런치 초콜릿<br>crunch chocolate</span>
             </li>
             <li>
-                <a href="#" role="button"><span>견과류<br>nuts</span></a>
-            </li>
-        </ul>
-        <ul class="filter_menu">
-            <li>
-                <a href="#" role="button"><span>과일<br>fruits</span></a>
-            </li>
-            <li>
-                <a href="#" role="button"><span>케이크<br>cake</span></a>
-            </li>
-            <li>
-                <a href="#" role="button"><span>쿠키<br>cookie</span></a>
-            </li>
-            <li>
-                <a href="#" role="button"><span>크런치<br>crunch</span></a>
-            </li>
-            <li>
-                <a href="#" role="button"><span>캔디<br>candy</span></a>
+                <input type="checkbox" name="ctopping" value="nuts"><span>견과류<br>nuts</span>
             </li>
         </ul>
         <ul class="filter_menu">
             <li>
-                <a href="#" role="button"><span>과자<br>snack</span></a>
+                <input type="checkbox" name="ctopping" value="fruits"><span>과일<br>fruits</span>
             </li>
             <li>
-                <a href="#" role="button"><span>기타<br>etc</span></a>
+                <input type="checkbox" name="ctopping" value="cake"><span>케이크<br>cake</span>
+            </li>
+            <li>
+                <input type="checkbox" name="ctopping" value="cookie"><span>쿠키<br>cookie</span>
+            </li>
+            <li>
+                <input type="checkbox" name="ctopping" value="crunch"><span>크런치<br>crunch</span>
+            </li>
+            <li>
+                <input type="checkbox" name="ctopping" value="candy"><span>캔디<br>candy</span>
+            </li>
+        </ul>
+        <ul class="filter_menu">
+            <li>
+                <input type="checkbox" name="ctopping" value="snack"><span>과자<br>snack</span>
+            </li>
+            <li>
+                <input type="checkbox" name="ctopping" value="etc"><span>기타<br>etc</span>
             </li>
         </ul>
     </div>
@@ -263,20 +247,20 @@
         <h4>시럽 Syrup</h4>
         <ul class="filter_menu">
             <li>
-                <a href="#" role="button"><span>초콜릿<br>chocolate</span></a>
+                <input type="checkbox" name="csyrup" value="choco"><span>초콜릿<br>chocolate</span>
             </li>
             <li>
-                <a href="#" role="button"><span>카라멜<br>caramel</span></a>
+                <input type="checkbox" name="csyrup" value="caramel"><span>카라멜<br>caramel</span>
             </li>
             <li>
-                <a href="#" role="button"><span>과일<br>fruits</span></a>
+                <input type="checkbox" name="csyrup" value="fruits"><span>과일<br>fruits</span>
             </li>
             <li>
-                <a href="#" role="button"><span>기타<br>etc</span></a>
+                <input type="checkbox" name="csyrup" value="etc"><span>기타<br>etc</span>
             </li>
         </ul>
     </div>
-    <button onclick="checkBase()">검색</button>
+    <button onclick="filtering()">검색</button>
 </div>
 
 <!-- 바닥글 -->
@@ -307,6 +291,39 @@
         menu.classList.toggle('active');
         icons.classList.toggle('active');
     });
+</script>
+<script>
+    // 베이스 필터링 개발중 - bibi
+    ////////////////////////////
+    // *아이스크림 필터링 함수들* //
+    ////////////////////////////
+    // 베이스 필터링 : 클릭-체크된 베이스 정보 전달-정보 포함된 DB자료 받아옴
+    function filtering(){
+        checkBase();
+        checkTopping();
+        checkSyrup();
+    }// ->Db로.
 
+    function checkBase() {
+        var baseNum = document.getElementsByName("cbase").length;
+        // 베이스가 체크된지 확인 후
+        var checkedBaseNum = $('input:checkbox[name="cbase"]:checked').length;//체크된 베이스 수
+        // 체크된 베이스 value 가져오기
+        var checkedBases = [];
+        for (var i = 0; i < baseNum; i++) {
+            if (document.getElementsByName("cbase")[i].checked == true) {
+                checkedBases.push(document.getElementsByName("cbase")[i].value);
+            }
+        }
+        console.log(checkedBases);
+    }
+
+    function checkTopping(){
+
+    }
+
+    function checkSyrup(){
+
+    }
 </script>
 </html>
