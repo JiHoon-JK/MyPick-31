@@ -14,6 +14,7 @@ SECRET_KEY = 'apple'
 ############
 #라우팅 함수# : 홈 / 디테일 / 회원가입 / 로그인 / about MyPick31 / DB페이지
 ############
+## + 홈페이지 : 아이스크림 필터링함수 포함..
 @app.route('/')
 def home_page():
     para = request.args.get("base")
@@ -118,7 +119,6 @@ def login():
                 session.permanent = True
                 # session 유지 시간은 5분으로 한다.
                 app.permanent_session_lifetime = timedelta(minutes=5)
-
                 return jsonify({'result':'success','userdb':user_nickname})
             else:
                 return jsonify({'result':'fail1','userdb':'failed'})
@@ -130,6 +130,21 @@ def login():
 def logout():
     session.pop('email',None)
     return jsonify({'result':'success'})
+
+##################
+##아이스크림 필터링##
+##################
+
+
+
+# bring_db
+@app.route('/bring_ice_cream', methods=['GET'])
+def bring_ice_cream():
+    ice_cream = request.args.get('ice_cream')
+    bring_signature_db = list(db.signature.find({'base':ice_cream},{'_id':0}))
+    bring_season_db = list(db.season.find({'base':ice_cream},{'_id':0}))
+    total_data = bring_signature_db + bring_season_db
+    return(jsonify({'result':'success','data':total_data}))
 
 ###############
 #DB insert API#
@@ -198,7 +213,7 @@ def createF_signature():
     db.signature.insert_one(doc)
     return(jsonify({'result':'success','msg':'signature 저장완료'}))
 
-# db_insert
+# Flavor - Season
 @app.route('/createF_SS', methods=['POST'])
 def createF_season():
     id = request.form['id']
@@ -225,25 +240,9 @@ def createF_season():
     return(jsonify({'result':'success','msg':'season 저장완료'}))
 
 
-###############
-#DB insert API#
-###############
-# bring_db
-@app.route('/bring_ice_cream', methods=['GET'])
-def bring_ice_cream():
-    ice_cream = request.args.get('ice_cream')
-    print("==================")
-    print(ice_cream)
-    bring_signature_db = list(db.signature.find({'base':ice_cream},{'_id':0}))
-    bring_season_db = list(db.season.find({'base':ice_cream},{'_id':0}))
-    print(bring_signature_db)
-    print(bring_season_db)
-    total_data = bring_signature_db + bring_season_db
-    print(total_data)
-    return(jsonify({'result':'success','data':total_data}))
 
 
-# Flavor - Season
+
 
 #################
 #Review Save API#
