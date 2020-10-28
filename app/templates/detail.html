@@ -27,12 +27,24 @@
         function review_save() {
             alert('리뷰를 저장했습니다!')
             ice_cream_name = $('.ice-cream_title').text()
-            // print(ice_cream_name)
-            // reviewer = "{{sessionemail}}"
-            // print(reviewer)
-            ice_cream_review = $('review_box').text()
-            // print(ice_cream_review)
+            reviewer = "{{session_nickname}}"
+            console.log(reviewer)
+            ice_cream_review = $('.review_box').val()
+            console.log(ice_cream_review)
             // ajax로 서버에 보내야함
+            $.ajax({
+            	type: "POST",
+                url: "/save_review",
+                data: {ice_cream_name:ice_cream_name, reviewer:reviewer, review:ice_cream_review},
+                success: function (response) {
+                    if(response['result'] == 'success'){
+                        alert('리뷰 저장 성공!')
+                    }
+                    else{
+                        alert('리뷰 저장 실패!')
+                    }
+                }
+            })
         }
 
         // 좋아요 버튼 애니메이션 실행
@@ -56,6 +68,7 @@
         <li><a href="/">HOME</a></li>
         <li><a href="/register">회원가입</a></li>
         <li><a href="/login">로그인</a></li>
+		<li><a href="/insert_db">데이터 삽입</a></li>
         <li><a href="/about">About MyPick31</a></li>
     </ul>
 
@@ -138,6 +151,19 @@
         엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
     </p>
 </div>
-
 </body>
+<script>
+        ///////////////////////
+        // 반응형 웹사이트 구현 //
+        ///////////////////////
+        // 메뉴바 함수를 위한 변수 선언
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.navbar_menu');
+        const icons = document.querySelector('.navbar_icons');
+        // 메뉴바를 누르면 메뉴 나오도록 하는 함수
+        toggleBtn.addEventListener('click', () => {
+            menu.classList.toggle('active');
+            icons.classList.toggle('active');
+        });
+</script>
 </html>

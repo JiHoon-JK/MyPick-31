@@ -32,7 +32,17 @@ def home_page():
 
 @app.route('/detail')
 def detail_page():
-    return render_template('detail.html')
+    # 로그인하고 조회(세션 값안에 auth_id 가 있다면, 로그인을 진행했다면 세션이 형성되어있어서 체크 가능)
+    if 'auth_id' in session:
+        session_id = session['auth_id']
+        print('Logged in as ' + session_id)
+        print(session)
+        session_nickname = session['nickname']
+        print(session_nickname)
+        return render_template('detail.html', session_id=session_id, session_nickname=session_nickname)
+    # 로그인 없이 조회
+    else:
+        return render_template('detail.html')
 
 @app.route('/register')
 def register_page():
@@ -234,6 +244,24 @@ def bring_ice_cream():
 
 
 # Flavor - Season
+
+#################
+#Review Save API#
+#################
+@app.route('/save_review', methods=['POST'])
+def save_reivew():
+    ice_cream_name = request.form['ice_cream_name']
+    reviewer = request.form['reviewer']
+    review = request.form['review']
+
+    doc = {
+        'ice_cream': ice_cream_name,
+        'reviewer': reviewer,
+        'review': review
+    }
+
+    db.review.insert_one(doc)
+    return(jsonify({'result':'success', 'msg':'review 저장완료'}))
 
 if __name__ == '__main__':
     app.secret_key = 'Juni'
