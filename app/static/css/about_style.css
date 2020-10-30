@@ -41,7 +41,6 @@ body p {
 
 /*상단 bar by_Juni*/
 .navbar{
-    width: 100%;
     display:flex;
     justify-content: space-between;
     align-items : center;
@@ -78,7 +77,6 @@ body p {
     color:var(--accent-nav-color);
     display: flex;
     padding-left:0;
-    margin-right: 10px;
 }
 
 .navbar_icons li{

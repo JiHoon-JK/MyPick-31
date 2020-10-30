@@ -62,7 +62,7 @@ function login() {
 		<ul class="navbar_menu">
             <li><a href="/">HOME</a></li>
             <li><a href="/register">회원가입</a></li>
-            <li class="login"></li>
+            <li><a href="/insert_db">데이터 삽입</a></li>
             <li><a href="/about">About MyPick31</a></li>
         </ul>
 
@@ -98,4 +98,18 @@ function login() {
 		</div>
 	</div>
 </body>
+<script>
+        ///////////////////////
+        // 반응형 웹사이트 구현 //
+        ///////////////////////
+        // 메뉴바 함수를 위한 변수 선언
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.navbar_menu');
+        const icons = document.querySelector('.navbar_icons');
+        // 메뉴바를 누르면 메뉴 나오도록 하는 함수
+        toggleBtn.addEventListener('click', () => {
+            menu.classList.toggle('active');
+            icons.classList.toggle('active');
+        });
+    </script>
 </html>

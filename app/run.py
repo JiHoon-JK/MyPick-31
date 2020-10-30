@@ -17,33 +17,31 @@ SECRET_KEY = 'apple'
 ## + 홈페이지 : 아이스크림 필터링함수 포함..
 @app.route('/')
 def home_page():
-    para = request.args.get("base")
-    print(para)
-    # 로그인하고 조회(세션 값안에 auth_id 가 있다면, 로그인을 진행했다면 세션이 형성되어있어서 체크 가능)
-    if 'auth_id' in session:
-        session_id = session['auth_id']
-        print('Logged in as '+session_id)
-        print(session)
-        session_nickname = session['nickname']
-        print(session_nickname)
-        return render_template('index.html', session_id=session_id, session_nickname=session_nickname, para_data=para)
+    # 로그인하고 조회(세션 값안에 email 이 있다면, 로그인을 진행했다면 세션이 형성되어있어서 체크 가능)
+    if 'email' in session:
+        email1 = session['email']
+        print('Logged in as '+email1)
+        a = list(db.userdb.find({'auth_id': email1}, {'_id': 0}))
+        print(a[0].get('nickname'))
+        return render_template('index.html', session_email=email1, session_nickname=a[0].get('nickname'))
     # 로그인 없이 조회
     else:
-        return render_template('index.html', para_data=para)
+        return render_template('index.html')
 
 @app.route('/detail')
 def detail_page():
+    # URL로 보낸 아이스크림 가져오기
+    ice_cream = request.args.get("ice_cream")
     # 로그인하고 조회(세션 값안에 auth_id 가 있다면, 로그인을 진행했다면 세션이 형성되어있어서 체크 가능)
-    if 'auth_id' in session:
-        session_id = session['auth_id']
-        print('Logged in as ' + session_id)
-        print(session)
-        session_nickname = session['nickname']
-        print(session_nickname)
-        return render_template('detail.html', session_id=session_id, session_nickname=session_nickname)
+    if 'email' in session:
+        email1 = session['email']
+        print('Logged in as '+email1)
+        a = list(db.userdb.find({'auth_id': email1}, {'_id': 0}))
+        print(a[0].get('nickname'))
+        return render_template('detail.html', session_email=email1, session_nickname=a[0].get('nickname'), para_data=ice_cream)
     # 로그인 없이 조회
     else:
-        return render_template('detail.html')
+        return render_template('detail.html', para_data=ice_cream)
 
 @app.route('/register')
 def register_page():
@@ -55,12 +53,32 @@ def login_page():
 
 @app.route('/about')
 def about_page():
-    return render_template('about.html')
+    # 로그인하고 조회(세션 값안에 auth_id 가 있다면, 로그인을 진행했다면 세션이 형성되어있어서 체크 가능)
+    if 'email' in session:
+        email1 = session['email']
+        print('Logged in as ' + email1)
+        a = list(db.userdb.find({'auth_id': email1}, {'_id': 0}))
+        print(a[0].get('nickname'))
+        return render_template('about.html', session_email=email1, session_nickname=a[0].get('nickname'))
+    # 로그인 없이 조회
+    else:
+        return render_template('about.html')
+
 
 # db에 데이터 넣는 html
 @app.route('/insert_db')
 def insert_db_page():
-    return render_template('db_insert.html')
+    # 로그인하고 조회(세션 값안에 auth_id 가 있다면, 로그인을 진행했다면 세션이 형성되어있어서 체크 가능)
+    if 'email' in session:
+        email1 = session['email']
+        print('Logged in as ' + email1)
+        a = list(db.userdb.find({'auth_id': email1}, {'_id': 0}))
+        print(a[0].get('nickname'))
+        return render_template('db_insert.html', session_email=email1, session_nickname=a[0].get('nickname'))
+    # 로그인 없이 조회
+    else:
+        return render_template('db_insert.html')
+
 
 
 ########################
@@ -91,8 +109,8 @@ def register():
             elif userdb[i].get('nickname') == nickname:
                 return jsonify({'result':'fail2'})
 
-        db.userdb.insert_one({'auth_id':auth_id,'pwd':pw_hash,'nickname':nickname})
-        return jsonify({'result':'success','userdb':auth_id})
+                db.userdb.insert_one({'auth_id':auth_id,'pwd':pw_hash,'nickname':nickname})
+                return jsonify({'result':'success','userdb':auth_id})
 
 
 # 로그인
@@ -103,7 +121,10 @@ def login():
     receive_pwd = request.form['receive_pwd']
     pwd_hash = hashlib.sha256(receive_pwd.encode('utf-8')).hexdigest()
 
-    print(receive_id)
+    session['email'] = receive_id
+    session.permanent = True
+    # session 유지 시간은 5분으로 한다.
+    app.permanent_session_lifetime = timedelta(minutes=10)
 
     userdb = list(db.userdb.find({}))
 
@@ -113,17 +134,11 @@ def login():
             if userdb[i].get('pwd') == pwd_hash:
                 user_nickname = userdb[i].get('nickname')
                 print(user_nickname)
-                # session 형성
-                session['auth_id'] = receive_id
-                session['nickname'] = user_nickname
-                session.permanent = True
-                # session 유지 시간은 5분으로 한다.
-                app.permanent_session_lifetime = timedelta(minutes=5)
                 return jsonify({'result':'success','userdb':user_nickname})
             else:
                 return jsonify({'result':'fail1','userdb':'failed'})
-    else:
-        return jsonify({'result':'fail2','userdb':'failed'})
+        else:
+            return jsonify({'result':'fail2','userdb':'failed'})
 
 #로그아웃
 @app.route('/customer_logout', methods=['POST'])
@@ -131,20 +146,48 @@ def logout():
     session.pop('email',None)
     return jsonify({'result':'success'})
 
+########################
+#아이스크림 정보 가져오기# -> detail에서 사용
+########################
+@app.route('/bring_ice_cream', methods=['GET'])
+def bring_all_ice_cream():
+    ice_cream = request.args.get('ice_cream')
+    bring_signature_db = list(db.signature.find({'name':ice_cream},{'_id':0}))
+    bring_season_db = list(db.season.find({'name':ice_cream},{'_id':0}))
+    return(jsonify({'result':'success', 'signature_data':bring_signature_db, 'season_data':bring_season_db}))
+
 ##################
 ##아이스크림 필터링##
 ##################
 
-
-
-# bring_db
-@app.route('/bring_ice_cream', methods=['GET'])
-def bring_ice_cream():
+# bring_signature_db
+@app.route('/bring_signature_ice_cream', methods=['GET'])
+def bring_signature_ice_cream():
     ice_cream = request.args.get('ice_cream')
-    bring_signature_db = list(db.signature.find({'base':ice_cream},{'_id':0}))
-    bring_season_db = list(db.season.find({'base':ice_cream},{'_id':0}))
-    total_data = bring_signature_db + bring_season_db
-    return(jsonify({'result':'success','data':total_data}))
+    # 모든 아이스크림을 가져올 때
+    if ice_cream == None:
+        bring_signature_db = list(db.signature.find({},{'_id':0}))
+        return(jsonify({'result':'success_1','data':bring_signature_db}))
+    #필터링으로 아이스크림을 가져올 때
+    else:
+        bring_signature_db = list(db.signature.find({'base':ice_cream},{'_id':0}))
+        return(jsonify({'result':'success_2','data':bring_signature_db}))
+
+# bring_season_db
+@app.route('/bring_season_ice_cream', methods=['GET'])
+def bring_season_ice_cream():
+    ice_cream = request.args.get('ice_cream')
+    # 모든 아이스크림을 가져올 때
+    if ice_cream == None:
+        bring_season_db = list(db.season.find({},{'_id':0}))
+        return(jsonify({'result':'success_1','data':bring_season_db}))
+    #필터링으로 아이스크림을 가져올 때
+    else:
+        bring_season_db = list(db.season.find({'base':ice_cream},{'_id':0}))
+        return(jsonify({'result':'success_2','data':bring_season_db}))
+
+
+
 
 ###############
 #DB insert API#
@@ -190,7 +233,6 @@ def createCS():
 @app.route('/createF_SG', methods=['POST'])
 def createF_signature():
     id = request.form['id']
-    print(id);
     name = request.form['name']
     name_eng = request.form['name_eng']
     base = request.form['base']
@@ -239,28 +281,85 @@ def createF_season():
     db.season.insert_one(doc)
     return(jsonify({'result':'success','msg':'season 저장완료'}))
 
+############
+# Like API #
+############
+@app.route('/like_ice_cream', methods=['POST'])
+def like_ice_cream():
+    ice_cream = request.form['ice_cream_name']
+    like_user_nickname = request.form['like_user_nickname']
+    like_db_check = list(db.like.find({'ice_cream':ice_cream,'user_nickname':like_user_nickname},{'_id':0}))
+    print(like_db_check)
+    if len(like_db_check) == 0:
+        doc = {
+            'ice_cream': ice_cream,
+            'user_nickname': like_user_nickname
+        }
+        db.like.insert_one(doc)
+        return jsonify({'result': 'success_1','msg':'likeDB에 추가'})
+    else:
+        return jsonify({'result': 'success_2', 'msg':'likeDB에 있습니다.'})
 
+@app.route('/check_like_ice_cream', methods=['POST'])
+def check_like_ice_cream():
+    ice_cream = request.form['ice_cream_name']
+    like_user_nickname = request.form['like_user_nickname']
+    like_db_check = list(db.like.find({'ice_cream':ice_cream,'user_nickname':like_user_nickname},{'_id':0}))
+    print(like_db_check)
+    if len(like_db_check) == 1:
+        return jsonify({'result': 'success', 'msg':'yes_check'})
+    if len(like_db_check) == 0:
+        return jsonify({'result': 'success', 'msg':'no_check'})
 
+@app.route('/like_cancel_ice_cream', methods=['POST'])
+def cancel_like_ice_cream():
+    ice_cream = request.form['ice_cream_name']
+    like_user_nickname = request.form['like_user_nickname']
+    db.like.remove({'ice_cream':ice_cream,'user_nickname':like_user_nickname})
+    return jsonify({'result': 'success'})
 
+############
+#Review API#
+############
 
+# Review Edit
+@app.route('/edit_review', methods=['POST'])
+def edit_review():
+    ice_cream_name = request.form['ice_cream_name']
+    reviewer = request.form['reviewer']
+    edit_review = request.form['edit_review']
+    update_review_db = list(db.review.update({'reviewer': reviewer, 'ice_cream': ice_cream_name},{'$set': {'review': edit_review}}))
+    return jsonify({'result': 'success', 'data':update_review_db})
 
-#################
-#Review Save API#
-#################
+# Review Save
 @app.route('/save_review', methods=['POST'])
 def save_reivew():
     ice_cream_name = request.form['ice_cream_name']
     reviewer = request.form['reviewer']
     review = request.form['review']
 
-    doc = {
-        'ice_cream': ice_cream_name,
-        'reviewer': reviewer,
-        'review': review
-    }
+    check_reviewer = list(db.review.find({'ice_cream':ice_cream_name,'reviewer':reviewer},{'_id':0}))
+    print(check_reviewer)
+    if len(check_reviewer) == 0:
+        doc = {
+            'ice_cream': ice_cream_name,
+            'reviewer': reviewer,
+            'review': review
+        }
+        db.review.insert_one(doc)
+        return(jsonify({'result':'success', 'msg':'review 저장완료'}))
+    else:
+        return(jsonify({'result':'fail', 'msg':'이미 작성된 review', 'data':check_reviewer[0]['review']}))
 
-    db.review.insert_one(doc)
-    return(jsonify({'result':'success', 'msg':'review 저장완료'}))
+
+
+# Review_bring
+@app.route('/bring_review', methods=['GET'])
+def bring_review():
+    ice_cream = request.args.get("ice_cream")
+    bring_review_db = list(db.review.find({'ice_cream':ice_cream},{'_id':0}))
+    return(jsonify({'result':'success', 'data':bring_review_db}))
+
 
 if __name__ == '__main__':
     app.secret_key = 'Juni'

@@ -13,7 +13,7 @@
     <title>MyPick31 - HOME</title>
     <!--FONT) fontawesome CDN, google font CDN -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
-          integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <!-- ?? 테스트  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
@@ -21,8 +21,45 @@
     <!--JAVASCRIPT CODE -->
     <script type="text/javascript">
         $(document).ready(function () {
-            //check_ice_cream();
+            listing_ice_cream();
+            check_session();
         })
+
+        // 로그인 여부 확인 함수
+        function check_session(){
+            // 로그인 안 한 경우
+            if("{{session_email}}"==""){
+                console.log('아직 로그인 x')
+                $('.button').hide();
+            }
+            // 로그인한 경우
+            else{
+                $('.button').show();
+            }
+        }
+
+        // 로그아웃
+        function logout(){
+            jbResult = confirm( "정말 로그아웃을 하시겠습니까?" );
+            if(jbResult == true){
+              $.ajax({
+                 type: "POST",
+                 url: "/customer_logout",
+                 data: {},
+                 success: function(response){
+                    location.href="/"
+                }
+            })
+          }
+          else{
+          }
+      }
+
+        // 모든 아이스크림 리스팅
+        function listing_ice_cream(){
+            bring_signature_db();
+            bring_season_db();
+        }
 
         // (구)베이스/토핑/시럽 클릭정보 확인
         function check_ice_cream() {
@@ -38,35 +75,82 @@
             }
         }
 
-        //db에서 아이스크림 데이터를 가져와서 카드로 배열하는 함수
-        function bring_db(ice_cream) {
+        //db에서 signature 아이스크림 데이터를 가져와서 카드로 배열하는 함수
+        function bring_signature_db(ice_cream) {
             bring_ice_cream = ice_cream
             $.ajax({
                 type: "GET",
-                url: "/bring_ice_cream",
+                url: "/bring_signature_ice_cream",
                 data: {ice_cream: bring_ice_cream},
                 success: function (response) {
-                    if (response['result'] == 'success') {
+                    // 필터링한 아이스크림을 리스팅할 때
+                    if (response['result'] == 'success_2') {
                         datas = response['data']
                         for (let i = 0; i < datas.length; i++) {
-                            data_listing_card(i, datas[i]['number'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
+                            signature_listing_card(i, datas[i]['id'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
                         }
-                    } else {
+                    }
+                    // 모든 아이스크림 리스팅할 때
+                    else if (response['result'] == 'success_1') {
+                        datas = response['data']
+                        for (let i = 0; i < datas.length; i++) {
+                            signature_listing_card(i, datas[i]['id'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
+                        }
                     }
                 }
             })
         }
 
-        // 카드 리스팅 함수
-        function data_listing_card(num, ice_cream_number, name, name_eng, base, topping, syrup) {
-            let data_html = '<div class="ice-cream_info" id="signature' + num + '">\
-                    <h3 class="ice-cream_title">' + name + '</h3>\
-                    ' + name_eng + '\
-                    <img src="static/img/signature/' + ice_cream_number + name + '.png" class="ice-cream_image">\
-                    <p class="ice-cream_base"> #' + base + ' </p>\
-                    <p class="ice-cream_topping">#' + topping + '</p>\
-                    <p class="ice-cream_syrup">#' + syrup + '</p>\
-                </div>'
+        // signature 아이스크림 카드 리스팅 함수
+        function signature_listing_card(num, ice_cream_number, name, name_eng, base, topping, syrup) {
+            let data_html = `<div class="ice-cream_info" id="signature ${name}" onclick="location.href='/detail?ice_cream=${name}'">\
+            <h3 class="ice-cream_title">${name}</h3>\
+            ${name_eng}\
+            <img src="static/img/signature/${ice_cream_number}-${name}.png" class="ice-cream_image">\
+            <p class="ice-cream_base">${base}</p>\
+            <p class="ice-cream_topping">${topping}</p>\
+            <p class="ice-cream_syrup">${syrup}</p>\
+            </div>`
+
+            $('.ice-cream_contents').append(data_html);
+        }
+
+        //db에서 season 아이스크림 데이터를 가져와서 카드로 배열하는 함수
+        function bring_season_db(ice_cream) {
+            bring_ice_cream = ice_cream
+            $.ajax({
+                type: "GET",
+                url: "/bring_season_ice_cream",
+                data: {ice_cream: bring_ice_cream},
+                success: function (response) {
+                    // 필터링한 아이스크림을 리스팅할 때
+                    if (response['result'] == 'success_2') {
+                        datas = response['data']
+                        for (let i = 0; i < datas.length; i++) {
+                            season_listing_card(i, datas[i]['id'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
+                        }
+                    }
+                    // 모든 아이스크림 리스팅할 때
+                    else if (response['result'] == 'success_1') {
+                        datas = response['data']
+                        for (let i = 0; i < datas.length; i++) {
+                            season_listing_card(i, datas[i]['id'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
+                        }
+                    }
+                }
+            })
+        }
+
+        // signature 아이스크림 카드 리스팅 함수
+        function season_listing_card(num, ice_cream_number, name, name_eng, base, topping, syrup) {
+            let data_html = `<div class="ice-cream_info" id="signature ${name}" onclick="location.href='/detail?ice_cream=${name}'">\
+            <h3 class="ice-cream_title">${name}</h3>\
+            ${name_eng}\
+            <img src="static/img/season/${ice_cream_number}-${name}.png" class="ice-cream_image">\
+            <p class="ice-cream_base">${base}</p>\
+            <p class="ice-cream_topping">${topping}</p>\
+            <p class="ice-cream_syrup">${syrup}</p>\
+            </div>`
 
             $('.ice-cream_contents').append(data_html);
         }
@@ -74,18 +158,9 @@
         // base/topping/syrup 항목 클릭시 하위 카테고리 보여주는 함수.
         function nuts_detail() {
             nuts_detail_html = '<i class="fas fa-angle-double-right"></i><li>' +
-                '<a href="#"><span>땅콩</span></a></li><li><a href="#"><span>호두</span></a></li>'
+            '<a href="#"><span>땅콩</span></a></li><li><a href="#"><span>호두</span></a></li>'
             $('.nuts_detail').append(nuts_detail_html)
         }
-
-        // Juni가 나중에 지운대~
-        {# function add_url(url) {
-            console.log(url)
-            now_url = window.location.href
-            console.log(now_url)
-            add_url = now_url + url
-            console.log(add_url)
-        } #}
 
         //(개발중 - Juni)로그인 상태일 때 '로그아웃', '마이페이지' 버튼 보여주기
         $(document).ready(function () {
@@ -95,8 +170,8 @@
                 $('.login').html(logout_html)
                 button_group_html = `<div class="user">{{session_nickname}}</div>\
                 <div class="button">\
-                    <button type="button" onclick="logout()">로그아웃</button>\
-                    <button type="button" onclick="alert('업데이트 예정입니다!')">마이 페이지</button>\
+                <button type="button" onclick="logout()">로그아웃</button>\
+                <button type="button" onclick="alert('업데이트 예정입니다!')">마이 페이지</button>\
                 </div>`
                 $('.top_user_part').html(button_group_html)
             } else {
@@ -107,178 +182,185 @@
     </script>
 </head>
 <body>
-<!-- 상단 메뉴바 -->
-<nav class="navbar">
-    <div class="navbar_logo">
-        <i class="fas fa-ice-cream"></i>
-        <a href="/">MyPick31</a>
-    </div>
-
-    <ul class="navbar_menu">
-        <li><a href="/">HOME</a></li>
-        <li><a href="/register">회원가입</a></li>
-        <li class="login"><a href="/login">로그인</a></li>
-        <li><a href="/insert_db">데이터 삽입</a></li>
-        <li><a href="/about">About MyPick31</a></li>
-    </ul>
-
-    <ul class="navbar_icons">
-        <li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
-                class="fab fa-twitter"></i></a></li>
-        <li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
-        <li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
-    </ul>
-
-    <a href="#" class="navbar_toggleBtn">
-        <i class="fas fa-bars"></i>
-    </a>
-</nav>
-
-<!-- 본문 내용 -->
-<div class="contents">
-    <div class="top_user_part">
-        <div class="user">{{ session_nickname }}</div>
-        <div class="button">
-            <button onclick="logout()">로그아웃</button>
-            <button onclick="alert('업데이트 예정입니다!')">마이 페이지</button>
+    <!-- 상단 메뉴바 -->
+    <nav class="navbar">
+        <div class="navbar_logo">
+            <i class="fas fa-ice-cream"></i>
+            <a href="/">MyPick31</a>
         </div>
-    </div>
-    <div class="filter_base">
-        <h4>베이스 Base</h4>
-        <ul class="filter_menu">
-            <li>
-                <input type="checkbox" name="cbase" value="바닐라"><span>바닐라<br>vanilla</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="choco"><span>초콜릿<br>chocolate</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="fruits"><span>과일<br>fruits</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="mint"><span>민트<br>mint</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="cheese"><span>치즈<br>cheese</span>
-            </li>
 
+        <ul class="navbar_menu">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/register">회원가입</a></li>
+            <li class="login"><a href="/login">로그인</a></li>
+            <li><a href="/insert_db">데이터 삽입</a></li>
+            <li><a href="/about">About MyPick31</a></li>
         </ul>
-        <ul class="filter_menu">
-            <li>
-                <input type="checkbox" name="cbase" value="greentea"><span>녹차<br>green tea</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="nuts" onclick="nuts_detail()"><span>견과류<br>nuts</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="coffee"><span>커피<br>coffee</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="yogurt"><span>요거트<br>yogurt</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="ccandy"><span>솜사탕<br>ccandy</span>
-            </li>
-        </ul>
-        <ul class="filter_menu">
-            <li>
-                <input type="checkbox" name="cbase" value="sherbet"><span>샤베트<br>sherbet</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="sorbet"><span>소르베<br>sorbet</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="grain"><span>곡류<br>grain</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="snack"><span>과자<br>snack</span>
-            </li>
-            <li>
-                <input type="checkbox" name="cbase" value="etc"><span>기타<br>etc</span>
-            </li>
-        </ul>
-    </div>
-    <div class="filter_topping">
-        <h4>토핑 Topping</h4>
-        <ul class="filter_menu">
-            <li>
-                <input type="checkbox" name="ctopping" value="choco"><span>초콜릿<br>chocolate</span>
-            </li>
-            <li>
-                <input type="checkbox" name="ctopping" value="chocoChip"><span>초콜릿 칩<br>chocolate chip</span>
-            </li>
-            <li>
-                <input type="checkbox" name="ctopping" value="chocoBall"><span>초코볼<br>chocolate ball</span>
-            </li>
-            <li>
-                <input type="checkbox" name="ctopping" value="chocoCrunch"><span>크런치 초콜릿<br>crunch chocolate</span>
-            </li>
-            <li>
-                <input type="checkbox" name="ctopping" value="nuts"><span>견과류<br>nuts</span>
-            </li>
-        </ul>
-        <ul class="filter_menu">
-            <li>
-                <input type="checkbox" name="ctopping" value="fruits"><span>과일<br>fruits</span>
-            </li>
-            <li>
-                <input type="checkbox" name="ctopping" value="cake"><span>케이크<br>cake</span>
-            </li>
-            <li>
-                <input type="checkbox" name="ctopping" value="cookie"><span>쿠키<br>cookie</span>
-            </li>
-            <li>
-                <input type="checkbox" name="ctopping" value="crunch"><span>크런치<br>crunch</span>
-            </li>
-            <li>
-                <input type="checkbox" name="ctopping" value="candy"><span>캔디<br>candy</span>
-            </li>
-        </ul>
-        <ul class="filter_menu">
-            <li>
-                <input type="checkbox" name="ctopping" value="snack"><span>과자<br>snack</span>
-            </li>
-            <li>
-                <input type="checkbox" name="ctopping" value="etc"><span>기타<br>etc</span>
-            </li>
-        </ul>
-    </div>
-    <div class="filter_syrup">
-        <h4>시럽 Syrup</h4>
-        <ul class="filter_menu">
-            <li>
-                <input type="checkbox" name="csyrup" value="choco"><span>초콜릿<br>chocolate</span>
-            </li>
-            <li>
-                <input type="checkbox" name="csyrup" value="caramel"><span>카라멜<br>caramel</span>
-            </li>
-            <li>
-                <input type="checkbox" name="csyrup" value="fruits"><span>과일<br>fruits</span>
-            </li>
-            <li>
-                <input type="checkbox" name="csyrup" value="etc"><span>기타<br>etc</span>
-            </li>
-        </ul>
-    </div>
-    <button onclick="filtering()">검색</button>
-</div>
 
-<!-- 바닥글 -->
-<footer id="footer">
-    <div class="container">
-        <div class="row">
-            <div class="footer">
-                <address>
-                    Copyright ©
-                    <a href="https://www.baskinrobbins.co.kr/">BaskinRobbins</a>
-                    All Rights Reserved.
-                </address>
+        <ul class="navbar_icons">
+            <li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
+                class="fab fa-twitter"></i></a></li>
+                <li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
+                <li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
+            </ul>
+
+            <a href="#" class="navbar_toggleBtn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </nav>
+
+        <!-- 본문 내용 -->
+        <div class="contents">
+            <div class="top_user_part">
+                <div class="user">{{ session_nickname }}</div>
+                <div class="button">
+                    <button onclick="logout()">로그아웃</button>
+                    <button onclick="alert('업데이트 예정입니다!')">마이 페이지</button>
+                </div>
+            </div>
+            <div class="filter_base">
+                <h4>베이스 Base</h4>
+                <ul class="filter_menu">
+                    <li>
+                        <input type="checkbox" name="cbase" value="바닐라"><span>바닐라<br>vanilla</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="choco"><span>초콜릿<br>chocolate</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="fruits"><span>과일<br>fruits</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="mint"><span>민트<br>mint</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="cheese"><span>치즈<br>cheese</span>
+                    </li>
+
+                </ul>
+                <ul class="filter_menu">
+                    <li>
+                        <input type="checkbox" name="cbase" value="greentea"><span>녹차<br>green tea</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="nuts" onclick="nuts_detail()"><span>견과류<br>nuts</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="coffee"><span>커피<br>coffee</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="yogurt"><span>요거트<br>yogurt</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="ccandy"><span>솜사탕<br>ccandy</span>
+                    </li>
+                </ul>
+                <ul class="filter_menu">
+                    <li>
+                        <input type="checkbox" name="cbase" value="sherbet"><span>샤베트<br>sherbet</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="sorbet"><span>소르베<br>sorbet</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="grain"><span>곡류<br>grain</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="snack"><span>과자<br>snack</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="cbase" value="etc"><span>기타<br>etc</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="filter_topping">
+                <h4>토핑 Topping</h4>
+                <ul class="filter_menu">
+                    <li>
+                        <input type="checkbox" name="ctopping" value="choco"><span>초콜릿<br>chocolate</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="ctopping" value="chocoChip"><span>초콜릿 칩<br>chocolate chip</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="ctopping" value="chocoBall"><span>초코볼<br>chocolate ball</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="ctopping" value="chocoCrunch"><span>크런치 초콜릿<br>crunch chocolate</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="ctopping" value="nuts"><span>견과류<br>nuts</span>
+                    </li>
+                </ul>
+                <ul class="filter_menu">
+                    <li>
+                        <input type="checkbox" name="ctopping" value="fruits"><span>과일<br>fruits</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="ctopping" value="cake"><span>케이크<br>cake</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="ctopping" value="cookie"><span>쿠키<br>cookie</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="ctopping" value="crunch"><span>크런치<br>crunch</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="ctopping" value="candy"><span>캔디<br>candy</span>
+                    </li>
+                </ul>
+                <ul class="filter_menu">
+                    <li>
+                        <input type="checkbox" name="ctopping" value="snack"><span>과자<br>snack</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="ctopping" value="etc"><span>기타<br>etc</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="filter_syrup">
+                <h4>시럽 Syrup</h4>
+                <ul class="filter_menu">
+                    <li>
+                        <input type="checkbox" name="csyrup" value="choco"><span>초콜릿<br>chocolate</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="csyrup" value="caramel"><span>카라멜<br>caramel</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="csyrup" value="fruits"><span>과일<br>fruits</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="csyrup" value="etc"><span>기타<br>etc</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="filtering_button">
+                <button onclick="filtering()">검색</button>
             </div>
         </div>
-    </div>
-</footer>
-</body>
-<script>
+
+        <!-- 아이스크림 리스팅 부분 -->
+        <div class="ice-cream_contents">
+
+        </div>
+
+        <!-- 바닥글 -->
+        <footer id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="footer">
+                        <address>
+                            Copyright ©
+                            <a href="https://www.baskinrobbins.co.kr/">BaskinRobbins</a>
+                            All Rights Reserved.
+                        </address>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+    <script>
     ///////////////////////
     // 반응형 웹사이트 구현 //
     ///////////////////////

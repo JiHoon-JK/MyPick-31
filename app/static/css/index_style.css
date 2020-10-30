@@ -92,7 +92,6 @@ body a {
 .user{
     width: 100%;
     text-align: right;
-    background-color: #FBEFFB;
 }
 
 .button{
@@ -187,19 +186,35 @@ body a {
     margin: 0 20px 0 20px;
 }
 
+.filtering_button{
+    display: flex;
+    justify-content: center;
+}
+
 /* ice-cream contents by Juni*/
 
+.ice-cream_contents{
+    margin-top: 10px;
+}
+
 .ice-cream_info {
-    margin : 50px 5px 0 0 ;
+    margin : 20px 5px 0 10px;
     text-align: center;
     display: inline-block;
     background-color: #FBEFFB;
     width: 170px;
+    height: 340px;
+    cursor: pointer;
 }
 
 .ice-cream_image{
     width: 150px;
     height: 150px;
+    margin-top:10px;
+}
+
+.ice-cream_title{
+    margin-bottom: 10px;
 }
 
 .ice-cream_base , .ice-cream_topping , .ice-cream_syrup{

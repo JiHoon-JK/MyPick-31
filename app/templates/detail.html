@@ -7,7 +7,7 @@
     <!-- style.css 참조 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/detail_style.css') }}">
     <!-- 자바스크립트 파일로 main.js 참조 -->
-{#    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>#}
+    {#    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>#}
     <!-- jQuery CDN -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -15,144 +15,319 @@
 
     <!-- fontawesome CDN -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
-          integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <!-- google font CDN -->
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <!-- heart button CDN -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
+    rel="stylesheet">
     <script>
 
-        // (개발중 - Juni) 아이스크림 디테일 - 리뷰저장 기능
-        function review_save() {
-            alert('리뷰를 저장했습니다!')
-            ice_cream_name = $('.ice-cream_title').text()
-            reviewer = "{{session_nickname}}"
-            console.log(reviewer)
-            ice_cream_review = $('.review_box').val()
-            console.log(ice_cream_review)
-            // ajax로 서버에 보내야함
+        $(document).ready(function () {
+          receive_url();
+      })
+
+        // url 로 전달된 아이스크림 가져오기
+        function receive_url(){
+            // url 로 전달된 아이스크림이 없을 경우
+            if("{{para_data}}" == ""){
+            }
+            else{
+              result = "{{para_data}}"
+              bring_ice_cream_DB(result);
+          }
+      }
+
+        // URL로 전해준 아이스크림 정보 가져오기 (signature)
+        function bring_ice_cream_DB(ice_cream){
+            receive_ice_cream = ice_cream
             $.ajax({
-            	type: "POST",
-                url: "/save_review",
-                data: {ice_cream_name:ice_cream_name, reviewer:reviewer, review:ice_cream_review},
+                type: "GET",
+                url: "/bring_ice_cream",
+                data: {ice_cream: receive_ice_cream},
                 success: function (response) {
                     if(response['result'] == 'success'){
-                        alert('리뷰 저장 성공!')
+                        signature_data = response['signature_data']
+                        season_data = response['season_data']
+
+                        // 전달받은 아이스크림이 season 일 때
+                        if(signature_data.length == 0){
+                            for(let i=0; i<season_data.length; i++){
+                                listing_card('season',season_data[i]['id'],season_data[i]['name'],season_data[i]['kcal'],season_data[i]['allergens'],season_data[i]['base'],season_data[i]['topping'],season_data[i]['syrup'])
+                            }
+                            check_like_db();  
+                            review_bring();
+                        }
+                        // 전달받은 아이스크림이 signature 일 때
+                        else if(season_data.length == 0){
+                            for(let i=0; i<signature_data.length; i++){
+                                listing_card('signature',signature_data[i]['id'],signature_data[i]['name'],signature_data[i]['kcal'],signature_data[i]['allergens'],signature_data[i]['base'],signature_data[i]['topping'],signature_data[i]['syrup'])
+                            }
+                            check_like_db();
+                            review_bring();
+                        }
                     }
                     else{
-                        alert('리뷰 저장 실패!')
+                        alert('오류 발생')
                     }
                 }
             })
         }
 
+        // 아이스크림 카드 리스팅 함수 -> 아이스크림 설명 부분을 어떻게 할까? (Juni)
+        function listing_card(type,ice_cream_number,name,kcal,allergens,base,topping,syrup){
+
+            let listing_html = `<h2 class="ice-cream_title">${name}</h2>
+            <img src="static/img/${type}/${ice_cream_number}-${name}.png" class="ice-cream_image">
+            <p class="ice-cream_calorie">${kcal}kcal(1회 제공량 기준)</p>
+            <p class="ice-cream_allergy">알레르기 : ${allergens}</p>
+            <p class="ice-cream_description">
+            밀크 초콜릿, 다크 초콜릿, 화이트 무스 세 가지 아이스크림에 달콤 바삭한 초코볼이 더해진 아이스크림</p>
+            <p class="ice-cream_base">
+            베이스 : ${base}
+            </p>
+            <p class="ice-cream_topping"> 토핑 : ${topping}</p>
+            <p class="ice-cream_syrup"> 시럽 : ${syrup} </p>
+            <!-- like-button start-->
+            <div class="container" style="position: absolute; right: 45%;">
+            <div class="wrapper">
+            <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like">
+            <i class="material-icons not-liked bouncy">favorite_border</i>
+            <i class="material-icons is-liked bouncy">favorite</i>
+            <span class="like-overlay"></span>
+            </a>
+            </div>
+            </div>`
+            $('.ice-cream_info').append(listing_html);
+        }
+
+        // 리뷰 수정하는 함수
+        function review_edit(){
+            ice_cream_name = $('.ice-cream_title').text()
+            reviewer = "{{session_nickname}}"
+            ice_cream_review = $('.review_box').val()
+            if(ice_cream_review == ""){
+                alert('수정할 내용을 적어주세요')
+            }
+            else{
+                console.log('???')
+                $.ajax({
+                    type: "POST",
+                    url: "/edit_review",
+                    data: {ice_cream_name:ice_cream_name, reviewer:reviewer, edit_review:ice_cream_review},
+                    success: function (response) {
+                    // 리뷰를 수정했을 경우
+                    if(response['result']=='success'){
+                        alert('리뷰 수정했습니다.')
+                        window.location.reload();
+                    }
+                    // 리뷰 수정 실패한 경우
+                    else{
+
+                    }
+                }
+            })
+            }
+        }
+
+        // 리뷰저장 기능
+        function review_save() {
+            ice_cream_name = $('.ice-cream_title').text()
+            reviewer = "{{session_nickname}}"
+            console.log(reviewer)
+            ice_cream_review = $('.review_box').val()
+            console.log(ice_cream_review)
+            // 로그인 진행했는지 체크하는 if구문
+            if(reviewer==""){
+                alert('리뷰 기능은 로그인을 해야 사용가능합니다.')
+                $('.review_box').val('')
+            }
+            else{
+                $.ajax({
+                    type: "POST",
+                    url: "/save_review",
+                    data: {ice_cream_name:ice_cream_name, reviewer:reviewer, review:ice_cream_review},
+                    success: function (response) {
+                        if(response['result'] == 'success'){
+                            alert('리뷰 저장 성공!');
+                            window.location.reload();
+                        }
+                        else if(response['result'] == 'fail'){
+                            alert('이미 작성된 리뷰입니다.');
+                            data = response['data']
+                            $('.review_box').val(data)
+                        }
+                        else{
+                            alert('리뷰 저장 실패!');
+                        }
+                    }
+                })
+            }   
+        }
+
+        // 리뷰 가져오는 기능
+        function review_bring(){
+            ice_cream_name = $('.ice-cream_title').text()
+            console.log(ice_cream_name)
+            reviewer = "{{session_nickname}}"
+            console.log(reviewer)
+            $.ajax({
+                type: "GET",
+                url: "/bring_review",
+                data: {ice_cream:ice_cream_name,reviewer:reviewer},
+                success: function(response){
+                    if(response['result'] == 'success'){
+                        review_db = response['data']
+                        for(let i = 0; i < review_db.length ; i++){
+                            review_listing_card(i,review_db[i]['reviewer'],review_db[i]['review'])
+                        }
+                    }
+                    else{
+                        alert('리뷰를 가져오는데 실패했습니다.')
+                    }
+                }
+            })
+        }
+
+        // 리뷰 listing 함수
+        function review_listing_card(num, reviewer, review){
+            let review_card = `<div class="review_show_box" id="box_${num}">
+            <p class="nickname">
+            <label> 닉네임 : </label>
+            ${reviewer}
+            </p>
+            <p class="review_text">
+            <label> 후기 : </label>
+            ${review}
+            </p>
+            </div>`
+
+            $('.others_comment_box').append(review_card)
+
+        }
+
         // 좋아요 버튼 애니메이션 실행
         function like_animation() {
-            $('.like-button').toggleClass('is-active');
-            alert('좋아요 기능은 회원가입을 해야 사용할 수 있습니다.')
+            if("{{session_nickname}}"==""){
+                alert('로그인을 해야 사용가능합니다.');
+            }
+            else{
+                $('.like-button').toggleClass('is-active');
+                like_ice_cream();
+            }
+        }
+
+        // 좋아요 db 에 넣기
+        function like_ice_cream(){
+            like_ice_cream_name = $('.ice-cream_title').text()
+            like_user_nickname = "{{session_nickname}}"
+            // 로그인하지 않고 detail로 들어왔을 때
+            if(like_user_nickname==""){
+                alert('로그인을 먼저 진행해주세요.')
+            }
+            //로그인하고 detail로 들어왔을 때
+            else{
+                $.ajax({
+                    type: "POST",
+                    url: "/like_ice_cream",
+                    data: {ice_cream_name:like_ice_cream_name, like_user_nickname:like_user_nickname},
+                    success: function(response){
+                        if(response['result']=='success_1'){
+                            alert('좋아요를 눌렀습니다!')
+                        }
+                        else if(response['result']=='success_2'){
+                            //alert('이미 좋아요를 눌렀습니다')
+                            jbResult = confirm( "좋아요를 취소하시겠습니까?" );
+                            if(jbResult == true){
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/like_cancel_ice_cream",
+                                    data: {ice_cream_name:like_ice_cream_name, like_user_nickname:like_user_nickname},
+                                    success: function(response){
+                                        if(response['result']='success'){
+                                            alert('좋아요를 취소했습니다.')
+                                        }
+                                    }
+                                })
+                            }else if(jbResult == false){
+                                $('.like-button').toggleClass('is-active');
+                            }
+                        }
+                    }
+                })
+            }
+        }
+
+        // 이미 누른 좋아요 체크하기 (-> 들어오면 자동으로 하트 칠해지도록)
+        function check_like_db(){
+            like_ice_cream_name = $('.ice-cream_title').text()
+            like_user_nickname = "{{session_nickname}}"
+            $.ajax({
+                type: "POST",
+                url: "/check_like_ice_cream",
+                data: {ice_cream_name:like_ice_cream_name, like_user_nickname:like_user_nickname},
+                success: function(response){
+                    if(response['msg']=='yes_check'){
+                        $('.like-button').toggleClass('is-active');
+                    }else if(response['msg']='no_check'){
+
+                    }
+                }
+            })
         }
 
     </script>
 
 </head>
 <body>
-<!-- 상단 메뉴바 -->
-<nav class="navbar">
-    <div class="navbar_logo">
-        <i class="fas fa-ice-cream"></i>
-        <a href="/">MyPick31</a>
-    </div>
-
-    <ul class="navbar_menu">
-        <li><a href="/">HOME</a></li>
-        <li><a href="/register">회원가입</a></li>
-        <li><a href="/login">로그인</a></li>
-		<li><a href="/insert_db">데이터 삽입</a></li>
-        <li><a href="/about">About MyPick31</a></li>
-    </ul>
-
-    <ul class="navbar_icons">
-        <li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
-                class="fab fa-twitter"></i></a></li>
-        <li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
-        <li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
-    </ul>
-
-    <a href="#" class="navbar_toggleBtn" style="">
-        <i class="fas fa-bars"></i>
-    </a>
-</nav>
-
-<div class="ice-cream_info">
-    <h2 class="ice-cream_title">엄마는 외계인</h2>
-    <img src="../img/엄마는 외계인.jpg" class="ice-cream_image">
-    <p class="ice-cream_calorie">296kcal(1회 제공량 기준)</p>
-    <p class="ice-cream_allergy">알레르기 : 우유,밀,대두</p>
-    <p class="ice-cream_description">
-        밀크 초콜릿, 다크 초콜릿, 화이트 무스 세 가지 아이스크림에 달콤 바삭한 초코볼이 더해진 아이스크림</p>
-    <p class="ice-cream_base">
-        베이스 :
-        밀크 초코,
-        다크 초코,
-        화이트 무스
-    </p>
-    <p class="ice-cream_topping"> 토핑 : 초코볼</p>
-    <p class="ice-cream_syrup"> 시럽 : 초코 </p>
-    <!-- like-button start-->
-    <div class="container" style="position: absolute; right: 45%;">
-        <div class="wrapper">
-            <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like">
-                <i class="material-icons not-liked bouncy">favorite_border</i>
-                <i class="material-icons is-liked bouncy">favorite</i>
-                <span class="like-overlay"></span>
-            </a>
+    <!-- 상단 메뉴바 -->
+    <nav class="navbar">
+        <div class="navbar_logo">
+            <i class="fas fa-ice-cream"></i>
+            <a href="/">MyPick31</a>
         </div>
-    </div>
-    <!-- like-button end -->
-</div>
-<div class="ice-cream_comment_form">
-    <i class="fas fa-user-edit"></i> REVIEW
-    <div class="review_form">
-        <p>
-            <textarea class="review_box" placeholder="아이스크림에 대한 후기를 남겨주세요."></textarea>
-        </p>
-        <a class="save_button" href="#" role="button"
-           onclick="review_save()">저장하기</a>
-    </div>
-</div>
-<div class="others_comment_box" id="box_1">
-    <p class="nickname">
-        <label> 닉네임 : </label>
-        베라알바생
-    </p>
-    <p class="review_text">
-        <label> 후기 : </label>
-        엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
-    </p>
-</div>
-<div class="others_comment_box" id="box_2">
-    <p class="nickname">
-        <label> 닉네임 : </label>
-        베라알바생
-    </p>
-    <p class="review_text">
-        <label> 후기 : </label>
-        엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
-    </p>
-</div>
-<div class="others_comment_box" id="box_3">
-    <p class="nickname">
-        <label> 닉네임 : </label>
-        베라알바생
-    </p>
-    <p class="review_text">
-        <label> 후기 : </label>
-        엄마는 외계인은 존맛탱입니다. 아이스크림 먹고 싶다....
-    </p>
-</div>
-</body>
-<script>
+
+        <ul class="navbar_menu">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/register">회원가입</a></li>
+            <li><a href="/login">로그인</a></li>
+            <li><a href="/insert_db">데이터 삽입</a></li>
+            <li><a href="/about">About MyPick31</a></li>
+        </ul>
+
+        <ul class="navbar_icons">
+            <li><a href="https://twitter.com/BaskinrobbinsKR?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
+                class="fab fa-twitter"></i></a></li>
+                <li><a href="https://ko-kr.facebook.com/baskinrobbinskr/"><i class="fab fa-facebook"></i></a></li>
+                <li><a href="https://www.instagram.com/baskinrobbinskorea/"><i class="fab fa-instagram"></i></a></li>
+            </ul>
+
+            <a href="#" class="navbar_toggleBtn" style="">
+                <i class="fas fa-bars"></i>
+            </a>
+        </nav>
+
+        <div class="ice-cream_info">
+
+        </div>
+
+        <div class="ice-cream_comment_form">
+            <i class="fas fa-user-edit"></i> REVIEW
+            <div class="review_form">
+                <p>
+                    <textarea class="review_box" placeholder="아이스크림에 대한 후기를 남겨주세요."></textarea>
+                </p>
+                <a class="save_button" href="#" role="button"
+                onclick="review_save()">저장하기</a>
+                <a class="edit_button" href="#" role="button"
+                onclick="review_edit()">수정하기</a>
+            </div>
+        </div>
+        <div class="others_comment_box">
+            <h2><i class="fas fa-ice-cream"></i> 아이스크림 리뷰</h2>
+        </div>
+    </body>
+    <script>
         ///////////////////////
         // 반응형 웹사이트 구현 //
         ///////////////////////
@@ -165,5 +340,5 @@
             menu.classList.toggle('active');
             icons.classList.toggle('active');
         });
-</script>
-</html>
+    </script>
+    </html>
