@@ -235,6 +235,16 @@ body a {
 }
 
 /*comment*/
+
+.save_button{
+  margin-right: 10px;
+}
+
+.review_show_box{
+  margin-top:20px;
+  background-color: #FBEFFB;
+}
+
 .ice-cream_comment_form {
   padding :8px 12px;
   text-align: center;
@@ -252,8 +262,7 @@ body a {
 .others_comment_box {
   font-size: 13px;
   width: 300px;
-  margin: 30px auto 0 auto;
-  background-color: #FBEFFB;
+  margin: 50px auto 0 auto;
 }
 
 
