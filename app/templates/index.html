@@ -164,14 +164,17 @@
 
         //(개발중 - Juni)로그인 상태일 때 '로그아웃', '마이페이지' 버튼 보여주기
         $(document).ready(function () {
-            if ('' != "") {
+            // 로그인을 했을 때
+            if ("{{session_email}}" != "") {
                 $('.login').empty()
                 logout_html = '<a href="#" onclick="logout()">로그아웃</a>'
                 $('.login').html(logout_html)
+                mypage_html = `<li><a href="/" onclick="alert('업데이트 예정입니다!')">My Page</a></li>`
+                $('.navbar_menu').append(mypage_html)
                 button_group_html = `<div class="user">{{session_nickname}}</div>\
                 <div class="button">\
-                <button type="button" onclick="logout()">로그아웃</button>\
-                <button type="button" onclick="alert('업데이트 예정입니다!')">마이 페이지</button>\
+                <button class="logout_button" type="button" onclick="logout()">로그아웃</button>\
+                <button class="mypage_button" type="button" onclick="alert('업데이트 예정입니다!')">마이 페이지</button>\
                 </div>`
                 $('.top_user_part').html(button_group_html)
             } else {
@@ -214,8 +217,8 @@
             <div class="top_user_part">
                 <div class="user">{{ session_nickname }}</div>
                 <div class="button">
-                    <button onclick="logout()">로그아웃</button>
-                    <button onclick="alert('업데이트 예정입니다!')">마이 페이지</button>
+                    <button class="logout_button" onclick="logout()">로그아웃</button>
+                    <button class="mypage_button" onclick="alert('업데이트 예정입니다!')">마이 페이지</button>
                 </div>
             </div>
             <div class="filter_base">

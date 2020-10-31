@@ -89,15 +89,20 @@ body a {
 
 /*user_id 관련 css*/
 
+.top_user_part{
+    margin-top: 10px;
+}
+
 .user{
     width: 100%;
     text-align: right;
 }
 
 .button{
-    margin-top:5px;
+    margin-top:10px;
     cursor: pointer;
     text-align: right;
+    font-size: 5px;
 }
 
 #user_nickname{
@@ -105,13 +110,30 @@ body a {
     font-weight: bold;
 }
 
-#Logout_button{
-    font-size: 10px;
-    
+.logout_button{
+    background-color: var(--background-color);
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius:10px;
 }
 
-#Mypage_button{
-    font-size: 10px;
+.logout_button:hover {
+    background-color: var(--accent-nav-color);
+}
+
+.mypage_button{
+    background-color: var(--background-color);
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius:10px;
+}
+
+.mypage_button:hover {
+    background-color: var(--accent-nav-color);
 }
 
 /*content_filter-menu css by_Juni*/
@@ -125,10 +147,18 @@ body a {
     border-radius: 4px;
 }
 
+.filter_base {
+    margin-bottom: 50px;
+}
+
+.filter_topping {
+    margin-bottom: 50px;
+}
+
 .filter_menu {
     display: flex;
     list-style: none;
-    padding: 0 40px 0 40px;
+    padding: 0 0px 0 0px;
     justify-content: space-between;
     margin-bottom: 30px;
     font-size: 15px;

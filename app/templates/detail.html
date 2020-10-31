@@ -55,7 +55,8 @@
                             for(let i=0; i<season_data.length; i++){
                                 listing_card('season',season_data[i]['id'],season_data[i]['name'],season_data[i]['kcal'],season_data[i]['allergens'],season_data[i]['base'],season_data[i]['topping'],season_data[i]['syrup'])
                             }
-                            check_like_db();  
+                            check_like_db(); 
+                            counting_like(); 
                             review_bring();
                         }
                         // 전달받은 아이스크림이 signature 일 때
@@ -64,6 +65,7 @@
                                 listing_card('signature',signature_data[i]['id'],signature_data[i]['name'],signature_data[i]['kcal'],signature_data[i]['allergens'],signature_data[i]['base'],signature_data[i]['topping'],signature_data[i]['syrup'])
                             }
                             check_like_db();
+                            counting_like();
                             review_bring();
                         }
                     }
@@ -97,7 +99,8 @@
             <span class="like-overlay"></span>
             </a>
             </div>
-            </div>`
+            </div>
+            <div class="like_count"></div>`
             $('.ice-cream_info').append(listing_html);
         }
 
@@ -106,16 +109,22 @@
             ice_cream_name = $('.ice-cream_title').text()
             reviewer = "{{session_nickname}}"
             ice_cream_review = $('.review_box').val()
-            if(ice_cream_review == ""){
-                alert('수정할 내용을 적어주세요')
+            // 로그인을 하지 않고 작성하려고 할 경우
+            if(reviewer==""){
+                alert('리뷰 기능은 로그인을 해야 사용가능합니다.')
+                $('.review_box').val('')
             }
+            // 로그인을 진행했다면,
             else{
-                console.log('???')
-                $.ajax({
-                    type: "POST",
-                    url: "/edit_review",
-                    data: {ice_cream_name:ice_cream_name, reviewer:reviewer, edit_review:ice_cream_review},
-                    success: function (response) {
+                // 아무것도 내용을 적지 않은 경우
+                if(ice_cream_review == ""){
+                    alert('수정할 내용을 적어주세요')
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: "/edit_review",
+                        data: {ice_cream_name:ice_cream_name, reviewer:reviewer, edit_review:ice_cream_review},
+                        success: function (response) {
                     // 리뷰를 수정했을 경우
                     if(response['result']=='success'){
                         alert('리뷰 수정했습니다.')
@@ -123,10 +132,11 @@
                     }
                     // 리뷰 수정 실패한 경우
                     else{
-
+                        alert('리뷰 수정에 실패했습니다.')
                     }
                 }
             })
+                }
             }
         }
 
@@ -234,6 +244,7 @@
                     success: function(response){
                         if(response['result']=='success_1'){
                             alert('좋아요를 눌렀습니다!')
+                            window.location.reload();
                         }
                         else if(response['result']=='success_2'){
                             //alert('이미 좋아요를 눌렀습니다')
@@ -246,11 +257,13 @@
                                     success: function(response){
                                         if(response['result']='success'){
                                             alert('좋아요를 취소했습니다.')
+                                            window.location.reload();
                                         }
                                     }
                                 })
                             }else if(jbResult == false){
                                 $('.like-button').toggleClass('is-active');
+                                window.location.reload();
                             }
                         }
                     }
@@ -271,6 +284,25 @@
                         $('.like-button').toggleClass('is-active');
                     }else if(response['msg']='no_check'){
 
+                    }
+                }
+            })
+        }
+
+        // 좋아요 갯수 파악하기(-> 얼마나 많은 유저들이 좋아요를 눌렀는지 확인하기 위해서)
+        function counting_like(){
+            like_ice_cream_name = $('.ice-cream_title').text()
+            $.ajax({
+                type: "POST",
+                url: "/counting_like",
+                data: {ice_cream_name:like_ice_cream_name},
+                success: function(response){
+                    if(response['result']=='success'){
+                        like_count = response['like_count']
+                        console.log(like_count)
+
+                        $('.like_count').text(like_count)
+                        // window.location.reload();
                     }
                 }
             })
