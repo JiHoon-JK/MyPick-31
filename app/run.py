@@ -137,8 +137,8 @@ def login():
                 return jsonify({'result':'success','userdb':user_nickname})
             else:
                 return jsonify({'result':'fail1','userdb':'failed'})
-        else:
-            return jsonify({'result':'fail2','userdb':'failed'})
+    else:
+        return jsonify({'result':'fail2','userdb':'failed'})
 
 #로그아웃
 @app.route('/customer_logout', methods=['POST'])
@@ -305,7 +305,6 @@ def check_like_ice_cream():
     ice_cream = request.form['ice_cream_name']
     like_user_nickname = request.form['like_user_nickname']
     like_db_check = list(db.like.find({'ice_cream':ice_cream,'user_nickname':like_user_nickname},{'_id':0}))
-    print(like_db_check)
     if len(like_db_check) == 1:
         return jsonify({'result': 'success', 'msg':'yes_check'})
     if len(like_db_check) == 0:
@@ -317,6 +316,14 @@ def cancel_like_ice_cream():
     like_user_nickname = request.form['like_user_nickname']
     db.like.remove({'ice_cream':ice_cream,'user_nickname':like_user_nickname})
     return jsonify({'result': 'success'})
+
+@app.route('/counting_like' , methods=['POST'])
+def counting_like():
+    ice_cream = request.form['ice_cream_name']
+    like_db_check = list(db.like.find({'ice_cream': ice_cream}, {'_id': 0}))
+    print(like_db_check)
+    print(len(like_db_check))
+    return jsonify({'result': 'success', 'like_count':len(like_db_check)})
 
 ############
 #Review API#
