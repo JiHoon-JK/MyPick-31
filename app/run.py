@@ -9,8 +9,6 @@ db = client.MyPick31
 
 app = Flask(__name__)
 
-SECRET_KEY = 'apple'
-
 ############
 #라우팅 함수# : 홈 / 디테일 / 회원가입 / 로그인 / about MyPick31 / DB페이지
 ############
@@ -108,7 +106,7 @@ def register():
                 return jsonify({'result': 'fail1'})
             elif userdb[i].get('nickname') == nickname:
                 return jsonify({'result':'fail2'})
-
+            else:
                 db.userdb.insert_one({'auth_id':auth_id,'pwd':pw_hash,'nickname':nickname})
                 return jsonify({'result':'success','userdb':auth_id})
 
