@@ -118,8 +118,10 @@ def login():
     receive_id = request.form['receive_id']
     receive_pwd = request.form['receive_pwd']
     pwd_hash = hashlib.sha256(receive_pwd.encode('utf-8')).hexdigest()
-
+    print(receive_id)
+    print(session)
     session['email'] = receive_id
+    print(session)
     session.permanent = True
     # session 유지 시간은 5분으로 한다.
     app.permanent_session_lifetime = timedelta(minutes=10)
@@ -184,7 +186,19 @@ def bring_season_ice_cream():
         bring_season_db = list(db.season.find({'base':ice_cream},{'_id':0}))
         return(jsonify({'result':'success_2','data':bring_season_db}))
 
+#####################
+##아이스크림필터링-bibi#
+#####################
+@app.route('/checkBase', methods=["POST"])
+def checkBase() :
+    checkedBases = request.form["checkedBases"]
+    print(checkedBases)
+    # 베이스명 받기.
+    # 베이스명 = cbase1 인 플레이버 목록 찾기. ->doc
+    # 베이스명 = cbase1자손 cbase2 인 플레이버 목록 찾기. ->doc
+    # doc = { };
 
+    return (jsonify({'result': 'success', 'msg': "서버와 연결되었음-베이스"}))
 
 
 ###############
