@@ -3,6 +3,7 @@ from datetime import timedelta
 from flask import Flask, render_template, session, url_for, request, jsonify, app
 from pymongo import MongoClient
 import hashlib
+import json
 
 client = MongoClient('mongodb://bibi:6666667!@3.34.129.197', 27017)
 db = client.MyPick31
@@ -191,12 +192,29 @@ def bring_season_ice_cream():
 #####################
 @app.route('/checkBase', methods=["POST"])
 def checkBase() :
-    checkedBases = request.form["checkedBases"]
-    print(checkedBases)
+    # from ajax
+    sendBases = json.loads(request.form["sendBases"])
+    checkedBasesArr = sendBases['checkedBases']
+
+    cbaseArr = {} # 배열? 딕셔너리? 배열이 더 나을 것 같은데.
+    cbase1Arr = {}
+    cbase2Arr = {}
+
+    for i in checkedBasesArr : # 베이스배열 요소 하나씩 출력. i = 체크된 cbase1
+        # from mongoDB
+        cbaseArr[i] = list(db.cbase.find({"cbase1": i}, {'_id': 0}))
+        cbase1Arr[i] = i
+        # cbase2Arr[i] = cbaseArr['cbase2']
+
+    print(cbaseArr)
+    print(cbase1Arr)
+    print(cbase2Arr)
+
+
     # 베이스명 받기.
-    # 베이스명 = cbase1 인 플레이버 목록 찾기. ->doc
-    # 베이스명 = cbase1자손 cbase2 인 플레이버 목록 찾기. ->doc
-    # doc = { };
+    # 결과 1)베이스에 cbase1 인 시그니처, 시즌 플레이버들 찾기. ->doc
+    # 결과 2)베이스에 cbase1 의 cbase2가 포함된 시그니처, 시즌 플레이버들 찾기. ->doc
+    # doc = { 결과 1, 결과 2 }; 로 보내기.
 
     return (jsonify({'result': 'success', 'msg': "서버와 연결되었음-베이스"}))
 
