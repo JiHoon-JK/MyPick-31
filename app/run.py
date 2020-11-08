@@ -194,21 +194,24 @@ def bring_season_ice_cream():
 def checkBase() :
     # from ajax
     sendBases = json.loads(request.form["sendBases"])
-    checkedBasesArr = sendBases['checkedBases']
+    checkedBasesList = sendBases['checkedBases']
 
-    cbaseArr = {} # 배열? 딕셔너리? 배열이 더 나을 것 같은데.
-    cbase1Arr = {}
-    cbase2Arr = {}
+    cbaseList = [] # 배열? 딕셔너리? 배열이 더 나을 것 같은데.
+    cbase1List = []
+    cbase2List = []
 
-    for i in checkedBasesArr : # 베이스배열 요소 하나씩 출력. i = 체크된 cbase1
+    for i in checkedBasesList : # 베이스배열 요소 하나씩 입(출)력. i = 체크된 cbase1
         # from mongoDB
-        cbaseArr[i] = list(db.cbase.find({"cbase1": i}, {'_id': 0}))
-        cbase1Arr[i] = i
-        # cbase2Arr[i] = cbaseArr['cbase2']
+        cbaseList[i] = list(db.cbase.find({"cbase1": i}, {'_id': 0}))
+        #TypeError: list indices must be integers or slices, not str.
+        #i가 숫자가 아닌, checkedBasesList의 한 요소 (바닐라, 초콜릿 .. )이기 때문에 오류 발생.
+        #자바for문처럼 i=0 이렇게 할 수는 없나..?
+        cbase1List[i] = i
+        # cbase2List[i] = cbaseList['cbase2']
 
-    print(cbaseArr)
-    print(cbase1Arr)
-    print(cbase2Arr)
+    print(cbaseList)
+    print(cbase1List)
+    print(cbase2List)
 
 
     # 베이스명 받기.
