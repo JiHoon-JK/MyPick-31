@@ -161,19 +161,69 @@ def bring_all_ice_cream():
 ##아이스크림 필터링##
 ##################
 
+# final_flavor 전역변수 선언
+final_flavor = []
+
 # bring_signature_db
-@app.route('/bring_signature_ice_cream', methods=['GET'])
+@app.route('/bring_signature_ice_cream', methods=['POST'])
 def bring_signature_ice_cream():
-    ice_cream = request.args.get('ice_cream')
-    print(ice_cream)
+    receive_ice_cream = json.loads(request.form['ice_cream'])
+    ice_cream = list(receive_ice_cream.values())
+    temp_flavor = ice_cream[0]
+    print(temp_flavor)
     # 모든 아이스크림을 가져올 때
-    if ice_cream == None:
+    if temp_flavor == None:
         bring_signature_db = list(db.signature.find({},{'_id':0}))
         return(jsonify({'result':'success_1','data':bring_signature_db}))
     #필터링으로 아이스크림을 가져올 때
     else:
-        bring_signature_db = list(db.signature.find({'base':ice_cream},{'_id':0}))
-        return(jsonify({'result':'success_2','data':bring_signature_db}))
+        for i in range(len(temp_flavor)):
+            print(i)
+            if i == 0 :
+                filtering_cbase1(temp_flavor[i])
+            if i == 1 :
+                filtering_cbase2(temp_flavor[i])
+            if i == 2 :
+                filtering_ctopping1(temp_flavor[i])
+            if i == 3 :
+                filtering_ctopping2(temp_flavor[i])
+            if i == 4 :
+                filtering_csyrup1(temp_flavor[i])
+            if i == 5 :
+                filtering_csyrup2(temp_flavor[i])
+
+        return(jsonify({'result':'success_2'}))
+
+# signature를 할때 사용할 filter 함수와 season을 할 때 사용할 filter 함수 별도로 존재해야함.
+
+def filtering_cbase1(flavor):
+    cbase1 = list(db.signature.find({'base':flavor},{'_id':0}))
+    print(cbase1)
+    cbase1_name = cbase1['name']
+    print(cbase1_name)
+    final_flavor.append(cbase1_name)
+
+# cbase2 는 여러개의 정보가 들어갈 수 있기 때문에 for문이 들어가야함.
+def filtering_cbase2(flavor):
+
+
+def filtering_ctopping1(flavor):
+    ctopping1 = list(db.signature.find({'topping': flavor}, {'_id': 0}))
+    print(ctopping1)
+    ctopping1_name = ctopping1['name']
+    print(ctopping1_name)
+    final_flavor.append(ctopping1_name)
+
+def filtering_ctopping2(flavor):
+
+def filtering_csyrup1(flavor):
+    csyrup1 = list(db.signature.find({'syrup': flavor}, {'_id': 0}))
+    print(csyrup1)
+    csyrup1_name = csyrup1['name']
+    print(csyrup1_name)
+    final_flavor.append(csyrup1_name)
+
+def filtering_csyrup2(flavor):
 
 # bring_season_db
 @app.route('/bring_season_ice_cream', methods=['GET'])
@@ -196,35 +246,12 @@ def bring_season_ice_cream():
 def checkBase():
     # from ajax
     sendBases = json.loads(request.form["sendBases"])
-    print(sendBases)
     checkedBasesList = sendBases['checkedBases']
-    print(checkedBasesList)
     cbaseList = [] # 배열? 딕셔너리? 배열이 더 나을 것 같은데.
-    #cbase1List = []
-    #cbase2List = []
 
     for i in range(len(checkedBasesList)): # 베이스배열 요소 하나씩 입(출)력. i = 체크된 cbase1
-        print(i)
         # from mongoDB
-        print(checkedBasesList[i])
         cbaseList.append(list(db.cbase.find({"cbase1": checkedBasesList[i]}, {'_id': 0})))
-        print(cbaseList)
-        #TypeError: list indices must be integers or slices, not str.
-        #i가 숫자가 아닌, checkedBasesList의 한 요소 (바닐라, 초콜릿 .. )이기 때문에 오류 발생.
-        #자바for문처럼 i=0 이렇게 할 수는 없나..?
-        # cbase1List[i] = i
-        # cbase2List[i] = cbaseList['cbase2']
-
-    print(cbaseList)
-    #print(cbase1List)
-    #print(cbase2List)
-    print('//////베이스///////////')
-
-
-    # 베이스명 받기.
-    # 결과 1)베이스에 cbase1 인 시그니처, 시즌 플레이버들 찾기. ->doc
-    # 결과 2)베이스에 cbase1 의 cbase2가 포함된 시그니처, 시즌 플레이버들 찾기. ->doc
-    # doc = { 결과 1, 결과 2 }; 로 보내기.
 
     return (jsonify({'result': 'success', 'msg': "서버와 연결되었음-베이스", 'data':cbaseList}))
 
@@ -233,35 +260,12 @@ def checkBase():
 def checkTopping():
     # from ajax
     sendToppings = json.loads(request.form["sendToppings"])
-    print(sendToppings)
     checkedToppingsList = sendToppings['checkedToppings']
-    print(checkedToppingsList)
     ctoppingList = [] # 배열? 딕셔너리? 배열이 더 나을 것 같은데.
-    #cbase1List = []
-    #cbase2List = []
 
     for i in range(len(checkedToppingsList)): # 베이스배열 요소 하나씩 입(출)력. i = 체크된 cbase1
-        print(i)
         # from mongoDB
-        print(checkedToppingsList[i])
         ctoppingList.append(list(db.ctopping.find({"ctopping1": checkedToppingsList[i]}, {'_id': 0})))
-        print(ctoppingList)
-        #TypeError: list indices must be integers or slices, not str.
-        #i가 숫자가 아닌, checkedBasesList의 한 요소 (바닐라, 초콜릿 .. )이기 때문에 오류 발생.
-        #자바for문처럼 i=0 이렇게 할 수는 없나..?
-        # cbase1List[i] = i
-        # cbase2List[i] = cbaseList['cbase2']
-
-    print(ctoppingList)
-    print('///////토핑//////////')
-    #print(cbase1List)
-    #print(cbase2List)
-
-
-    # 베이스명 받기.
-    # 결과 1)베이스에 cbase1 인 시그니처, 시즌 플레이버들 찾기. ->doc
-    # 결과 2)베이스에 cbase1 의 cbase2가 포함된 시그니처, 시즌 플레이버들 찾기. ->doc
-    # doc = { 결과 1, 결과 2 }; 로 보내기.
 
     return (jsonify({'result': 'success', 'msg': "서버와 연결되었음-베이스", 'data':ctoppingList}))
 
@@ -270,34 +274,12 @@ def checkTopping():
 def checkSyrup():
     # from ajax
     sendSyrups = json.loads(request.form["sendSyrups"])
-    print(sendSyrups)
     checkedSyrupsList = sendSyrups['checkedSyrups']
-    print(checkedSyrupsList)
     csyrupList = [] # 배열? 딕셔너리? 배열이 더 나을 것 같은데.
-    #cbase1List = []
-    #cbase2List = []
 
-    for i in range(len(checkedSyrupsList)): # 베이스배열 요소 하나씩 입(출)력. i = 체크된 cbase1
-        print(i)
+    for i in range(len(checkedSyrupsList)):
         # from mongoDB
-        print(checkedSyrupsList[i])
         csyrupList.append(list(db.csyrup.find({"csyrup1": checkedSyrupsList[i]}, {'_id': 0})))
-        print(csyrupList)
-        #TypeError: list indices must be integers or slices, not str.
-        #i가 숫자가 아닌, checkedBasesList의 한 요소 (바닐라, 초콜릿 .. )이기 때문에 오류 발생.
-        #자바for문처럼 i=0 이렇게 할 수는 없나..?
-        # cbase1List[i] = i
-        # cbase2List[i] = cbaseList['cbase2']
-
-    print(csyrupList)
-    #print(cbase1List)
-    #print(cbase2List)
-
-
-    # 베이스명 받기.
-    # 결과 1)베이스에 cbase1 인 시그니처, 시즌 플레이버들 찾기. ->doc
-    # 결과 2)베이스에 cbase1 의 cbase2가 포함된 시그니처, 시즌 플레이버들 찾기. ->doc
-    # doc = { 결과 1, 결과 2 }; 로 보내기.
 
     return (jsonify({'result': 'success', 'msg': "서버와 연결되었음-베이스", 'data':csyrupList}))
 
