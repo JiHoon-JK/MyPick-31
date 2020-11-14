@@ -122,10 +122,13 @@
         //db에서 season 아이스크림 데이터를 가져와서 카드로 배열하는 함수
         function bring_season_db(ice_cream) {
             bring_ice_cream = ice_cream
+            console.log(bring_ice_cream);
+
+            jQuery.ajaxSettings.traditional = true; // ajax로 배열 보낼때..
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/bring_season_ice_cream",
-                data: {ice_cream: bring_ice_cream},
+                data: {ice_cream: [JSON.stringify({bring_ice_cream: bring_ice_cream})]},
                 success: function (response) {
                     // 필터링한 아이스크림을 리스팅할 때
                     if (response['result'] == 'success_2') {
