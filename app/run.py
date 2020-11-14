@@ -162,81 +162,247 @@ def bring_all_ice_cream():
 ##################
 
 # final_flavor 전역변수 선언
-final_flavor = []
+signature_final_flavor = []
+season_final_flavor = []
+# 최종 signature/season 정보 들어가는 변수
+#bring_final_signature_db =[]
+#bring_final_season_db = []
 
 # bring_signature_db
 @app.route('/bring_signature_ice_cream', methods=['POST'])
 def bring_signature_ice_cream():
+    print('////signature/////')
     receive_ice_cream = json.loads(request.form['ice_cream'])
     ice_cream = list(receive_ice_cream.values())
-    temp_flavor = ice_cream[0]
-    print(temp_flavor)
+    print(ice_cream)
     # 모든 아이스크림을 가져올 때
-    if temp_flavor == None:
+    if ice_cream == []:
+        print('모든 아이스크림 가져오기')
         bring_signature_db = list(db.signature.find({},{'_id':0}))
+        print(bring_signature_db)
         return(jsonify({'result':'success_1','data':bring_signature_db}))
     #필터링으로 아이스크림을 가져올 때
     else:
+        print('필터링 아이스크림 가져오기')
+        temp_flavor = ice_cream[0]
         for i in range(len(temp_flavor)):
-            print(i)
             if i == 0 :
-                filtering_cbase1(temp_flavor[i])
+                signature_filtering_cbase1(temp_flavor[i])
             if i == 1 :
-                filtering_cbase2(temp_flavor[i])
+                signature_filtering_cbase2(temp_flavor[i])
             if i == 2 :
-                filtering_ctopping1(temp_flavor[i])
+                signature_filtering_ctopping1(temp_flavor[i])
             if i == 3 :
-                filtering_ctopping2(temp_flavor[i])
+                signature_filtering_ctopping2(temp_flavor[i])
             if i == 4 :
-                filtering_csyrup1(temp_flavor[i])
+                signature_filtering_csyrup1(temp_flavor[i])
             if i == 5 :
-                filtering_csyrup2(temp_flavor[i])
+                signature_filtering_csyrup2(temp_flavor[i])
+        print('-----------')
+        print(signature_final_flavor)
+        print(len(signature_final_flavor))
 
-        return(jsonify({'result':'success_2'}))
+        # 중복된 flavor 제거 (list를 set 형태로 바꾼 후, 다시 list형태로 변환)
+        pure_signature_final_flavor = list(set(signature_final_flavor))
+        print(pure_signature_final_flavor)
+        print(len(pure_signature_final_flavor))
+
+        bring_filter_signature_db = []
+
+        for i in range(len(pure_signature_final_flavor)):
+            signature_db = list(db.signature.find({'name': pure_signature_final_flavor[i]}, {'_id': 0}))
+            bring_filter_signature_db.append(signature_db)
+
+        print('★')
+        print(bring_filter_signature_db)
+        print(len(bring_filter_signature_db))
+
+        return(jsonify({'result':'success_2', 'data': bring_filter_signature_db}))
+
+###signature 필터링에 사용되는 함수###
 
 # signature를 할때 사용할 filter 함수와 season을 할 때 사용할 filter 함수 별도로 존재해야함.
 
-def filtering_cbase1(flavor):
-    cbase1 = list(db.signature.find({'base':flavor},{'_id':0}))
-    print(cbase1)
-    cbase1_name = cbase1['name']
-    print(cbase1_name)
-    final_flavor.append(cbase1_name)
+def signature_filtering_cbase1(flavor):
+    cbase1 = list(db.signature.find({'base':{'$regex': flavor}},{'_id':0}))
+    for i in range(len(cbase1)):
+        cbase1_name = cbase1[i]['name']
+        #print(cbase1_name)
+        signature_final_flavor.append(cbase1_name)
+        #print(signature_final_flavor)
 
 # cbase2 는 여러개의 정보가 들어갈 수 있기 때문에 for문이 들어가야함.
-def filtering_cbase2(flavor):
+def signature_filtering_cbase2(flavor):
+    receive_flavor = flavor.split(',')
+    for i in range(len(receive_flavor)):
+        cbase2 = list(db.signature.find({'base':{'$regex': receive_flavor[i]}},{'_id':0}))
+        for j in range(len(cbase2)):
+            cbase2_name = cbase2[j]['name']
+            #print(cbase2_name)
+            signature_final_flavor.append(cbase2_name)
+            #print(signature_final_flavor)
+
+def signature_filtering_ctopping1(flavor):
+    ctopping1 = list(db.signature.find({'topping':{'$regex': flavor}},{'_id': 0}))
+    for i in range(len(ctopping1)):
+        ctopping1_name = ctopping1[i]['name']
+        #print(ctopping1_name)
+        signature_final_flavor.append(ctopping1_name)
+        #print(signature_final_flavor)
+
+def signature_filtering_ctopping2(flavor):
+    receive_flavor = flavor.split(',')
+    for i in range(len(receive_flavor)):
+        ctopping2 = list(db.signature.find({'topping': {'$regex': receive_flavor[i]}}, {'_id': 0}))
+        #print(ctopping2)
+        for j in range(len(ctopping2)):
+            ctopping2_name = ctopping2[j]['name']
+            #print(ctopping2_name)
+            signature_final_flavor.append(ctopping2_name)
+            #print(signature_final_flavor)
+
+def signature_filtering_csyrup1(flavor):
+    csyrup1 = list(db.signature.find({'syrup':{'$regex': flavor}}, {'_id': 0}))
+    for i in range(len(csyrup1)):
+        csyrup1_name = csyrup1[i]['name']
+        #print(csyrup1_name)
+        signature_final_flavor.append(csyrup1_name)
+        #print(signature_final_flavor)
+
+def signature_filtering_csyrup2(flavor):
+    receive_flavor = flavor.split(',')
+    for i in range(len(receive_flavor)):
+        csyrup2 = list(db.signature.find({'syrup': {'$regex': receive_flavor[i]}}, {'_id': 0}))
+        #print(csyrup2)
+        for j in range(len(csyrup2)):
+            csyrup2_name = csyrup2[j]['name']
+            #print(csyrup2_name)
+            signature_final_flavor.append(csyrup2_name)
+            #print(signature_final_flavor)
+    #print('zzzzzzzzzzz')
+    #print(signature_final_flavor)
 
 
-def filtering_ctopping1(flavor):
-    ctopping1 = list(db.signature.find({'topping': flavor}, {'_id': 0}))
-    print(ctopping1)
-    ctopping1_name = ctopping1['name']
-    print(ctopping1_name)
-    final_flavor.append(ctopping1_name)
-
-def filtering_ctopping2(flavor):
-
-def filtering_csyrup1(flavor):
-    csyrup1 = list(db.signature.find({'syrup': flavor}, {'_id': 0}))
-    print(csyrup1)
-    csyrup1_name = csyrup1['name']
-    print(csyrup1_name)
-    final_flavor.append(csyrup1_name)
-
-def filtering_csyrup2(flavor):
+########################################
 
 # bring_season_db
-@app.route('/bring_season_ice_cream', methods=['GET'])
+@app.route('/bring_season_ice_cream', methods=['POST'])
 def bring_season_ice_cream():
-    ice_cream = request.args.get('ice_cream')
+
+    print('/////season//////')
+    receive_ice_cream = json.loads(request.form['ice_cream'])
+    ice_cream = list(receive_ice_cream.values())
+    print(ice_cream)
+    #print(ice_cream)
     # 모든 아이스크림을 가져올 때
-    if ice_cream == None:
-        bring_season_db = list(db.season.find({},{'_id':0}))
-        return(jsonify({'result':'success_1','data':bring_season_db}))
-    #필터링으로 아이스크림을 가져올 때
+    if ice_cream == []:
+        print('모든 아이스크림 가져오기')
+        bring_season_db = list(db.season.find({}, {'_id': 0}))
+        return (jsonify({'result': 'success_1', 'data': bring_season_db}))
+    # 필터링으로 아이스크림을 가져올 때
     else:
-        bring_season_db = list(db.season.find({'base':ice_cream},{'_id':0}))
-        return(jsonify({'result':'success_2','data':bring_season_db}))
+        print('필터링 아이스크림 가져오기')
+        temp_flavor = ice_cream[0]
+        #print(temp_flavor)
+        for i in range(len(temp_flavor)):
+            if i == 0:
+                season_filtering_cbase1(temp_flavor[i])
+            if i == 1:
+                season_filtering_cbase2(temp_flavor[i])
+            if i == 2:
+                season_filtering_ctopping1(temp_flavor[i])
+            if i == 3:
+                season_filtering_ctopping2(temp_flavor[i])
+            if i == 4:
+                season_filtering_csyrup1(temp_flavor[i])
+            if i == 5:
+                season_filtering_csyrup2(temp_flavor[i])
+        print('-----------')
+        print(season_final_flavor)
+        print(len(season_final_flavor))
+
+        # 중복된 flavor 제거 (list를 set 형태로 바꾼 후, 다시 list형태로 변환)
+        pure_season_final_flavor = list(set(season_final_flavor))
+        print(pure_season_final_flavor)
+        print(len(pure_season_final_flavor))
+
+        bring_filter_season_db = []
+
+        #bring_pure_season_final_flavor_data(pure_season_final_flavor)
+
+        for i in range(len(pure_season_final_flavor)):
+            print(pure_season_final_flavor[i])
+            season_db = list(db.season.find({'name': pure_season_final_flavor[i]}, {'_id': 0}))
+            bring_filter_season_db.append(season_db)
+
+        print('★')
+        print(bring_filter_season_db)
+        print(len(bring_filter_season_db))
+
+        return (jsonify({'result': 'success_2', 'data': bring_filter_season_db}))
+
+
+
+####season 필터링에 사용되는 함수#####
+
+def season_filtering_cbase1(flavor):
+    cbase1 = list(db.season.find({'base':{'$regex': flavor}},{'_id':0}))
+    for i in range(len(cbase1)):
+        cbase1_name = cbase1[i]['name']
+        #print(cbase1_name)
+        season_final_flavor.append(cbase1_name)
+        #print(season_final_flavor)
+
+# cbase2 는 여러개의 정보가 들어갈 수 있기 때문에 for문이 들어가야함.
+def season_filtering_cbase2(flavor):
+    receive_flavor = flavor.split(',')
+    for i in range(len(receive_flavor)):
+        cbase2 = list(db.season.find({'base':{'$regex': receive_flavor[i]}},{'_id':0}))
+        for j in range(len(cbase2)):
+            cbase2_name = cbase2[j]['name']
+            #print(cbase2_name)
+            season_final_flavor.append(cbase2_name)
+            #print(season_final_flavor)
+
+def season_filtering_ctopping1(flavor):
+    ctopping1 = list(db.season.find({'topping':{'$regex': flavor}},{'_id': 0}))
+    for i in range(len(ctopping1)):
+        ctopping1_name = ctopping1[i]['name']
+        #print(ctopping1_name)
+        season_final_flavor.append(ctopping1_name)
+        #print(season_final_flavor)
+
+def season_filtering_ctopping2(flavor):
+    receive_flavor = flavor.split(',')
+    for i in range(len(receive_flavor)):
+        ctopping2 = list(db.season.find({'topping': {'$regex': receive_flavor[i]}}, {'_id': 0}))
+        #print(ctopping2)
+        for j in range(len(ctopping2)):
+            ctopping2_name = ctopping2[j]['name']
+            #print(ctopping2_name)
+            season_final_flavor.append(ctopping2_name)
+            #print(season_final_flavor)
+
+def season_filtering_csyrup1(flavor):
+    csyrup1 = list(db.season.find({'syrup':{'$regex': flavor}}, {'_id': 0}))
+    for i in range(len(csyrup1)):
+        csyrup1_name = csyrup1[i]['name']
+        #print(csyrup1_name)
+        season_final_flavor.append(csyrup1_name)
+        #print(season_final_flavor)
+
+def season_filtering_csyrup2(flavor):
+    receive_flavor = flavor.split(',')
+    for i in range(len(receive_flavor)):
+        csyrup2 = list(db.season.find({'syrup': {'$regex': receive_flavor[i]}}, {'_id': 0}))
+        #print(csyrup2)
+        for j in range(len(csyrup2)):
+            csyrup2_name = csyrup2[j]['name']
+            #print(csyrup2_name)
+            season_final_flavor.append(csyrup2_name)
+            #print(season_final_flavor)
+    #print(season_final_flavor)
+
 
 #####################
 ##아이스크림필터링-bibi#
