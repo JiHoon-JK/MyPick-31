@@ -55,9 +55,10 @@
         }
 
         // 모든 아이스크림 리스팅
-        function listing_ice_cream() {
-            bring_signature_db();
-            bring_season_db();
+        function listing_ice_cream(something) {
+            console.log(something);
+            bring_signature_db(something);
+            bring_season_db(something);
         }
 
         // (구)베이스/토핑/시럽 클릭정보 확인
@@ -85,6 +86,7 @@
                     // 필터링한 아이스크림을 리스팅할 때
                     if (response['result'] == 'success_2') {
                         datas = response['data']
+                        console.log('여기들어가자~')
                         for (let i = 0; i < datas.length; i++) {
                             signature_listing_card(i, datas[i]['id'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
                         }
@@ -92,6 +94,7 @@
                     // 모든 아이스크림 리스팅할 때
                     else if (response['result'] == 'success_1') {
                         datas = response['data']
+                        console.log('여기말고~')
                         for (let i = 0; i < datas.length; i++) {
                             signature_listing_card(i, datas[i]['id'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
                         }
@@ -125,6 +128,7 @@
                     // 필터링한 아이스크림을 리스팅할 때
                     if (response['result'] == 'success_2') {
                         datas = response['data']
+                        console.log('여기들어가자~')
                         for (let i = 0; i < datas.length; i++) {
                             season_listing_card(i, datas[i]['id'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
                         }
@@ -132,6 +136,7 @@
                     // 모든 아이스크림 리스팅할 때
                     else if (response['result'] == 'success_1') {
                         datas = response['data']
+                        console.log('여기말고~')
                         for (let i = 0; i < datas.length; i++) {
                             season_listing_card(i, datas[i]['id'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
                         }
@@ -382,10 +387,17 @@
     // *아이스크림 필터링 함수들* //
     ////////////////////////////
     // 베이스 필터링 : 클릭-체크된 베이스 정보 전달-정보 포함된 DB자료 받아옴
+
+    // data 를 전역변수로 설정
+    var data = new Array();
+    console.log(data)
+
     function filtering() {
+        console.log(data);
         checkBase();
         checkTopping();
         checkSyrup();
+        console.log(data);
         //API ?
     }// ->Db로.
 
@@ -412,11 +424,20 @@
             },
             success: function (response) {
                 if (response['result'] == 'success') {
-                    console.log(response['msg']);
-
-
+                    Base_data = response['data'];
+                    console.log(Base_data);
+                    //data.push(Base_data);
+                    for (var i = 0; i<Base_data.length; i++){
+                        console.log(Base_data[i][0]);
+                        f_Base_data = Object.values(Base_data[i][0]);
+                        console.log(f_Base_data);
+                        console.log(f_Base_data.length);
+                        per_data = f_Base_data.split(',');
+                        console.log(per_data);
+                    }
+                }else{
+                    console.log('베이스 정보를 가져오지 못했습니다.')
                 }
-
             }
         })
 
@@ -424,11 +445,81 @@
     }
 
     function checkTopping() {
+        var toppingNum = document.getElementsByName("ctopping").length;
+        // 베이스가 체크된지 확인 후
+        var checkedToppingNum = $('input:checkbox[name="ctopping"]:checked').length;//체크된 베이스 수
+        // 체크된 베이스 value 가져오기
+        var checkedToppings = [];
+        for (var i = 0; i < toppingNum; i++) {
+            if (document.getElementsByName("ctopping")[i].checked == true) {
+                checkedToppings.push(document.getElementsByName("ctopping")[i].value);
+            }
+        }
+        console.log(checkedToppings);
+        //baseAPI
+        jQuery.ajaxSettings.traditional = true; // ajax로 배열 보낼때..
 
+        $.ajax({
+            type: "POST",
+            url: "/checkTopping",
+            data: {
+                sendToppings: [JSON.stringify({checkedToppings: checkedToppings})]
+            },
+            success: function (response) {
+                if (response['result'] == 'success') {
+                    Topping_data = response['data'];
+                    console.log(Topping_data);
+                    for (var i = 0; i<Topping_data.length; i++){
+                        console.log(Topping_data[i][0]);
+                        f_Topping_data = Object.values(Topping_data[i][0]);
+                        console.log(f_Topping_data);
+                        // data 배열로 베이스 배열 push
+                        data.push(f_Topping_data);
+                    }
+                }else{
+                    console.log('토핑 정보를 가져오지 못했습니다.')
+                }
+            }
+        })
     }
 
     function checkSyrup() {
+        var syrupNum = document.getElementsByName("csyrup").length;
+        // 베이스가 체크된지 확인 후
+        var checkedSyrupNum = $('input:checkbox[name="csyrup"]:checked').length;//체크된 베이스 수
+        // 체크된 베이스 value 가져오기
+        var checkedSyrups = [];
+        for (var i = 0; i < syrupNum; i++) {
+            if (document.getElementsByName("csyrup")[i].checked == true) {
+                checkedSyrups.push(document.getElementsByName("csyrup")[i].value);
+            }
+        }
+        console.log(checkedSyrups);
+        //baseAPI
+        jQuery.ajaxSettings.traditional = true; // ajax로 배열 보낼때..
 
+        $.ajax({
+            type: "POST",
+            url: "/checkSyrup",
+            data: {
+                sendSyrups: [JSON.stringify({checkedSyrups: checkedSyrups})]
+            },
+            success: function (response) {
+                if (response['result'] == 'success') {
+                    Syrup_data = response['data'];
+                    console.log(Syrup_data);
+                    for (var i = 0; i<Syrup_data.length; i++){
+                        console.log(Syrup_data[i][0]);
+                        f_Syrup_data = Object.values(Syrup_data[i][0]);
+                        console.log(f_Syrup_data);
+                        // data 배열로 시럽 배열 push
+                        data.push(f_Syrup_data);
+                    }
+                }else{
+                    console.log('시럽 정보를 가져오지 못했습니다.')
+                }
+            }
+        })
     }
 </script>
 </html>
