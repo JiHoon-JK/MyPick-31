@@ -165,6 +165,7 @@ def bring_all_ice_cream():
 @app.route('/bring_signature_ice_cream', methods=['GET'])
 def bring_signature_ice_cream():
     ice_cream = request.args.get('ice_cream')
+    print(ice_cream)
     # 모든 아이스크림을 가져올 때
     if ice_cream == None:
         bring_signature_db = list(db.signature.find({},{'_id':0}))
@@ -190,28 +191,34 @@ def bring_season_ice_cream():
 #####################
 ##아이스크림필터링-bibi#
 #####################
+# 체크한 베이스로 필터링
 @app.route('/checkBase', methods=["POST"])
-def checkBase() :
+def checkBase():
     # from ajax
     sendBases = json.loads(request.form["sendBases"])
+    print(sendBases)
     checkedBasesList = sendBases['checkedBases']
-
+    print(checkedBasesList)
     cbaseList = [] # 배열? 딕셔너리? 배열이 더 나을 것 같은데.
-    cbase1List = []
-    cbase2List = []
+    #cbase1List = []
+    #cbase2List = []
 
-    for i in checkedBasesList : # 베이스배열 요소 하나씩 입(출)력. i = 체크된 cbase1
+    for i in range(len(checkedBasesList)): # 베이스배열 요소 하나씩 입(출)력. i = 체크된 cbase1
+        print(i)
         # from mongoDB
-        cbaseList[i] = list(db.cbase.find({"cbase1": i}, {'_id': 0}))
+        print(checkedBasesList[i])
+        cbaseList.append(list(db.cbase.find({"cbase1": checkedBasesList[i]}, {'_id': 0})))
+        print(cbaseList)
         #TypeError: list indices must be integers or slices, not str.
         #i가 숫자가 아닌, checkedBasesList의 한 요소 (바닐라, 초콜릿 .. )이기 때문에 오류 발생.
         #자바for문처럼 i=0 이렇게 할 수는 없나..?
-        cbase1List[i] = i
+        # cbase1List[i] = i
         # cbase2List[i] = cbaseList['cbase2']
 
     print(cbaseList)
-    print(cbase1List)
-    print(cbase2List)
+    #print(cbase1List)
+    #print(cbase2List)
+    print('//////베이스///////////')
 
 
     # 베이스명 받기.
@@ -219,8 +226,80 @@ def checkBase() :
     # 결과 2)베이스에 cbase1 의 cbase2가 포함된 시그니처, 시즌 플레이버들 찾기. ->doc
     # doc = { 결과 1, 결과 2 }; 로 보내기.
 
-    return (jsonify({'result': 'success', 'msg': "서버와 연결되었음-베이스"}))
+    return (jsonify({'result': 'success', 'msg': "서버와 연결되었음-베이스", 'data':cbaseList}))
 
+# 체크한 토핑으로 필터링
+@app.route('/checkTopping', methods=["POST"])
+def checkTopping():
+    # from ajax
+    sendToppings = json.loads(request.form["sendToppings"])
+    print(sendToppings)
+    checkedToppingsList = sendToppings['checkedToppings']
+    print(checkedToppingsList)
+    ctoppingList = [] # 배열? 딕셔너리? 배열이 더 나을 것 같은데.
+    #cbase1List = []
+    #cbase2List = []
+
+    for i in range(len(checkedToppingsList)): # 베이스배열 요소 하나씩 입(출)력. i = 체크된 cbase1
+        print(i)
+        # from mongoDB
+        print(checkedToppingsList[i])
+        ctoppingList.append(list(db.ctopping.find({"ctopping1": checkedToppingsList[i]}, {'_id': 0})))
+        print(ctoppingList)
+        #TypeError: list indices must be integers or slices, not str.
+        #i가 숫자가 아닌, checkedBasesList의 한 요소 (바닐라, 초콜릿 .. )이기 때문에 오류 발생.
+        #자바for문처럼 i=0 이렇게 할 수는 없나..?
+        # cbase1List[i] = i
+        # cbase2List[i] = cbaseList['cbase2']
+
+    print(ctoppingList)
+    print('///////토핑//////////')
+    #print(cbase1List)
+    #print(cbase2List)
+
+
+    # 베이스명 받기.
+    # 결과 1)베이스에 cbase1 인 시그니처, 시즌 플레이버들 찾기. ->doc
+    # 결과 2)베이스에 cbase1 의 cbase2가 포함된 시그니처, 시즌 플레이버들 찾기. ->doc
+    # doc = { 결과 1, 결과 2 }; 로 보내기.
+
+    return (jsonify({'result': 'success', 'msg': "서버와 연결되었음-베이스", 'data':ctoppingList}))
+
+# 체크한 시럽으로 필터링
+@app.route('/checkSyrup', methods=["POST"])
+def checkSyrup():
+    # from ajax
+    sendSyrups = json.loads(request.form["sendSyrups"])
+    print(sendSyrups)
+    checkedSyrupsList = sendSyrups['checkedSyrups']
+    print(checkedSyrupsList)
+    csyrupList = [] # 배열? 딕셔너리? 배열이 더 나을 것 같은데.
+    #cbase1List = []
+    #cbase2List = []
+
+    for i in range(len(checkedSyrupsList)): # 베이스배열 요소 하나씩 입(출)력. i = 체크된 cbase1
+        print(i)
+        # from mongoDB
+        print(checkedSyrupsList[i])
+        csyrupList.append(list(db.csyrup.find({"csyrup1": checkedSyrupsList[i]}, {'_id': 0})))
+        print(csyrupList)
+        #TypeError: list indices must be integers or slices, not str.
+        #i가 숫자가 아닌, checkedBasesList의 한 요소 (바닐라, 초콜릿 .. )이기 때문에 오류 발생.
+        #자바for문처럼 i=0 이렇게 할 수는 없나..?
+        # cbase1List[i] = i
+        # cbase2List[i] = cbaseList['cbase2']
+
+    print(csyrupList)
+    #print(cbase1List)
+    #print(cbase2List)
+
+
+    # 베이스명 받기.
+    # 결과 1)베이스에 cbase1 인 시그니처, 시즌 플레이버들 찾기. ->doc
+    # 결과 2)베이스에 cbase1 의 cbase2가 포함된 시그니처, 시즌 플레이버들 찾기. ->doc
+    # doc = { 결과 1, 결과 2 }; 로 보내기.
+
+    return (jsonify({'result': 'success', 'msg': "서버와 연결되었음-베이스", 'data':csyrupList}))
 
 ###############
 #DB insert API#
