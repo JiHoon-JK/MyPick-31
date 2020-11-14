@@ -29,7 +29,6 @@
         function check_session() {
             // 로그인 안 한 경우
             if ("{{session_email}}" == "") {
-                console.log('아직 로그인 x')
                 $('.button').hide();
             }
             // 로그인한 경우
@@ -56,7 +55,6 @@
 
         // 모든 아이스크림 리스팅
         function listing_ice_cream(something) {
-            console.log(something);
             bring_signature_db(something);
             bring_season_db(something);
         }
@@ -78,10 +76,14 @@
         //db에서 signature 아이스크림 데이터를 가져와서 카드로 배열하는 함수
         function bring_signature_db(ice_cream) {
             bring_ice_cream = ice_cream
+            console.log(bring_ice_cream);
+
+            jQuery.ajaxSettings.traditional = true; // ajax로 배열 보낼때..
+
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/bring_signature_ice_cream",
-                data: {ice_cream: bring_ice_cream},
+                data: {ice_cream: [JSON.stringify({bring_ice_cream: bring_ice_cream})]},
                 success: function (response) {
                     // 필터링한 아이스크림을 리스팅할 때
                     if (response['result'] == 'success_2') {
@@ -366,7 +368,7 @@
         </div>
     </div>
 </footer>
-</body>
+
 <script>
     ///////////////////////
     // 반응형 웹사이트 구현 //
@@ -388,19 +390,7 @@
     ////////////////////////////
     // 베이스 필터링 : 클릭-체크된 베이스 정보 전달-정보 포함된 DB자료 받아옴
 
-    // data 를 전역변수로 설정
-    var data = new Array();
-    console.log(data)
-
-    function filtering() {
-        console.log(data);
-        checkBase();
-        checkTopping();
-        checkSyrup();
-        console.log(data);
-        //API ?
-    }// ->Db로.
-
+    // Base를 체크하는 함수
     function checkBase() {
         var baseNum = document.getElementsByName("cbase").length;
         // 베이스가 체크된지 확인 후
@@ -416,39 +406,41 @@
         //baseAPI
         jQuery.ajaxSettings.traditional = true; // ajax로 배열 보낼때..
 
+
+
         $.ajax({
             type: "POST",
             url: "/checkBase",
+            // ajax는 비동기 송신이기 떄문에, 순서대로 진행해야하는 부분에서는 동기 송신을 이용해야한다.
+            async: false,
             data: {
                 sendBases: [JSON.stringify({checkedBases: checkedBases})]
             },
             success: function (response) {
                 if (response['result'] == 'success') {
-                    Base_data = response['data'];
-                    console.log(Base_data);
+                    data = response['data'];
+                    console.log(data);
                     //data.push(Base_data);
-                    for (var i = 0; i<Base_data.length; i++){
-                        console.log(Base_data[i][0]);
-                        f_Base_data = Object.values(Base_data[i][0]);
-                        console.log(f_Base_data);
-                        console.log(f_Base_data.length);
-                        per_data = f_Base_data.split(',');
-                        console.log(per_data);
+                    for (var i = 0; i<data.length; i++){
+                        console.log(data[i][0]);
+                        Base_data = Object.values(data[i][0]);
+                        console.log(Base_data);
                     }
+                    return Base_data;
                 }else{
-                    console.log('베이스 정보를 가져오지 못했습니다.')
+                    console.log('베이스 정보를 가져오지 못했습니다.');
+                    return null;
                 }
             }
         })
-
-
     }
 
+    // Topping을 체크하는 함수
     function checkTopping() {
         var toppingNum = document.getElementsByName("ctopping").length;
-        // 베이스가 체크된지 확인 후
-        var checkedToppingNum = $('input:checkbox[name="ctopping"]:checked').length;//체크된 베이스 수
-        // 체크된 베이스 value 가져오기
+        // 토핑이 체크된지 확인 후
+        var checkedToppingNum = $('input:checkbox[name="ctopping"]:checked').length;//체크된 토핑 수
+        // 체크된 토핑 value 가져오기
         var checkedToppings = [];
         for (var i = 0; i < toppingNum; i++) {
             if (document.getElementsByName("ctopping")[i].checked == true) {
@@ -456,38 +448,40 @@
             }
         }
         console.log(checkedToppings);
-        //baseAPI
+        //toppingAPI
         jQuery.ajaxSettings.traditional = true; // ajax로 배열 보낼때..
 
         $.ajax({
             type: "POST",
             url: "/checkTopping",
+            async: false,
             data: {
                 sendToppings: [JSON.stringify({checkedToppings: checkedToppings})]
             },
             success: function (response) {
                 if (response['result'] == 'success') {
-                    Topping_data = response['data'];
-                    console.log(Topping_data);
-                    for (var i = 0; i<Topping_data.length; i++){
-                        console.log(Topping_data[i][0]);
-                        f_Topping_data = Object.values(Topping_data[i][0]);
-                        console.log(f_Topping_data);
-                        // data 배열로 베이스 배열 push
-                        data.push(f_Topping_data);
+                    data = response['data'];
+                    console.log(data);
+                    for (var i = 0; i<data.length; i++){
+                        console.log(data[i][0]);
+                        Topping_data = Object.values(data[i][0]);
+                        console.log(Topping_data);
                     }
-                }else{
+                    return Topping_data;
+                } else {
                     console.log('토핑 정보를 가져오지 못했습니다.')
+                    return null;
                 }
             }
         })
     }
 
+    // Syrup을 체크하는 함수
     function checkSyrup() {
         var syrupNum = document.getElementsByName("csyrup").length;
-        // 베이스가 체크된지 확인 후
-        var checkedSyrupNum = $('input:checkbox[name="csyrup"]:checked').length;//체크된 베이스 수
-        // 체크된 베이스 value 가져오기
+        // 시럽이 체크된지 확인 후
+        var checkedSyrupNum = $('input:checkbox[name="csyrup"]:checked').length;//체크된 시럽 수
+        // 체크된 시럽 value 가져오기
         var checkedSyrups = [];
         for (var i = 0; i < syrupNum; i++) {
             if (document.getElementsByName("csyrup")[i].checked == true) {
@@ -495,31 +489,51 @@
             }
         }
         console.log(checkedSyrups);
-        //baseAPI
+        //SyrupAPI
         jQuery.ajaxSettings.traditional = true; // ajax로 배열 보낼때..
 
         $.ajax({
             type: "POST",
             url: "/checkSyrup",
+            async: false,
             data: {
                 sendSyrups: [JSON.stringify({checkedSyrups: checkedSyrups})]
             },
             success: function (response) {
                 if (response['result'] == 'success') {
-                    Syrup_data = response['data'];
-                    console.log(Syrup_data);
-                    for (var i = 0; i<Syrup_data.length; i++){
-                        console.log(Syrup_data[i][0]);
-                        f_Syrup_data = Object.values(Syrup_data[i][0]);
-                        console.log(f_Syrup_data);
-                        // data 배열로 시럽 배열 push
-                        data.push(f_Syrup_data);
+                    data = response['data'];
+                    console.log(data);
+                    for (var i = 0; i<data.length; i++){
+                        console.log(data[i][0]);
+                        Syrup_data = Object.values(data[i][0]);
+                        console.log(Syrup_data);
                     }
+                    return Syrup_data;
                 }else{
-                    console.log('시럽 정보를 가져오지 못했습니다.')
+                    console.log('시럽 정보를 가져오지 못했습니다.');
+                    return null;
                 }
             }
         })
     }
+
+    function filtering() {
+        checkBase();
+        checkTopping();
+        checkSyrup();
+        addall();
+        //API ?
+    }// ->Db로.
+
+    function addall(){
+
+        var data = Base_data.concat(Topping_data,Syrup_data)
+        console.log(data)
+
+        // 아이스크림 카드를 리스팅하는 함수에 파라미터로 데이터를 보낸다.
+        listing_ice_cream(data);
+    }     
+
 </script>
+</body>
 </html>
