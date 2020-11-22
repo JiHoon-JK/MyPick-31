@@ -224,46 +224,86 @@ def bring_signature_ice_cream():
             ### 얘가 진또배기 ###
             print(signature_db[0]['base'].split(','))
             print(temp_flavor)
+            print(len(temp_flavor))
             ## 얘네 둘을 비교 ##
             print(temp_flavor[0].split(','))
             print(temp_flavor[1].split(','))
 
+            # base 체크
             temp = signature_db[0]['base'].split(',')
             temp1 = temp_flavor[0].split(',')
             temp2 = temp_flavor[1].split(',')
-            final_temp = list()
+
+            # topping 체크
+            temp3 = signature_db[0]['topping'].split(',')
+            temp4 = temp_flavor[2].split(',')
+            temp5 = temp_flavor[3].split(',')
+
+            # syrup 체크
+            temp6 = signature_db[0]['syrup'].split(',')
+            temp7 = temp_flavor[4].split(',')
+            temp8 = temp_flavor[5].split(',')
 
             print('--------')
             print('검사용')
             print(temp)
-            print('체크용 base1')
-            print(temp1)
-            print('체크용 base2')
-            print(temp2)
+            temp_base = temp1 + temp2
+            print('temp1과temp2를 합친것')
+            print(temp_base)
+            # 리스트 내 불필요한 띄어쓰기를 제거하는 for 문
+            for i in range(len(temp_base)):
+                temp_base[i] = temp_base[i].replace(" ","")
+            print(temp_base)
 
-            for flavor in temp:
-                print(flavor)
-                if temp1 in flavor:
-                    print('존재 1')
-                    print(flavor)
-                    final_temp.append(flavor)
-                    print(final_temp)
+            print('--------')
+            print(temp3)
+            temp_topping = temp4+temp5
+            print(temp_topping)
+            # 리스트 내 불필요한 띄어쓰기를 제거하는 for 문
+            for i in range(len(temp_topping)):
+                temp_topping[i] = temp_topping[i].replace(" ", "")
+            print(temp_topping)
 
-            for flavor in temp:
-                print(flavor)
-                if temp2 in flavor:
-                    print('존재 2')
-                    print(flavor)
-                    final_temp.append(flavor)
-                    print(final_temp)
+            print('---------')
+            print(temp6)
+            temp_syrup = temp7+temp8
+            print(temp_syrup)
+            # 리스트 내 불필요한 띄어쓰기를 제거하는 for 문
+            for i in range(len(temp_syrup)):
+                temp_syrup[i] = temp_syrup[i].replace(" ", "")
+            print(temp_syrup)
 
-            for flavor in temp2:
-                print(flavor)
-                if temp in flavor:
-                    print('존재 3')
-                    print(flavor)
-                    final_temp.append(flavor)
-                    print(final_temp)
+            # 테스트 코드 (베이스와 토핑 그리고 시럽을 확인하는 for , if 구문)
+            for j in temp_base:
+                print(j)
+                for k in temp:
+                    print(k)
+                    # base 검사하는 if 구문
+                    if j == k:
+                        print('베이스가 같습니다.')
+                        for l in temp_topping:
+                            print(l)
+                            for p in temp3:
+                                print(p)
+                                # topping 검사하는 if 구문
+                                if l == p:
+                                    print('토핑이 같습니다.')
+                                    for b in temp_syrup:
+                                        print(b)
+                                        for s in temp6:
+                                            print(s)
+                                            if b == s:
+                                                print('시럽이 같습니다.')
+                                                print(signature_db)
+                                                bring_filter_signature_db.append(signature_db)
+                                            else:
+                                                print('시럽이 다릅니다.')
+                                else:
+                                    print('토핑이 다릅니다.')
+                    else:
+                        print('베이스가 다릅니다.')
+
+
 
             #if(signature_db[0]['base'] != ""):
                 # base 값이 temp_flavor 에 있을 때
@@ -472,7 +512,91 @@ def bring_season_ice_cream():
         for i in range(len(pure_season_final_flavor)):
             #print(pure_season_final_flavor[i])
             season_db = list(db.season.find({'name': pure_season_final_flavor[i]}, {'_id': 0}))
-            bring_filter_season_db.append(season_db)
+            #bring_filter_season_db.append(season_db)
+            print('비교하기2!')
+            print(season_db)
+            print(season_db[0]['base'])
+            print(season_db[0]['base'].split(','))
+            print(temp_flavor)
+            print(len(temp_flavor))
+            print(temp_flavor[0].split(','))
+            print(temp_flavor[1].split(','))
+
+            # base 체크
+            temp = season_db[0]['base'].split(',')
+            temp1 = temp_flavor[0].split(',')
+            temp2 = temp_flavor[1].split(',')
+
+            # topping 체크
+            temp3 = season_db[0]['topping'].split(',')
+            temp4 = temp_flavor[2].split(',')
+            temp5 = temp_flavor[3].split(',')
+
+            # syrup 체크
+            temp6 = season_db[0]['syrup'].split(',')
+            temp7 = temp_flavor[4].split(',')
+            temp8 = temp_flavor[5].split(',')
+
+            print('--------')
+            print('검사용')
+            print(temp)
+            temp_base = temp1 + temp2
+            print('temp1과temp2를 합친것')
+            print(temp_base)
+            # 리스트 내 불필요한 띄어쓰기를 제거하는 for 문
+            for i in range(len(temp_base)):
+                temp_base[i] = temp_base[i].replace(" ", "")
+            print(temp_base)
+
+            print('--------')
+            print(temp3)
+            temp_topping = temp4 + temp5
+            print(temp_topping)
+            # 리스트 내 불필요한 띄어쓰기를 제거하는 for 문
+            for i in range(len(temp_topping)):
+                temp_topping[i] = temp_topping[i].replace(" ", "")
+            print(temp_topping)
+
+            print('---------')
+            print(temp6)
+            temp_syrup = temp7 + temp8
+            print(temp_syrup)
+            # 리스트 내 불필요한 띄어쓰기를 제거하는 for 문
+            for i in range(len(temp_syrup)):
+                temp_syrup[i] = temp_syrup[i].replace(" ", "")
+            print(temp_syrup)
+
+            # 테스트 코드 (베이스와 토핑 그리고 시럽을 확인하는 for , if 구문)
+            for j in temp_base:
+                print(j)
+                for k in temp:
+                    print(k)
+                    # base 검사하는 if 구문
+                    if j == k:
+                        print('베이스가 같습니다.')
+                        for l in temp_topping:
+                            print(l)
+                            for p in temp3:
+                                print(p)
+                                # topping 검사하는 if 구문
+                                if l == p:
+                                    print('토핑이 같습니다.')
+                                    for b in temp_syrup:
+                                        print(b)
+                                        for s in temp6:
+                                            print(s)
+                                            if b == s:
+                                                print('시럽이 같습니다.')
+                                                print(season_db)
+                                                bring_filter_season_db.append(season_db)
+                                            else:
+                                                print('시럽이 다릅니다.')
+                                else:
+                                    print('토핑이 다릅니다.')
+                    else:
+                        print('베이스가 다릅니다.')
+
+
 
         print('★season 최종결과★')
         print(bring_filter_season_db)
