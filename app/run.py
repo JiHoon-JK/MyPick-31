@@ -175,7 +175,9 @@ def bring_signature_ice_cream():
     global signature_final_flavor
     print('////signature/////')
     receive_ice_cream = json.loads(request.form['ice_cream'])
+    print(receive_ice_cream)
     ice_cream = list(receive_ice_cream.values())
+    print(ice_cream)
     # 모든 아이스크림을 가져올 때
     if ice_cream == []:
         print('모든 아이스크림 가져오기')
@@ -187,6 +189,7 @@ def bring_signature_ice_cream():
         # 선언한 전역변수에 빈 배열 넣기
         signature_final_flavor = []
         print(signature_final_flavor)
+        # temp_flavor : 사용자가 고른 필터링 요소들을 담은 배열
         temp_flavor = ice_cream[0]
         print(temp_flavor)
         for i in range(len(temp_flavor)):
@@ -226,6 +229,7 @@ def bring_signature_ice_cream():
             print(temp_flavor)
             print(len(temp_flavor))
             ## 얘네 둘을 비교 ##
+            # temp_flavor[0] : base1 , temp_flavor[1] : base2 (base1의 하위종목)
             print(temp_flavor[0].split(','))
             print(temp_flavor[1].split(','))
 
@@ -268,6 +272,7 @@ def bring_signature_ice_cream():
             print(temp6)
             temp_syrup = temp7+temp8
             print(temp_syrup)
+
             # 리스트 내 불필요한 띄어쓰기를 제거하는 for 문
             for i in range(len(temp_syrup)):
                 temp_syrup[i] = temp_syrup[i].replace(" ", "")
@@ -302,58 +307,6 @@ def bring_signature_ice_cream():
                                     print('토핑이 다릅니다.')
                     else:
                         print('베이스가 다릅니다.')
-
-
-
-            #if(signature_db[0]['base'] != ""):
-                # base 값이 temp_flavor 에 있을 때
-                #if(temp_flavor[0].split(',') in signature_db[0]['base'].split(',')) or (temp_flavor[1].split(',') in signature_db[0]['base'].split(',')):
-                    # topping 값이 있을 때
-                    #print('====')
-                    #print(temp_flavor[0] in signature_db[0]['base'].split(','))
-                    #print(temp_flavor[1] in signature_db[0]['base'].split(','))
-                    #if (signature_db[0]['topping'] != ""):
-                        # topping 값이 temp_flavor에 있을 때
-                        #if (temp_flavor[2] in signature_db[0]['topping'].split(',')) or (temp_flavor[3] in signature_db[0]['topping'].split(',')):
-                            #print('$$$$')
-                            #print(temp_flavor[2] in signature_db[0]['topping'].split(','))
-                            #print(temp_flavor[3] in signature_db[0]['topping'].split(','))
-                            # syrup 값이 있을 때
-                            #if (signature_db[0]['syrup'] != ""):
-                                # syrup 값이 temp_flavor에 있을 때
-                                #if (temp_flavor[4] in signature_db[0]['syrup'].split(',')) or (temp_flavor[5] in
-                                        #signature_db[0]['syrup'].split(',')):
-                                    # bring_filter_signature_db 변수에 append 하기
-                                    #print('****')
-                                    #print(temp_flavor[4] in signature_db[0]['syrup'].split(','))
-                                    #print(temp_flavor[5] in
-                                        #signature_db[0]['syrup'].split(','))
-                                    #print('최종!')
-                                    #print(signature_db)
-                                    #bring_filter_signature_db.append(signature_db)
-                                #else:
-                                    #print('겹치는 syrup가 없습니다.')
-                            #syrup 값이 없을 때
-                            #else:
-                                #print('syrup이 빈 값!')
-                        # topping 값이 temp_flavor에 없을 때
-                        #else:
-                            #print('겹치는 topping이 없습니다.')
-                    # topping 값이 없을 때
-                    #else:
-                        #print('topping이 빈 값!')
-                # base 값이 temp_flavor 에 없을 때
-                #else:
-                    #print('====')
-                    #temp1 = temp_flavor[0].split(',') in signature_db[0]['base'].split(',')
-                    #print(temp1)
-                    #temp2 = temp_flavor[1].split(',') in signature_db[0]['base'].split(',')
-                    #print(temp2)
-                    #temp3 = list(set(temp))
-                    #print('겹치는 base가 없습니다.')
-            # base 값이 없을 때
-            #else:
-                #print('base가 빈 값!')
 
         print('★signature 최종결과★')
         print(bring_filter_signature_db)
@@ -582,8 +535,10 @@ def bring_season_ice_cream():
                                 if l == p:
                                     print('토핑이 같습니다.')
                                     for b in temp_syrup:
+                                        print(temp_syrup)
                                         print(b)
                                         for s in temp6:
+                                            print(temp6)
                                             print(s)
                                             if b == s:
                                                 print('시럽이 같습니다.')
@@ -597,8 +552,17 @@ def bring_season_ice_cream():
                         print('베이스가 다릅니다.')
 
 
-
+        # 다음에 코딩할 부분 #
+        # 중복되는 값을 빼야한다.
         print('★season 최종결과★')
+        print(bring_filter_season_db)
+        for i in range(len(bring_filter_season_db)):
+            print(i)
+            print(bring_filter_season_db[i][0]['name'])
+            if i != len(bring_filter_season_db):
+                if bring_filter_season_db[i][0]['name'] != bring_filter_season_db[i+1][0]['name']:
+                    del bring_filter_season_db[i][0]
+                    print(bring_filter_season_db)
         print(bring_filter_season_db)
         print(len(bring_filter_season_db))
 
