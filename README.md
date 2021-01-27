@@ -44,7 +44,7 @@ ex) 치즈 / 민트 / 녹차 / 바닐라 / 커피 / 초콜릿 / 과일(과일은
 
 ###### (Home Page _ ver.PC)
 ![Home_verPC](/uploads/Home_verPC.PNG)
-<img src="/uploads/Home_verPC.PNG" height="300px" width="300px">
+<img src="/uploads/Home_verPC.PNG" height="600px" width="600px">
 
 ###### (Home Page _ ver.Mobile)
 ![Home_verMobile](/uploads/Home_verMobile.PNG)
