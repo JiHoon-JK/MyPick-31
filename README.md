@@ -37,16 +37,22 @@ ex) 치즈 / 민트 / 녹차 / 바닐라 / 커피 / 초콜릿 / 과일(과일은
 
 ###### (Home Page _ ver.PC)
 ![Home_verPC](/uploads/Home_verPC.png)
+
 ###### (Home Page _ ver.Mobile)
 ![Home_verMobile](/uploads/Home_verMobile.png)
+
 ###### (MenuBar)
 ![menu_bar](/uploads/menu_bar.png)
+
 ###### (Register Page)
 ![register](/uploads/register.png)
+
 ###### (Login Page)
 ![login](/uploads/login.png)
+
 ###### (Insert_Date Page)
 ![insert_data](/uploads/insert_data.png)
+
 ###### (About Page)
 ![about](/uploads/about.png)
 
