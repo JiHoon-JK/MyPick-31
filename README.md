@@ -43,8 +43,8 @@ ex) 치즈 / 민트 / 녹차 / 바닐라 / 커피 / 초콜릿 / 과일(과일은
 → 아이스크림 관련된 물품(컵/스푼 같은 것들)들을 활용한 버튼 설계
 
 ###### (Home Page _ ver.PC)
-![Home_verPC](/uploads/Home_verPC.PNG){: width="300" height="300"}
-<img src="/uploads/Home_verPC.PNG" height="100px" width="300px">
+![Home_verPC](/uploads/Home_verPC.PNG)
+<img src="/uploads/Home_verPC.PNG" height="300px" width="300px">
 
 ###### (Home Page _ ver.Mobile)
 ![Home_verMobile](/uploads/Home_verMobile.PNG)
