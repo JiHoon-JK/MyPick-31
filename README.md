@@ -36,18 +36,19 @@ ex) 치즈 / 민트 / 녹차 / 바닐라 / 커피 / 초콜릿 / 과일(과일은
 → 아이스크림 관련된 물품(컵/스푼 같은 것들)들을 활용한 버튼 설계
 
 ###### (Home Page _ ver.PC)
-![Home_ver.PC](/uploads/Home_ver.PC.png)
+![Home_verPC](/uploads/Home_verPC.png)
 ###### (Home Page _ ver.Mobile)
-
+![Home_verMobile](/uploads/Home_verMobile.png)
 ###### (MenuBar)
-
+![menu_bar](/uploads/menu_bar.png)
 ###### (Register Page)
-
+![register](/uploads/register.png)
 ###### (Login Page)
-
+![login](/uploads/login.png)
 ###### (Insert_Date Page)
-
+![insert_data](/uploads/insert_data.png)
 ###### (About Page)
+![about](/uploads/about.png)
 
 #### 📌 DB 설계 (MySQL)
 
