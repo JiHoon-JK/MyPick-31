@@ -98,14 +98,14 @@ ex) 치즈 / 민트 / 녹차 / 바닐라 / 커피 / 초콜릿 / 과일(과일은
 
 - cbase 컬렉션에는 큰 카테고리 범주의 base인 cbase1과 작은 카테고리 범주의 base인 cbase2가 있다.
 
-![base collection](/uploads/base.PNG)
+![base collection](/uploads/base.png)
 
 - csyrup 컬렉션에는 큰 카테고리 범주의 syrup인 csyrup1과 작은 카테고리 범주의 syrup인 csyrup2가 있다.
 
-![syrup collection](/uploads/syrup.PNG)
+![syrup collection](/uploads/syrup.png)
 - ctopping 컬렉션에는 큰 카테고리 범주의 topping인 ctopping1과 작은 카테고리 범주의 topping인 ctopping2가 있다.
 
-![topping collection](/uploads/topping.PNG)
+![topping collection](/uploads/topping.png)
 
 ##### 🍨 아이스크림 DB
 
@@ -113,24 +113,24 @@ ex) 치즈 / 민트 / 녹차 / 바닐라 / 커피 / 초콜릿 / 과일(과일은
 
 - season / signature DB는, id / name / name_eng / base / topping / syrup / kcal / allergens 로 구성되어있다.
 
-![season collection](/uploads/season.PNG)
+![season collection](/uploads/season.png)
 
-![signature collection](/uploads/signature.PNG)
+![signature collection](/uploads/signature.png)
 
 ##### 📝 리뷰 DB
 - 아이스크림에 대해서 리뷰를 작성하면 저장되는 DB (id, ice_cream, reviewer, review)
 
-![review collection](/uploads/review.PNG)
+![review collection](/uploads/review.png)
 
 ##### 👍🏻 좋아요 DB
 - 아이스크림에 대해서 좋아요를 누르면 저장되는 DB (id, ice_cream, user_nickname)
 
-![like collection](/uploads/like.PNG)
+![like collection](/uploads/like.png)
 
 ##### 🧑👩 유저 DB
 - 회원가입을 진행한 유저들이 저장되는 DB (id, auth_id, pwd, nickname)
 
-![user collection](/uploads/user.PNG)
+![user collection](/uploads/user.png)
 
 <br>
 
