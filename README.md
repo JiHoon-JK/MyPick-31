@@ -6,7 +6,7 @@
 
 > 📌 빌드업
 
-프론트엔드 (HTML, CSS , JS) / 백엔드(Flask, Mysql, Python) / 서버(AWS)  <br/><br/>
+프론트엔드 (HTML, CSS , JS) / 백엔드(Flask, MongoDB, Python) <br/><br/>
 
 
 
@@ -19,7 +19,7 @@
 
 > 📌 목표 
 
-런칭(도메인 구매해서 올리는 것까지)  <br/><br/>
+프로젝트 기능 구현 / 런칭 전까지 모든 기능 구현  <br/><br/>
 
 
 
@@ -38,18 +38,24 @@ ex) 치즈 / 민트 / 녹차 / 바닐라 / 커피 / 초콜릿 / 과일(과일은
 
 
 
-
 > 📌 기능
+
+- 아이스크림 필터 기능
+
+유저가 선호하는 베이스, 토핑, 시럽을 고르면 해당 조건에 맞는 아이스크림을 보여주는 필터링 기능
+
+ 
 
 - 좋아요 기능
 
-하트 누르면, 아이스크림 DB에 있는(아니면, 좋아요DB에 있는) 좋아요 정보가 카운팅
-→ 좋아요 갯수대로 인기 아이스크림 목록 사용시 정렬
-→ 항목으로 여러 개의 정보가 나오면, 좋아요를 바탕으로 순서대로 정렬  <br/><br/>
+하트 누르면, 아이스크림 DB에 있는(아니면, 좋아요DB에 있는) 좋아요 정보가 카운팅 → 좋아요 갯수대로 인기 아이스크림 목록 사용시 정렬 → 항목으로 여러 개의 정보가 나오면, 좋아요를 바탕으로 순서대로 정렬
 
 
+- 리뷰 기능
 
+아이스크림 상세 페이지로 가면, 로그인을 진행한 유저들에 대하여 아이스크림에 대한 리뷰를 적을 수 있는 기능
 
+<br><br>
 
 >  📌 UX/UI
 
@@ -83,17 +89,50 @@ ex) 치즈 / 민트 / 녹차 / 바닐라 / 커피 / 초콜릿 / 과일(과일은
 
 
 
->  📌 DB 설계 (MySQL)
+>  📌 DB 설계 (MongoDB)
+
+![DB 구조](/uploads/DB구조.PNG)
+
+##### 🍨 아이스크림 필터링 DB
+- 아이스크림을 필터링할 때 사용하는 base / syrup / topping 이 있는 DB (cbase, csyrup, ctopping)
+
+- cbase 컬렉션에는 큰 카테고리 범주의 base인 cbase1과 작은 카테고리 범주의 base인 cbase2가 있다.
+
+![base collection](/uploads/base.PNG)
+
+- csyrup 컬렉션에는 큰 카테고리 범주의 syrup인 csyrup1과 작은 카테고리 범주의 syrup인 csyrup2가 있다.
+
+![syrup collection](/uploads/syrup.PNG)
+- ctopping 컬렉션에는 큰 카테고리 범주의 topping인 ctopping1과 작은 카테고리 범주의 topping인 ctopping2가 있다.
+
+![topping collection](/uploads/topping.PNG)
 
 ##### 🍨 아이스크림 DB
-- 이름 / 베이스 / 토핑 / 칼로리 / 알레르기 성분 / 좋아요 갯수(좋아요 DB를 새롭게 팔지?) / 사진
+
+- 베스킨라빈스에서 판매하는 모든 아이스크림의 정보가 들어가 있는 DB (season, signature DB)
+
+- season / signature DB는, id / name / name_eng / base / topping / syrup / kcal / allergens 로 구성되어있다.
+
+![season collection](/uploads/season.PNG)
+
+![signature collection](/uploads/signature.PNG)
 
 ##### 📝 리뷰 DB
-- 크롤링을 해서 실시간 신규 리뷰 정보를 가져올지 (-> DB 필요없음.)
-- 크롤링 해서 리뷰DB에 넣어서 보관 (-> 주기적으로 업데이트를 해줘야함. 옛날 리뷰들만 계속 보임.)
+- 아이스크림에 대해서 리뷰를 작성하면 저장되는 DB (id, ice_cream, reviewer, review)
+
+![review collection](/uploads/review.PNG)
 
 ##### 👍🏻 좋아요 DB
-- 좋아요 DB를 따로 파서 사용할 것이라면, 아이스크림 이름/좋아요 갯수 정도로 DB 구성해야함. <br/><br/>
+- 아이스크림에 대해서 좋아요를 누르면 저장되는 DB (id, ice_cream, user_nickname)
+
+![like collection](/uploads/like.PNG)
+
+##### 🧑👩 유저 DB
+- 회원가입을 진행한 유저들이 저장되는 DB (id, auth_id, pwd, nickname)
+
+![user collection](/uploads/user.PNG)
+
+<br>
 
 > 📔 개발일지
 
