@@ -86,18 +86,19 @@
                 success: function (response) {
                     // 필터링한 아이스크림을 리스팅할 때
                     if (response['result'] == 'success_2') {
-                        datas = response['data']
+                        let datas = response['data']
                         console.log('필터링 아이스크림을 조회합니다.')
+                        console.log(datas)
                         // 카드를 붙이기 전에 초기화 (empty) 시켜주고, append
                         $('.ice-cream_contents').empty();
 
                         for (let i = 0; i < datas.length; i++) {
-                            signature_listing_card(i, datas[i][0]['id'], datas[i][0]['name'], datas[i][0]['name_eng'], datas[i][0]['base'], datas[i][0]['topping'], datas[i][0]['syrup'])
+                            signature_listing_card(i, datas[i]['id'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
                         }
                     }
                     // 모든 아이스크림 리스팅할 때
                     else if (response['result'] == 'success_1') {
-                        datas = response['data']
+                        let datas = response['data']
                         console.log('모든 아이스크림을 조회합니다.')
 
                         // 카드를 붙이기 전에 초기화 (empty) 시켜주고, append
@@ -141,7 +142,7 @@
                         console.log('필터링 아이스크림을 조회합니다.')
 
                         for (let i = 0; i < datas.length; i++) {
-                            season_listing_card(i, datas[i][0]['id'], datas[i][0]['name'], datas[i][0]['name_eng'], datas[i][0]['base'], datas[i][0]['topping'], datas[i][0]['syrup'])
+                            season_listing_card(i, datas[i]['id'], datas[i]['name'], datas[i]['name_eng'], datas[i]['base'], datas[i]['topping'], datas[i]['syrup'])
                         }
                     }
                     // 모든 아이스크림 리스팅할 때

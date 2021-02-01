@@ -311,9 +311,15 @@ def bring_signature_ice_cream():
         print('★signature 최종결과★')
         print(bring_filter_signature_db)
         print(len(bring_filter_signature_db))
+        for i in range(len(bring_filter_signature_db)):
+            if i != len(bring_filter_signature_db)-1:
+                if bring_filter_signature_db[i][0]['name'] == bring_filter_signature_db[i+1][0]['name']:
+                    test1 = []
+                    test1.append(bring_filter_signature_db[i][0])
+                    print(test1)
 
-        return(jsonify({'result':'success_2', 'data': bring_filter_signature_db}))
-
+                    return (jsonify({'result': 'success_2', 'data': test1}))
+        return (jsonify({'result' : 'fail'}))
 ###signature 필터링에 사용되는 함수###
 
 # signature를 할때 사용할 filter 함수와 season을 할 때 사용할 filter 함수 별도로 존재해야함.
@@ -557,16 +563,17 @@ def bring_season_ice_cream():
         print('★season 최종결과★')
         print(bring_filter_season_db)
         for i in range(len(bring_filter_season_db)):
-            print(i)
-            print(bring_filter_season_db[i][0]['name'])
-            if i != len(bring_filter_season_db):
+            # 배열을 벗어나기 때문에 -1을 해야한다.
+            if i != len(bring_filter_season_db)-1:
                 if bring_filter_season_db[i][0]['name'] != bring_filter_season_db[i+1][0]['name']:
-                    del bring_filter_season_db[i][0]
-                    print(bring_filter_season_db)
-        print(bring_filter_season_db)
-        print(len(bring_filter_season_db))
+                    test2 = []
+                    test2.append(bring_filter_season_db[i][0])
+                    print(test2)
 
-        return (jsonify({'result': 'success_2', 'data': bring_filter_season_db}))
+                    return (jsonify({'result': 'success_2', 'data': test2}))
+        # bring_filter_season_db 가 빈 배열일 때
+        return (jsonify({'result' : 'fail'}))
+
 
 
 
